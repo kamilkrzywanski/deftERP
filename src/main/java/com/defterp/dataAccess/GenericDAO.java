@@ -2,16 +2,22 @@ package com.defterp.dataAccess;
 
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.Stateful;
+import javax.faces.bean.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.persistence.Query;
 
-@Stateful
+
+@SessionScoped
+@Component
+@Transactional
 public class GenericDAO implements Serializable {
 
     private static final long serialVersionUID = -169258812805375171L;
@@ -191,6 +197,7 @@ public class GenericDAO implements Serializable {
 
         return result;
     }
+
 
     public <T> List<T> findWithNativeQuery(String nativeQuery) throws Exception {
         return findWithNativeQuery(nativeQuery, 0);

@@ -13,14 +13,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 
+ *
  * @author MOHAMMED BOUNAGA
- * 
+ *
  * github.com/medbounaga
  */
 
 @Entity
-@Table(name = "user")
+@Table(name = "appUser")
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -31,9 +31,9 @@ import javax.validation.constraints.Size;
     @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
 
 public class User extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64, message = "{LongString}")
@@ -96,7 +96,7 @@ public class User extends BaseEntity {
     public void setName(String name) {
         this.name = name;
     }
-    
+
      public byte[] getImage() {
         return image;
     }
@@ -125,5 +125,5 @@ public class User extends BaseEntity {
     public String toString() {
         return "--- User[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

@@ -19,7 +19,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeConstants;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.primefaces.context.RequestContext;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -33,7 +33,6 @@ public class DashboardController implements Serializable {
 
     @Inject
     private GenericDAO dataAccess;
-    @Inject
     @UserLocale
     private Locale locale;
     private String query;
@@ -87,7 +86,7 @@ public class DashboardController implements Serializable {
             compareTable = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getSalesAmountByPeriodQuery(NUMBER_OF_MONTHS, periodType);
@@ -104,7 +103,7 @@ public class DashboardController implements Serializable {
             salesCogsProfit = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getPurchasesAmountByPeriodQuery(NUMBER_OF_MONTHS, periodType);
@@ -115,7 +114,7 @@ public class DashboardController implements Serializable {
             purchasesAmount = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getTopSalesByProductQuery(NUMBER_OF_TOP_ITEMS, periodType);
@@ -124,7 +123,7 @@ public class DashboardController implements Serializable {
             topSalesByProduct = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getTopPurchasesByProductQuery(NUMBER_OF_TOP_ITEMS, periodType);
@@ -132,8 +131,8 @@ public class DashboardController implements Serializable {
 
             topPurchasesByProduct = gson.toJson(resultList);
 
-            // ----------------------------------------------------------------    
-            
+            // ----------------------------------------------------------------
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getTopSalesByCustomerQuery(NUMBER_OF_TOP_ITEMS, periodType);
@@ -142,7 +141,7 @@ public class DashboardController implements Serializable {
             topSalesByCustomer = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getTopPurchasesByVendorQuery(NUMBER_OF_TOP_ITEMS, periodType);
@@ -151,7 +150,7 @@ public class DashboardController implements Serializable {
             topPurchasesByVendor = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getTopReceivablesByCustomerQuery();
@@ -160,7 +159,7 @@ public class DashboardController implements Serializable {
             topReceivablesByCustomer = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getTopPayablesByVendorQuery();
@@ -169,7 +168,7 @@ public class DashboardController implements Serializable {
             topPayablesByVendor = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getNumberOfNewCustomersByPeriodQuery(NUMBER_OF_MONTHS, periodType);
@@ -179,7 +178,7 @@ public class DashboardController implements Serializable {
             newCustomers = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getNumberOfSaleOrdersToConfirmQuery();
@@ -197,7 +196,7 @@ public class DashboardController implements Serializable {
             reminders = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getTotalReceivablesQuery();
@@ -209,7 +208,7 @@ public class DashboardController implements Serializable {
             payableReceivable = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getCustomerPaymentsByPeriodQuery(NUMBER_OF_MONTHS, periodType);
@@ -218,7 +217,7 @@ public class DashboardController implements Serializable {
             customerPayment = gson.toJson(resultList);
 
             // ----------------------------------------------------------------
-            
+
             resultList.clear();
 
             query = DashboardQueryBuilder.getVendorPaymentsByPeriodQuery(NUMBER_OF_MONTHS, periodType);
@@ -234,7 +233,7 @@ public class DashboardController implements Serializable {
 
     public void performanceIndicators() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -251,7 +250,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTotalProfitByPeriodQuery(2, periodType);
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("compareTable", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("compareTable", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -261,7 +260,7 @@ public class DashboardController implements Serializable {
 
 //    public void saleAmount() {
 //
-//        RequestContext reqCtx = RequestContext.getCurrentInstance();
+//        PrimeFaces reqCtx = PrimeFaces.current();
 //        resultList = new ArrayList<>();
 //
 //        try {
@@ -269,7 +268,7 @@ public class DashboardController implements Serializable {
 //            query = DashboardQueryBuilder.getSalesAmountByPeriodQuery(6, "Month");
 //            resultList.addAll(dataAccess.findWithNativeQuery(query));
 //            resultList.add(resolveMonthName(6));
-//            reqCtx.addCallbackParam("salesAmount", gson.toJson(resultList));
+//            reqCtx.ajax().addCallbackParam("salesAmount", gson.toJson(resultList));
 //
 //        } catch (Exception ex) {
 //            Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -278,7 +277,7 @@ public class DashboardController implements Serializable {
 //    }
     public void topSalesByProduct() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -286,7 +285,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTopSalesByProductQuery(NUMBER_OF_TOP_ITEMS, periodType);
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("topSalesByProduct", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("topSalesByProduct", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -295,7 +294,7 @@ public class DashboardController implements Serializable {
 
     public void topPurchasesByProduct() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -303,7 +302,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTopPurchasesByProductQuery(NUMBER_OF_TOP_ITEMS, periodType);
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("topPurchasesByProduct", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("topPurchasesByProduct", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -312,7 +311,7 @@ public class DashboardController implements Serializable {
 
     public void topPurchasesByVendor() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -320,7 +319,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTopPurchasesByVendorQuery(NUMBER_OF_TOP_ITEMS, periodType);
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("topPurchasesByVendor", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("topPurchasesByVendor", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -329,7 +328,7 @@ public class DashboardController implements Serializable {
 
     public void topSalesByCustomer() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -337,7 +336,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTopSalesByCustomerQuery(NUMBER_OF_TOP_ITEMS, periodType);
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("topSalesByCustomer", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("topSalesByCustomer", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -346,7 +345,7 @@ public class DashboardController implements Serializable {
 
     public void topReceivablesByCustomer() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -354,7 +353,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTopReceivablesByCustomerQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("topReceivablesByCustomer", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("topReceivablesByCustomer", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -363,7 +362,7 @@ public class DashboardController implements Serializable {
 
     public void topPayablesByVendor() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -371,7 +370,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTopPayablesByVendorQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("topPayablesByVendor", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("topPayablesByVendor", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -380,7 +379,7 @@ public class DashboardController implements Serializable {
 
     public void newCustomers() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -389,7 +388,7 @@ public class DashboardController implements Serializable {
             resultList.addAll(dataAccess.findWithNativeQuery(query));
             resultList.add(getPeriodLabels());
 
-            reqCtx.addCallbackParam("newCustomers", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("newCustomers", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -398,7 +397,7 @@ public class DashboardController implements Serializable {
 
     public void salesOrdersToConfirm() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -406,7 +405,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getNumberOfSaleOrdersToConfirmQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("salesOrdersToConfirm", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("salesOrdersToConfirm", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -415,7 +414,7 @@ public class DashboardController implements Serializable {
 
     public void purchaseOrdersToConfirm() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -423,7 +422,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getNumberOfPurchaseOrdersToConfirmQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("purchaseOrdersToConfirm", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("purchaseOrdersToConfirm", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -432,7 +431,7 @@ public class DashboardController implements Serializable {
 
     public void invoicesToConfirm() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -440,7 +439,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getNumberOfInvoicesToConfirmQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("invoicesToConfirm", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("invoicesToConfirm", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -449,7 +448,7 @@ public class DashboardController implements Serializable {
 
     public void billsToConfirm() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -457,7 +456,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getNumberOfBillsToConfirmQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("billsToConfirm", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("billsToConfirm", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -466,7 +465,7 @@ public class DashboardController implements Serializable {
 
     public void receivables() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -474,7 +473,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTotalReceivablesQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("receivables", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("receivables", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -483,7 +482,7 @@ public class DashboardController implements Serializable {
 
     public void payables() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -491,7 +490,7 @@ public class DashboardController implements Serializable {
             query = DashboardQueryBuilder.getTotalPayablesQuery();
             resultList.addAll(dataAccess.findWithNativeQuery(query));
 
-            reqCtx.addCallbackParam("payables", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("payables", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -500,7 +499,7 @@ public class DashboardController implements Serializable {
 
     public void customerPayment() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -509,7 +508,7 @@ public class DashboardController implements Serializable {
             resultList.addAll(dataAccess.findWithNativeQuery(query));
             resultList.add(getPeriodLabels());
 
-            reqCtx.addCallbackParam("customerPayment", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("customerPayment", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -518,7 +517,7 @@ public class DashboardController implements Serializable {
 
     public void vendorPayment() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -527,7 +526,7 @@ public class DashboardController implements Serializable {
             resultList.addAll(dataAccess.findWithNativeQuery(query));
             resultList.add(getPeriodLabels());
 
-            reqCtx.addCallbackParam("vendorPayment", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("vendorPayment", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -536,7 +535,7 @@ public class DashboardController implements Serializable {
 
     public void salesCogsProfit() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -552,7 +551,7 @@ public class DashboardController implements Serializable {
 
             resultList.add(getPeriodLabels());
 
-            reqCtx.addCallbackParam("salesCogsProfit", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("salesCogsProfit", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -562,7 +561,7 @@ public class DashboardController implements Serializable {
 
     public void purchasesAmount() {
 
-        RequestContext reqCtx = RequestContext.getCurrentInstance();
+        PrimeFaces reqCtx = PrimeFaces.current();
         resultList = new ArrayList<>();
 
         try {
@@ -571,7 +570,7 @@ public class DashboardController implements Serializable {
             resultList.addAll(dataAccess.findWithNativeQuery(query));
             resultList.add(getPeriodLabels());
 
-            reqCtx.addCallbackParam("purchasesAmount", gson.toJson(resultList));
+            reqCtx.ajax().addCallbackParam("purchasesAmount", gson.toJson(resultList));
 
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
@@ -592,19 +591,19 @@ public class DashboardController implements Serializable {
     }
 
     private Object[] resolveQuarterName(int interval) {
-        
+
         resultList = new ArrayList<>();
-      
+
         try {
-            
+
             query = DashboardQueryBuilder.getGenerateYearQuartersNamesQuery(interval);
             resultList.addAll(dataAccess.findWithNativeQuery(query));
             return resultList.get(0);
-            
+
         } catch (Exception ex) {
             Logger.getLogger(DashboardController.class.getName()).log(Level.SEVERE, null, ex);
-            return new Object[0];  
-        }                      
+            return new Object[0];
+        }
     }
 
     private Object[] resolveMonthName(int interval) {

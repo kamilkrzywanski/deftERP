@@ -23,7 +23,7 @@ import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -54,12 +54,12 @@ public class ProductController extends AbstractController {
 
     public ProductController() {
         super("/sc/product/");
-    }     
+    }
 
     public void deleteProduct(Integer id) {
 
         if (productExist(id)) {
-            
+
             boolean deleted = super.deleteItem(product);
 
             if (deleted) {
@@ -134,7 +134,7 @@ public class ProductController extends AbstractController {
 
     public void prepareViewProduct(int id) {
         if (productExist(id)) {
-            
+
             query = ProductQueryBuilder.getFindAllQuery();
             products = super.findWithQuery(query);
             filteredProducts = new ArrayList<>();
@@ -244,23 +244,23 @@ public class ProductController extends AbstractController {
             product.getInventory().setProduct(product);
 
             product = super.createItem(product);
-            
+
             query = ProductQueryBuilder.getFindAllQuery();
             products = super.findWithQuery(query);
-            
+
             currentForm = "/sc/product/View.xhtml";
         }
     }
 
     public void cancelCreate() {
-        
+
         query = ProductQueryBuilder.getFindAllQuery();
         products = super.findWithQuery(query);
-        
+
         filteredProducts = new ArrayList<>();
         filteredProducts.addAll(products);
-        
-        if (products != null && !products.isEmpty()) {           
+
+        if (products != null && !products.isEmpty()) {
             product = products.get(0);
             currentForm = "/sc/product/View.xhtml";
         }
@@ -349,10 +349,10 @@ public class ProductController extends AbstractController {
 
         query = ProductQueryBuilder.getFindAllQuery();
         products = super.findWithQuery(query);
-        
+
         filteredProducts = new ArrayList<>();
         filteredProducts.addAll(products);
-        
+
         if (products != null && !products.isEmpty()) {
             product = products.get(0);
         }

@@ -2,22 +2,21 @@ package com.defterp.translation.producers;
 
 import com.defterp.translation.annotations.UserLocale;
 import com.defterp.translation.annotations.Countries;
+import org.primefaces.shaded.json.JSONException;
+import org.primefaces.shaded.json.JSONObject;
+
 import static com.defterp.translation.annotations.Countries.Version.FIRST;
 import static com.defterp.translation.annotations.Countries.Version.SECOND;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
-import javax.enterprise.inject.Model;
-import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
-import org.primefaces.json.JSONException;
-import org.primefaces.json.JSONObject;
 
 /**
- * 
+ *
  * @author MOHAMMED BOUNAGA
- * 
+ *
  * github.com/medbounaga
  */
 
@@ -546,9 +545,8 @@ public class CountriesTranslationProducer {
             + "    \"AX\": \"\\u00celes \\u00c5land\"\n"
             + "}";
 
-    
 
-    @Produces
+
     @Countries(version = FIRST)
     public HashMap<String, String> getCountriesFirstVersion() {
 
@@ -562,7 +560,6 @@ public class CountriesTranslationProducer {
 //        }
     }
 
-    @Produces
     @Countries(version = SECOND)
     public HashMap<String, String> getcountriesSecondVersion() {
 
@@ -575,8 +572,8 @@ public class CountriesTranslationProducer {
 //            countries = countries_EN;
 //        }
     }
-    
-    
+
+
     public String getCountriesString() {
 
         if (locale.getDisplayLanguage(Locale.ENGLISH).equalsIgnoreCase("french")) {
@@ -592,7 +589,7 @@ public class CountriesTranslationProducer {
 
         try {
             JSONObject jObject = new JSONObject(countries);
-            
+
             Iterator<?> keys = jObject.keys();
 
             while (keys.hasNext()) {

@@ -14,6 +14,8 @@ import com.defterp.util.JsfUtil;
 import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
 import com.defterp.translation.annotations.Status;
+import org.apache.commons.lang3.SerializationUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,13 +23,11 @@ import java.util.List;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import org.apache.commons.lang.SerializationUtils;
 
 @Named("paymentController")
 @ViewScoped
 public class PaymentController extends AbstractController {
 
-    @Inject
     @Status
     private HashMap<String, String> statuses;
     private List<Payment> payments;
@@ -111,7 +111,7 @@ public class PaymentController extends AbstractController {
 
     public void deletePayment() {
         if (paymentExist(payment.getId())) {
-            
+
             if (payment.getState().equals("Draft")) {
 
                 boolean deleted = super.deleteItem(payment);
@@ -125,10 +125,10 @@ public class PaymentController extends AbstractController {
                         payments.remove(payment);
                         payment = payments.get(0);
                     } else {
-                        
+
                         query = PaymentQueryBuilder.getFindAllCustomerPaymentsQuery();
                         payments = super.findWithQuery(query);
-                        
+
                         if ((payments != null) && (!payments.isEmpty())) {
                             payment = payments.get(0);
                             partialListType = null;
@@ -155,15 +155,15 @@ public class PaymentController extends AbstractController {
 
     public void validatePayment() {
         if (paymentExist(payment.getId())) {
-            
+
             if (payment.getState().equals("Draft")) {
-                
+
                 payment.setState("Posted");
                 payment.setJournalEntry(generatePaymentJournalEntry());
                 payment = super.updateItem(payment);
                 payments.set(payments.indexOf(payment), payment);
             } else {
-                
+
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorValidate");
             }
         }
@@ -182,12 +182,12 @@ public class PaymentController extends AbstractController {
                 currentForm = VIEW_URL;
             } else {
                 payment.setAmount(JsfUtil.round(payment.getAmount()));
-                
+
                 if (payment.getAmount() == 0d) {
                     JsfUtil.addWarningMessage("PositivePayment");
                     return;
                 }
-                
+
                 if (payment.getType().equals("in")) {
                     payment.setOverpayment(payment.getAmount());
                     payment.setName(IdGenerator.generateCustomerInPayment(payment.getId()));
@@ -253,7 +253,7 @@ public class PaymentController extends AbstractController {
 
         Double outstandingPayment;
         String accountName;
-        
+
         payment.setAmount(JsfUtil.round(payment.getAmount()));
 
         if (payment.getAmount() == 0d) {
@@ -271,26 +271,26 @@ public class PaymentController extends AbstractController {
             accountName = "Cash";
         } else {
             accountName = "Bank";
-        }      
-        
+        }
+
         query = AccountQueryBuilder.getFindByNameQuery(accountName);
         payment.setAccount((Account)super.findSingleWithQuery(query));
-        
+
         payment.setActive(Boolean.TRUE);
         payment.setState("Draft");
         payment.setOverpayment(outstandingPayment);
-        payment.setPartnerType("customer");  
+        payment.setPartnerType("customer");
         payment.setJournalEntry(null);
         payment.setInvoice(null);
 
         payment = super.createItem(payment);
-        
+
         if (payment.getType().equals("in")) {
             payment.setName(IdGenerator.generateCustomerInPayment(payment.getId()));
         } else {
             payment.setName(IdGenerator.generateCustomerOutPayment(payment.getId()));
         }
-        
+
         payment =  super.createItem(payment);
 
         if ((payments != null) && (!payments.isEmpty())) {
@@ -300,22 +300,22 @@ public class PaymentController extends AbstractController {
             payments = super.findWithQuery(query);
             partialListType = null;
         }
-        
+
         currentForm = VIEW_URL;
     }
 
     private JournalEntry generatePaymentJournalEntry() {
-        
+
         JournalEntry journalEntry = new JournalEntry();
         JournalItem journalItem = new JournalItem();
         List<JournalItem> journalItems = new ArrayList();
-        
+
         String paymentType;
         double CashBankCredit;
         double CashBankDebit;
         double receivableCredit;
         double receivableDebit;
-        
+
         if (payment.getType().equals("in")) {
             paymentType = "Customer Payment";
             CashBankCredit = 0.0d;
@@ -329,7 +329,7 @@ public class PaymentController extends AbstractController {
             receivableCredit = 0d;
             receivableDebit = payment.getAmount();
         }
-        
+
         journalEntry.setJournal(payment.getJournal());
         journalEntry.setRef(null);
         journalEntry.setDate(payment.getDate());
@@ -342,7 +342,7 @@ public class PaymentController extends AbstractController {
 
         query = AccountQueryBuilder.getFindByNameQuery("Account Receivable");
         journalItem.setAccount((Account) super.findSingleWithQuery(query));
-        
+
         journalItem.setDebit(receivableDebit);
         journalItem.setCredit(receivableCredit);
         journalItem.setDate(payment.getDate());
@@ -382,15 +382,15 @@ public class PaymentController extends AbstractController {
         journalItems.add(journalItem);
 
         journalEntry.setJournalItems(journalItems);
-        
+
         journalEntry = super.createItem(journalEntry);
-        
+
         if (payment.getAccount().getName().equals("Cash")) {
             journalEntry.setName(IdGenerator.generatePaymentCashEntryId(journalEntry.getId()));
         } else if (payment.getAccount().getName().equals("Bank")) {
             journalEntry.setName(IdGenerator.generatePaymentBankEntryId(journalEntry.getId()));
         }
-        
+
         journalEntry = super.updateItem(journalEntry);
 
         return journalEntry;

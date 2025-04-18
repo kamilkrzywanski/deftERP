@@ -22,7 +22,6 @@ import javax.inject.Inject;
 @ViewScoped
 public class JournalEntryController extends AbstractController {
 
-    @Inject
     @Status
     private HashMap<String, String> statuses;
     private List<JournalEntry> journalEntries;
@@ -69,7 +68,7 @@ public class JournalEntryController extends AbstractController {
         if (id != null) {
             journalEntry = super.findItemById(id, JournalEntry.class);
             if (journalEntry == null) {
-                
+
                 JsfUtil.addWarningMessage("ItemDoesNotExist");
                 currentForm = VIEW_URL;
 
@@ -83,7 +82,7 @@ public class JournalEntryController extends AbstractController {
                         journalEntry = journalEntries.get(0);
                     }
                 }
-                
+
                 return false;
             }
             return true;

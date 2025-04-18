@@ -1,5 +1,7 @@
 package com.defterp.util;
 
+import org.primefaces.PrimeFaces;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Iterator;
@@ -12,12 +14,11 @@ import javax.faces.component.UIInput;
 import javax.faces.component.UISelectItem;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.ValidatorException;
-import org.primefaces.context.RequestContext;
 
 /**
- * 
+ *
  * @author MOHAMMED BOUNAGA
- * 
+ *
  * github.com/medbounaga
  */
 
@@ -69,7 +70,7 @@ public class JsfUtil {
         String h = bundle.getString(msgHeader);
         String m = bundle.getString(msg);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, h, m);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
+        PrimeFaces.current().dialog().showMessageDynamic(message);
     }
 
     public static void addSuccessMessageDialog(String msgHeader, String msg) {
@@ -77,12 +78,12 @@ public class JsfUtil {
         String h = bundle.getString(msgHeader);
         String m = bundle.getString(msg);
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, h, m);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
+        PrimeFaces.current().dialog().showMessageDynamic(message);
     }
 
     public static void addWarningCustomMessageDialog(String msgHeader, String msg) {
         FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_WARN, msgHeader, msg);
-        RequestContext.getCurrentInstance().showMessageInDialog(message);
+        PrimeFaces.current().dialog().showMessageDynamic(message);
     }
 
     public static ResourceBundle getBundle() {
@@ -199,15 +200,15 @@ public class JsfUtil {
 //    }
     public static Double round(Double value, Integer decimals) {
         if (value != null) {
-            
+
             System.out.println("value: "+value);
             System.out.println("value to String: "+value.toString());
             String[] splitter = value.toString().split("\\.");
             System.out.println("decimals: "+splitter[1].length());
-            
+
             if (splitter[1].length() <= decimals) {
                     return value;
-            }            
+            }
             if (decimals == 3) {
                 return (long) (value * 1e3) / 1e3;
             }

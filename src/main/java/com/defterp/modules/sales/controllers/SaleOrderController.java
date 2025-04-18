@@ -47,17 +47,15 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.apache.commons.lang.SerializationUtils;
-import org.primefaces.context.RequestContext;
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.PrimeFaces;
 
 @Named(value = "saleOrderController")
 @ViewScoped
 public class SaleOrderController extends AbstractController {
 
-    @Inject
     @Status
     private HashMap<String, String> statuses;
-    @Inject
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
     private List<SaleOrder> saleOrders;
@@ -124,9 +122,9 @@ public class SaleOrderController extends AbstractController {
                 saleOrderLine.setPrice(product.getSalePrice());
                 saleOrderLine.setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:productMenuTwo");
-                RequestContext.getCurrentInstance().update("mainForm:uom");
-                RequestContext.getCurrentInstance().update("mainForm:price");
+                PrimeFaces.current().ajax().update("mainForm:productMenuTwo");
+                PrimeFaces.current().ajax().update("mainForm:uom");
+                PrimeFaces.current().ajax().update("mainForm:price");
 
             } else {
 
@@ -134,9 +132,9 @@ public class SaleOrderController extends AbstractController {
                 saleOrderLines.get(rowIndex).setPrice(product.getSalePrice());
                 saleOrderLines.get(rowIndex).setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":productMenu");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":uomm");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":pricee");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":productMenu");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":uomm");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":pricee");
             }
         }
     }
@@ -827,7 +825,7 @@ public class SaleOrderController extends AbstractController {
         String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/saleOrder.jasper");
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, params, new JREmptyDataSource());
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));  
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + name + "_" + saleOrder.getName() + ".pdf");
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();

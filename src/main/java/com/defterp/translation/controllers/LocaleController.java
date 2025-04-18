@@ -5,17 +5,16 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.Locale;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
-import javax.enterprise.inject.Produces;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * 
+ *
  * @author MOHAMMED BOUNAGA
- * 
+ *
  * github.com/medbounaga
  */
 
@@ -24,7 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 public class LocaleController implements Serializable {
 
     private Locale locale;
-    
+
     @PostConstruct
     public void init() {
         locale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
@@ -42,9 +41,9 @@ public class LocaleController implements Serializable {
         ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
 
-    @Produces @UserLocale
+    @UserLocale
     public Locale getLocale() {
         return locale;
     }
-    
+
 }

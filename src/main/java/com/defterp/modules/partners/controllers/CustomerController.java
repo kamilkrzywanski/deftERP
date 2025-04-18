@@ -29,7 +29,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -42,7 +42,6 @@ import org.apache.commons.lang.StringUtils;
 @ViewScoped
 public class CustomerController extends AbstractController {
 
-    @Inject
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
     private Partner partner;
@@ -58,16 +57,16 @@ public class CustomerController extends AbstractController {
     private boolean imageModified;
     private QueryWrapper query;
 
-    
+
     public CustomerController() {
-        
+
         super("/sc/customer/");
-        
+
         currentList = super.GRID_URL;
         currentForm = super.VIEW_URL;
-        
+
         isGridView = true;
-        
+
         partnerType = "Customer";
     }
 
@@ -91,14 +90,14 @@ public class CustomerController extends AbstractController {
     public void deleteCustomer() {
 
         if (customerExist(partner.getId())) {
-            
+
             boolean deleted = super.deleteItem(partner);
-            
+
             if (deleted) {
                 JsfUtil.addSuccessMessage("ItemDeleted");
                 currentForm = VIEW_URL;
                 showCustomers();
-                
+
             } else {
                 partner.setCountry(countries.get(partner.getCountry()));
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorDelete3");
@@ -114,17 +113,17 @@ public class CustomerController extends AbstractController {
         partner.setCreateDate(new Date());
         partner.setActive(Boolean.TRUE);
         currentForm = CREATE_URL;
-        
+
         query = AccountQueryBuilder.getFindByTypeQuery("Receivable");
         accounts = super.findWithQuery(query);
 
         if (accounts != null && !accounts.isEmpty()) {
             partner.setAccountReceivable(accounts.get(0));
         }
-        
+
         query = AccountQueryBuilder.getFindByTypeQuery("Payable");
         accounts = super.findWithQuery(query);
-        
+
         if (accounts != null && !accounts.isEmpty()) {
             partner.setAccountPayable(accounts.get(0));
         }
@@ -178,7 +177,7 @@ public class CustomerController extends AbstractController {
         }
         return 0L;
     }
-    
+
     public Long countSaleOrders(Integer partnerId) {
         if (partnerId != null) {
             query = SaleOrderQueryBuilder.getCountByCustomerQuery(partnerId);
@@ -297,7 +296,7 @@ public class CustomerController extends AbstractController {
 //        }
 //        return 0d;
 //    }
-    
+
     public HashMap<String, String> getCountries() {
         return countries;
     }
@@ -359,7 +358,7 @@ public class CustomerController extends AbstractController {
 //            }
 //        }
 //    }
-    
+
     public void resolveRequestParams() {
 
         if (JsfUtil.isNumeric(partnerId)) {
@@ -542,6 +541,8 @@ public class CustomerController extends AbstractController {
     }
 
     public String getFormDefaultImage() {
+        if(partner == null)
+            return "img/partnerPlaceholder4.png";
 
         int modulos = partner.getId() % 5;
         switch (modulos) {
@@ -609,15 +610,15 @@ public class CustomerController extends AbstractController {
 
     public List<Partner> getSuppliers() {
         if (partners == null) {
-            
+
             query = PartnerQueryBuilder.getFindVendorsQuery();
             partners = super.findWithQuery(query);
-            
+
             replaceCountryCodeWithName();
-            
+
             filteredPartners = new ArrayList<>();
             filteredPartners.addAll(partners);
-            
+
             partnerType = "Vendor";
         }
         return partners;
@@ -626,15 +627,15 @@ public class CustomerController extends AbstractController {
     public List<Partner> getCustomers() {
 
         if (partners == null) {
-            
+
             query = PartnerQueryBuilder.getFindCustomersQuery();
             partners = super.findWithQuery(query);
-            
+
             replaceCountryCodeWithName();
-            
+
             filteredPartners = new ArrayList<>();
             filteredPartners.addAll(partners);
-            
+
             partnerType = "Customer";
         }
         return partners;
@@ -642,20 +643,20 @@ public class CustomerController extends AbstractController {
 
     public List<Partner> getPartners() {
         if (partners == null) {
-            
+
             query = PartnerQueryBuilder.getFindPartnersQuery();
             partners = super.findWithQuery(query);
-            
+
             replaceCountryCodeWithName();
-            
+
             filteredPartners = new ArrayList<>();
             filteredPartners.addAll(partners);
-            
+
             partnerType = "Partner";
         }
         return partners;
     }
-    
+
     public List<Account> getReceivableAccounts() {
         query = AccountQueryBuilder.getFindByTypeQuery("Receivable");
         return super.findWithQuery(query);
@@ -729,5 +730,5 @@ public class CustomerController extends AbstractController {
     public void setCurrentList(String currentList) {
         this.currentList = currentList;
     }
-    
+
 }

@@ -1,12 +1,12 @@
 package com.defterp.modules.accounting.controllers;
 
+import com.defterp.modules.accounting.enums.BillStatus;
 import com.defterp.modules.purchases.entities.PurchaseOrder;
 import com.defterp.modules.purchases.entities.PurchaseOrderLine;
 import com.defterp.modules.inventory.entities.Product;
 import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.accounting.entities.Payment;
 import com.defterp.modules.accounting.entities.*;
-import com.defterp.modules.accounting.constants.BillStatus;
 import com.defterp.modules.accounting.queryBuilders.AccountQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.InvoiceQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.JournalQueryBuilder;
@@ -19,8 +19,9 @@ import com.defterp.modules.commonClasses.IdGenerator;
 import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
 import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
 import net.sf.jasperreports.engine.*;
-import org.apache.commons.lang.SerializationUtils;
-import org.primefaces.context.RequestContext;
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.PrimeFaces;
+
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 import javax.faces.view.ViewScoped;
@@ -36,7 +37,6 @@ import java.util.*;
 @ViewScoped
 public class BillController extends AbstractController {
 
-    @Inject
     @Status
     private HashMap<String, String> billTranslatedStatuses;
     private List<Invoice> bills;
@@ -636,7 +636,7 @@ public class BillController extends AbstractController {
         params.put("SUBREPORT_DIR", FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/") + "/");
 
         JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, params, new JREmptyDataSource());
-//      JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));  
+//      JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + name + "_" + bill.getName() + ".pdf");
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
@@ -1192,8 +1192,8 @@ public class BillController extends AbstractController {
                 billLine.setPrice(product.getPurchasePrice());
                 billLine.setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:productMenuTwo");
-                RequestContext.getCurrentInstance().update("mainForm:price");
+                PrimeFaces.current().ajax().update("mainForm:productMenuTwo");
+                PrimeFaces.current().ajax().update("mainForm:price");
 
             } else {
 
@@ -1201,8 +1201,8 @@ public class BillController extends AbstractController {
                 billLines.get(rowIndex).setPrice(product.getPurchasePrice());
                 billLines.get(rowIndex).setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":productMenu");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":pricee");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":productMenu");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":pricee");
             }
         }
     }

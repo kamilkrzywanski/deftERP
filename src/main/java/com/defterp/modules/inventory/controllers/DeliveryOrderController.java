@@ -35,8 +35,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.apache.commons.lang.SerializationUtils;
-import org.primefaces.context.RequestContext;
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -49,10 +49,8 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class DeliveryOrderController extends AbstractController {
 
-    @Inject
     @com.defterp.translation.annotations.Status
     private HashMap<String, String> statuses;
-    @Inject
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
     private List<DeliveryOrder> deliveryOrders;
@@ -822,7 +820,7 @@ public class DeliveryOrderController extends AbstractController {
 
         String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/deliveryOrder.jasper");
         JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, params, new JREmptyDataSource());
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));  
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + name + "_" + deliveryOrder.getName() + ".pdf");
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
@@ -857,16 +855,16 @@ public class DeliveryOrderController extends AbstractController {
                 deliveryOrderLine.setProduct(product);
                 deliveryOrderLine.setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:productMenuTwo");
-                RequestContext.getCurrentInstance().update("mainForm:uom");
+                PrimeFaces.current().ajax().update("mainForm:productMenuTwo");
+                PrimeFaces.current().ajax().update("mainForm:uom");
 
             } else {
 
                 deliveryOrderLines.get(rowIndex).setProduct(product);
                 deliveryOrderLines.get(rowIndex).setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":productMenu");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":uomm");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":productMenu");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":uomm");
             }
         }
     }

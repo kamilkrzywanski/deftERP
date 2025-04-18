@@ -13,6 +13,8 @@ import com.defterp.modules.accounting.queryBuilders.PaymentQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
+import org.apache.commons.lang3.SerializationUtils;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -20,7 +22,6 @@ import java.util.List;
 import javax.inject.Named;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
-import org.apache.commons.lang.SerializationUtils;
 
 /**
  *
@@ -33,7 +34,6 @@ import org.apache.commons.lang.SerializationUtils;
 @ViewScoped
 public class SupPaymentController extends AbstractController {
 
-    @Inject
     @Status
     private HashMap<String, String> statuses;
     private List<Payment> payments;
@@ -122,7 +122,7 @@ public class SupPaymentController extends AbstractController {
                 boolean deleted = super.deleteItem(payment);
 
                 if (deleted) {
-                    
+
                     JsfUtil.addSuccessMessage("ItemDeleted");
                     currentForm = VIEW_URL;
 
@@ -137,12 +137,12 @@ public class SupPaymentController extends AbstractController {
                             partialListType = null;
                         }
                     }
-                    
+
 
                 }else{
-                    
+
                     JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorDelete3");
-                
+
                 }
             } else {
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorDelete2");
@@ -153,12 +153,12 @@ public class SupPaymentController extends AbstractController {
     public void validateSupPayment() {
         if (supPaymentExist(payment.getId())) {
             if (payment.getState().equals("Draft")) {
-                
+
                 payment.setState("Posted");
                 generateSupPaymentJournalEntry();
                 payment = super.updateItem(payment);
                 payments.set(payments.indexOf(payment), payment);
-                
+
             } else {
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorValidate");
             }
@@ -228,14 +228,14 @@ public class SupPaymentController extends AbstractController {
     public void prepareSupPaymentEdit() {
         if (supPaymentExist(payment.getId())) {
             if (payment.getState().equals("Draft")) {
-                             
+
                 query = PartnerQueryBuilder.getFindActiveVendorsQuery();
                 topNSuppliers = super.findWithQuery(query, 4);
 
                 if (!topNSuppliers.contains(payment.getPartner())) {
                     topNSuppliers.add(payment.getPartner());
                 }
-                
+
                 currentForm = EDIT_URL;
             } else {
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorEdit");
@@ -253,7 +253,7 @@ public class SupPaymentController extends AbstractController {
 
         query = PartnerQueryBuilder.getFindActiveVendorsQuery();
         topNSuppliers = super.findWithQuery(query, 4);
-        
+
         currentForm = CREATE_URL;
     }
 
@@ -261,7 +261,7 @@ public class SupPaymentController extends AbstractController {
 
         String accountName;
         Double outstandingPayment;
-        
+
         payment.setAmount(JsfUtil.round(payment.getAmount()));
 
         if (payment.getAmount() == 0d) {
@@ -281,25 +281,25 @@ public class SupPaymentController extends AbstractController {
         } else {
             accountName = "Bank";
         }
-        
+
         query = AccountQueryBuilder.getFindByNameQuery(accountName);
         payment.setAccount((Account)super.findSingleWithQuery(query));
-        
+
         payment.setActive(Boolean.TRUE);
         payment.setState("Draft");
         payment.setOverpayment(outstandingPayment);
-        payment.setPartnerType("supplier");  
+        payment.setPartnerType("supplier");
         payment.setJournalEntry(null);
         payment.setInvoice(null);
-        
+
         payment = super.createItem(payment);
-        
+
         if (payment.getType().equals("out")) {
             payment.setName(IdGenerator.generateSupplierOutPayment(payment.getId()));
         } else {
             payment.setName(IdGenerator.generateSupplierInPayment(payment.getId()));
         }
-        
+
         payment =  super.createItem(payment);
 
         if ((payments != null) && (!payments.isEmpty())) {
@@ -386,17 +386,17 @@ public class SupPaymentController extends AbstractController {
                 null));
 
         journalEntry.setJournalItems(journalItems);
-        
+
         journalEntry = super.createItem(journalEntry);
-        
+
         if (payment.getAccount().getName().equals("Cash")) {
             journalEntry.setName(IdGenerator.generatePaymentCashEntryId(journalEntry.getId()));
         } else if (payment.getAccount().getName().equals("Bank")) {
             journalEntry.setName(IdGenerator.generatePaymentBankEntryId(journalEntry.getId()));
         }
-        
+
         journalEntry = super.updateItem(journalEntry);
-        
+
         payment.setJournalEntry(journalEntry);
 
     }

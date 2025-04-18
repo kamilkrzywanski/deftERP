@@ -1,8 +1,8 @@
 package com.defterp.modules.accounting.controllers;
 
+import com.defterp.modules.accounting.enums.InvoiceStatus;
 import com.defterp.modules.accounting.queryBuilders.*;
 import com.defterp.modules.accounting.entities.*;
-import com.defterp.modules.accounting.constants.InvoiceStatus;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
 import com.defterp.modules.inventory.entities.Product;
@@ -35,17 +35,16 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.apache.commons.lang.SerializationUtils;
-import org.primefaces.context.RequestContext;
+
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.PrimeFaces;
 
 @Named("invoiceController")
 @ViewScoped
 public class InvoiceController extends AbstractController {
 
-    @Inject
     @Status
     private HashMap<String, String> statuses;
-    @Inject
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
     protected Invoice invoice;
@@ -955,15 +954,15 @@ public class InvoiceController extends AbstractController {
                 invoiceLine.setPrice(product.getSalePrice());
                 invoiceLine.setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:productMenuTwo");
-                RequestContext.getCurrentInstance().update("mainForm:price");
+                PrimeFaces.current().ajax().update("mainForm:productMenuTwo");
+                PrimeFaces.current().ajax().update("mainForm:price");
             } else {
                 invoiceLines.get(rowIndex).setProduct(product);
                 invoiceLines.get(rowIndex).setPrice(product.getSalePrice());
                 invoiceLines.get(rowIndex).setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":productMenu");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":pricee");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":productMenu");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":pricee");
             }
         }
     }
@@ -1295,7 +1294,7 @@ public class InvoiceController extends AbstractController {
         }
         findCustomerOutstandingPayments();
     }
-    
+
      public int getInvoiceIndex() {
         if ((invoices != null) && (invoice != null)) {
             return invoices.indexOf(invoice) + 1;

@@ -3,24 +3,22 @@ package com.defterp.modules.commonClasses;
 
 import com.defterp.dataAccess.GenericDAO;
 import com.defterp.util.JsfUtil;
+
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.ejb.EJBException;
 import javax.inject.Inject;
-import javax.validation.ConstraintViolationException;
-
 
 
 public abstract class AbstractController implements Serializable {
 
     private static final long serialVersionUID = 1;
-    
+
     @Inject
     private GenericDAO dataAccess;
-    
+
     protected String currentForm;
     protected String currentList;
     protected String BASE_URL;
@@ -29,10 +27,10 @@ public abstract class AbstractController implements Serializable {
     protected String VIEW_URL;
     protected String EDIT_URL;
     protected String CREATE_URL;
-    
+
     protected Integer MAX_DROPDOWN_ITEMS;
 
-    public AbstractController(String moduleURL) {       
+    public AbstractController(String moduleURL) {
         BASE_URL = moduleURL;
         LIST_URL = BASE_URL + "List.xhtml";
         GRID_URL = BASE_URL + "Grid.xhtml";
@@ -126,35 +124,16 @@ public abstract class AbstractController implements Serializable {
 
     public String getCurrentForm() {
         return this.currentForm;
-    }   
+    }
 
     public String getCurrentList() {
         return currentList;
-    } 
-    
+    }
+
 
     private void displayPersistenceError(Exception ex) {
-        if (ex instanceof EJBException) {
-            Throwable cause = JsfUtil.getRootCause((Throwable) ex.getCause());
-            if (cause != null) {
-                if (cause instanceof ConstraintViolationException) {
-                    ConstraintViolationException excp = (ConstraintViolationException) cause;
-                    excp.getConstraintViolations().stream().forEach(s -> {
-                        JsfUtil.addErrorMessage((String) s.getMessage());
-                    }
-                    );
-                } else {
-                    String msg = cause.getLocalizedMessage();
-                    if (msg.length() > 0) {
-                        JsfUtil.addErrorMessage((String) msg);
-                    } else {
-                        JsfUtil.addErrorMessage((Exception) ex, (String) ResourceBundle.getBundle("/Bundle").getString("PersistenceErrorOccured"));
-                    }
-                }
-            }
-        } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
-            JsfUtil.addErrorMessage((Exception) ex, (String) ResourceBundle.getBundle("/MyBundle").getString("PersistenceErrorOccured"));
-        }
+        ex.printStackTrace();
+        Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, null, ex);
+        JsfUtil.addErrorMessage((Exception) ex, (String) ResourceBundle.getBundle("/MyBundle").getString("PersistenceErrorOccured"));
     }
 }

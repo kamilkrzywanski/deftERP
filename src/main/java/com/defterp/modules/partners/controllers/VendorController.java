@@ -29,7 +29,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *
@@ -42,7 +42,6 @@ import org.apache.commons.lang.StringUtils;
 @ViewScoped
 public class VendorController extends AbstractController {
 
-    @Inject
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
     private Partner partner;
@@ -90,14 +89,14 @@ public class VendorController extends AbstractController {
     public void deleteVendor() {
 
         if (vendorExist(partner.getId())) {
-            
+
             boolean deleted = super.deleteItem(partner);
-            
+
             if (deleted) {
                 JsfUtil.addSuccessMessage("ItemDeleted");
                 currentForm = VIEW_URL;
                 showVendors();
-                
+
             } else {
                 partner.setCountry(countries.get(partner.getCountry()));
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorDelete3");
@@ -116,14 +115,14 @@ public class VendorController extends AbstractController {
 
         query = AccountQueryBuilder.getFindByTypeQuery("Receivable");
         accounts = super.findWithQuery(query);
-        
+
         if (accounts != null && !accounts.isEmpty()) {
             partner.setAccountReceivable(accounts.get(0));
         }
-        
+
         query = AccountQueryBuilder.getFindByTypeQuery("Payable");
         accounts = super.findWithQuery(query);
-        
+
         if (accounts != null && !accounts.isEmpty()) {
             partner.setAccountPayable(accounts.get(0));
         }
@@ -522,6 +521,9 @@ public class VendorController extends AbstractController {
 
     public String getFormDefaultImage() {
 
+        if(partner == null)
+            return "img/partnerPlaceholder4.png";
+
         int modulos = partner.getId() % 5;
         switch (modulos) {
             case 0:
@@ -589,15 +591,15 @@ public class VendorController extends AbstractController {
 
     public List<Partner> getSuppliers() {
         if (partners == null) {
-            
+
             query = PartnerQueryBuilder.getFindVendorsQuery();
             partners = super.findWithQuery(query);
-            
+
             replaceCountryCodeWithName();
-            
+
             filteredPartners = new ArrayList<>();
             filteredPartners.addAll(partners);
-            
+
             partnerType = "Vendor";
         }
         return partners;
@@ -606,15 +608,15 @@ public class VendorController extends AbstractController {
     public List<Partner> getCustomers() {
 
         if (partners == null) {
-            
+
             query = PartnerQueryBuilder.getFindCustomersQuery();
             partners = super.findWithQuery(query);
-            
+
             replaceCountryCodeWithName();
-            
+
             filteredPartners = new ArrayList<>();
             filteredPartners.addAll(partners);
-            
+
             partnerType = "Customer";
         }
         return partners;
@@ -622,20 +624,20 @@ public class VendorController extends AbstractController {
 
     public List<Partner> getPartners() {
         if (partners == null) {
-            
+
             query = PartnerQueryBuilder.getFindPartnersQuery();
             partners = super.findWithQuery(query);
-            
+
             replaceCountryCodeWithName();
-            
+
             filteredPartners = new ArrayList<>();
             filteredPartners.addAll(partners);
-            
+
             partnerType = "Partner";
         }
         return partners;
     }
-    
+
     public List<Account> getReceivableAccounts() {
         query = AccountQueryBuilder.getFindByTypeQuery("Receivable");
         return super.findWithQuery(query);

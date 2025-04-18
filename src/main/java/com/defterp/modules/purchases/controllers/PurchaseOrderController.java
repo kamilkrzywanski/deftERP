@@ -44,8 +44,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.apache.commons.lang.SerializationUtils;
-import org.primefaces.context.RequestContext;
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -57,7 +57,6 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class PurchaseOrderController extends AbstractController {
 
-    @Inject
     @Status
     private HashMap<String, String> statuses;
     private List<PurchaseOrder> filteredPurchaseOrders;
@@ -112,7 +111,7 @@ public class PurchaseOrderController extends AbstractController {
 //        }
 //        return topNActiveVendors;
 //    }
-    
+
     public void onSelectSupplier() {
         if ((supplier != null) && (!topNActiveVendors.contains(supplier))) {
             topNActiveVendors.add(supplier);
@@ -133,9 +132,9 @@ public class PurchaseOrderController extends AbstractController {
                 purchaseOrderLine.setPrice(product.getPurchasePrice());
                 purchaseOrderLine.setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:productMenuTwo");
-                RequestContext.getCurrentInstance().update("mainForm:uom");
-                RequestContext.getCurrentInstance().update("mainForm:price");
+                PrimeFaces.current().ajax().update("mainForm:productMenuTwo");
+                PrimeFaces.current().ajax().update("mainForm:uom");
+                PrimeFaces.current().ajax().update("mainForm:price");
 
             } else {
 
@@ -143,9 +142,9 @@ public class PurchaseOrderController extends AbstractController {
                 purchaseOrderLines.get(rowIndex).setPrice(product.getPurchasePrice());
                 purchaseOrderLines.get(rowIndex).setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":productMenu");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":uomm");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":pricee");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":productMenu");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":uomm");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":pricee");
             }
         }
     }
@@ -278,7 +277,7 @@ public class PurchaseOrderController extends AbstractController {
                             purchaseLine.getPrice(),
                             deliveryOrder));
                 }
-                
+
                 deliveryOrder.setDeliveryOrderLines(deliverOrderLines);
                 purchaseOrder.getDeliveryOrders().add(deliveryOrder);
                 purchaseOrder.setDeliveryCreated(true);
@@ -734,10 +733,10 @@ public class PurchaseOrderController extends AbstractController {
                 return;
             }
         }
-        
+
         currentList = "/sc/purchaseOrder/List.xhtml";
         currentForm = "/sc/purchaseOrder/View.xhtml";
-        
+
         query = PurchaseOrderQueryBuilder.getFindAllQuery();
         purchaseOrders = super.findWithQuery(query);
         if (purchaseOrders != null && !purchaseOrders.isEmpty()) {
@@ -826,7 +825,7 @@ public class PurchaseOrderController extends AbstractController {
 
         String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/purchaseOrder.jasper");
         JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, params, new JREmptyDataSource());
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));  
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + name + "_" + purchaseOrder.getName() + ".pdf");
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();

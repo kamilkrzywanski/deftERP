@@ -85,6 +85,9 @@ public class UserController extends AbstractController {
 
     public String getFormDefaultImage() {
 
+        if(user == null)
+            return "img/partnerPlaceholder4.png";
+
         int modulos = user.getId() % 5;
         switch (modulos) {
             case 0:

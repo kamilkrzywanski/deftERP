@@ -33,8 +33,8 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import org.apache.commons.lang.SerializationUtils;
-import org.primefaces.context.RequestContext;
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.PrimeFaces;
 
 /**
  *
@@ -45,7 +45,6 @@ import org.primefaces.context.RequestContext;
 @ViewScoped
 public class SupDeliveryOrderController extends AbstractController {
 
-    @Inject
     @com.defterp.translation.annotations.Status
     private HashMap<String, String> statuses;
     private List<DeliveryOrder> deliveryOrders;
@@ -642,7 +641,7 @@ public class SupDeliveryOrderController extends AbstractController {
             return false;
         }
     }
-    
+
     private String getDeliveryOrderStatus() {
         if (deliveryOrder != null) {
 
@@ -657,7 +656,7 @@ public class SupDeliveryOrderController extends AbstractController {
         }
         return null;
     }
-    
+
     private void deliveryOrderNotFound() {
 
         JsfUtil.addWarningMessage("ItemDoesNotExist");
@@ -695,7 +694,7 @@ public class SupDeliveryOrderController extends AbstractController {
 
         String reportPath = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/reports/receipt.jasper");
         JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, params, new JREmptyDataSource());
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));  
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, new HashMap<String,Object>(), new JRBeanArrayDataSource(new SaleOrder[]{saleOrder}));
         HttpServletResponse httpServletResponse = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
         httpServletResponse.addHeader("Content-disposition", "attachment; filename=" + name + "_" + deliveryOrder.getName() + ".pdf");
         ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
@@ -728,24 +727,24 @@ public class SupDeliveryOrderController extends AbstractController {
                 deliveryOrderLine.setProduct(product);
                 deliveryOrderLine.setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:productMenuTwo");
-                RequestContext.getCurrentInstance().update("mainForm:uom");
+                PrimeFaces.current().ajax().update("mainForm:productMenuTwo");
+                PrimeFaces.current().ajax().update("mainForm:uom");
 
             } else {
 
                 deliveryOrderLines.get(rowIndex).setProduct(product);
                 deliveryOrderLines.get(rowIndex).setUom(product.getUom().getName());
 
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":productMenu");
-                RequestContext.getCurrentInstance().update("mainForm:datalist:" + rowIndex + ":uomm");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":productMenu");
+                PrimeFaces.current().ajax().update("mainForm:datalist:" + rowIndex + ":uomm");
             }
         }
     }
 
     public void updateOrder() {
-        
+
         String deliveryOrderStatus = getDeliveryOrderStatus();
-        
+
         if (deliveryOrderStatus!= null) {
 
             if (!deliveryOrderStatus.equals(Status.DRAFT.value())) {
@@ -804,7 +803,7 @@ public class SupDeliveryOrderController extends AbstractController {
             deliveryOrder.setActive(Boolean.TRUE);
             deliveryOrder.setDeliveryMethod("Complete");
             deliveryOrder.setDeliveryOrderLines(deliveryOrderLines);
-            
+
             deliveryOrder = super.createItem(deliveryOrder);
             deliveryOrder.setName(IdGenerator.generateDeliveryInId(deliveryOrder.getId()));
             deliveryOrder = super.updateItem(deliveryOrder);
@@ -826,10 +825,10 @@ public class SupDeliveryOrderController extends AbstractController {
         deliveryOrder.setDeliveryMethod("Complete");
         deliveryOrderLines = new ArrayList<>();
         deliveryOrderLine = new DeliveryOrderLine();
-        
+
         loadActiveVendors();
         loadActivePurchasedProducts();
-            
+
         if (topNActivePurchasedProducts != null && !topNActivePurchasedProducts.isEmpty()) {
             deliveryOrderLine.setProduct(topNActivePurchasedProducts.get(0));
             deliveryOrderLine.setUom(deliveryOrderLine.getProduct().getUom().getName());
@@ -843,15 +842,15 @@ public class SupDeliveryOrderController extends AbstractController {
             if (deliveryOrder.getState().equals(Status.DRAFT.value())) {
                 deliveryOrderLine = new DeliveryOrderLine();
                 deliveryOrderLines = deliveryOrder.getDeliveryOrderLines();
-                
+
                 loadActiveVendors();
                 loadActivePurchasedProducts();
-                
+
                 if (topNActivePurchasedProducts != null && !topNActivePurchasedProducts.isEmpty()) {
                     deliveryOrderLine.setProduct(topNActivePurchasedProducts.get(0));
                     deliveryOrderLine.setUom(deliveryOrderLine.getProduct().getUom().getName());
                 }
-                
+
                 deliveryOrderLine.setState(Status.NEW.value());
 
                 if (!topNActiveVendors.contains(deliveryOrder.getPartner())) {
