@@ -1,4 +1,3 @@
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -8,33 +7,36 @@
 
 
     <div class="row">
-        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{empty invoiceController.partialListType}">          
+        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{empty invoiceController.partialListType}">
             <div class="form-nav">
-                <span class="form-nav-item"> #{messages.CustomerInvoices}</span>  
+                <span class="form-nav-item"> #{messages.CustomerInvoices}</span>
             </div>
         </div>
-        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{invoiceController.partialListType == 'partner'}">          
+        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{invoiceController.partialListType == 'partner'}">
             <div class="form-nav">
-                <p:link  class="form-nav-item form-link" value="#{invoiceController.invoices[0].partner.name}"  outcome="/sc/customer/index">
+                <p:link class="form-nav-item form-link" value="#{invoiceController.invoices[0].partner.name}"
+                        outcome="/sc/customer/index">
                     <f:param name="id" value="#{invoiceController.partnerId}"/>
                 </p:link>
-                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i> 
-                <span class="form-nav-item"> #{messages.Invoices}</span> 
+                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i>
+                <span class="form-nav-item"> #{messages.Invoices}</span>
             </div>
         </div>
-        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{invoiceController.partialListType == 'saleOrder'}">          
+        <div class="col-md-12 card z-depth-1 tool-bar"
+             jsf:rendered="#{invoiceController.partialListType == 'saleOrder'}">
             <div class="form-nav">
-                <p:link  class="form-nav-item form-link" value="#{invoiceController.invoices[0].origin}"  outcome="/sc/saleOrder/index">
+                <p:link class="form-nav-item form-link" value="#{invoiceController.invoices[0].origin}"
+                        outcome="/sc/saleOrder/index">
                     <f:param name="id" value="#{invoiceController.saleId}"/>
                 </p:link>
-                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i> 
-                <span class="form-nav-item"> #{messages.Invoices}</span> 
+                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i>
+                <span class="form-nav-item"> #{messages.Invoices}</span>
             </div>
         </div>
     </div>
 
 
-    <div class="row"> 
+    <div class="row">
         <p:dataTable id="customerInvoices"
                      binding="#{customerInvoices}"
                      class="fit-content-table"
@@ -53,17 +55,23 @@
 
             <f:facet name="header" class="card z-depth-1">
                 <p:outputPanel>
-                    <p:commandButton process="@this" class="waves-effect waves-light btn btn-primary" value="#{messages.Create}" actionListener="#{invoiceController.prepareCreateInvoice}" update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();" />           
+                    <p:commandButton process="@this" class="waves-effect waves-light btn btn-primary"
+                                     value="#{messages.Create}"
+                                     actionListener="#{invoiceController.prepareCreateInvoice}"
+                                     update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();"/>
                     <div class="searchLoader">
-                        <p:graphicImage  name="/img/search-loader.gif"/>
+                        <p:graphicImage name="/img/search-loader.gif"/>
                     </div>
-                    <input type="text" jsf:id="globalFilter" jsf:onkeyup="PF('customerInvoiceTable').filter()" class="search" placeholder="#{messages.Search}"/>               
+                    <input type="text" jsf:id="globalFilter" jsf:onkeyup="PF('customerInvoiceTable').filter()"
+                           class="search" placeholder="#{messages.Search}"/>
                 </p:outputPanel>
             </f:facet>
             <p:ajax event="page" oncomplete="updateTableTotals();"/>
             <p:ajax event="sort" oncomplete="updateTableTotals();"/>
-            <p:ajax event="filter" global="false" onstart="showSearchLoader();" oncomplete="updateTableTotals(); hideSearchLoader();"/>
-            <p:ajax event="rowSelect"  listener="#{invoiceController.prepareViewInvoice}" update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();"/>
+            <p:ajax event="filter" global="false" onstart="showSearchLoader();"
+                    oncomplete="updateTableTotals(); hideSearchLoader();"/>
+            <p:ajax event="rowSelect" listener="#{invoiceController.prepareViewInvoice}"
+                    update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();"/>
 
             <p:column>
                 <f:facet name="header">
@@ -84,7 +92,7 @@
                     <h:outputText value="#{messages.InvoiceDate}"/>
                 </f:facet>
                 <h:outputText value="#{item.date}">
-                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                    <f:convertDateTime pattern="MM-dd-yyyy"/>
                 </h:outputText>
             </p:column>
 
@@ -120,21 +128,22 @@
             <p:column sortBy="#{item.state}" filterBy="#{item.state}">
                 <f:facet name="header">
                     <h:outputText value="#{messages.Status}"/>
-                </f:facet>              
-                <h:outputText value="#{invoiceController.getStatus(item.state)}" styleClass="row-status" style="background-color: #{invoiceController.getStatusColor(item.state)}"/>
+                </f:facet>
+                <h:outputText value="#{invoiceController.getStatus(item.state)}" styleClass="row-status"
+                              style="background-color: #{invoiceController.getStatusColor(item.state)}"/>
             </p:column>
 
             <p:columnGroup type="footer">
                 <p:row styleClass="tableFoot">
                     <p:column colspan="5"/>
-                    <p:column  styleClass="total-amount"/>
-                    <p:column  styleClass="total-due"/>
+                    <p:column styleClass="total-amount"/>
+                    <p:column styleClass="total-due"/>
                     <p:column/>
                 </p:row>
             </p:columnGroup>
 
-        </p:dataTable>       
-    </div>  
+        </p:dataTable>
+    </div>
     <script>
 
         function updateTableTotals() {

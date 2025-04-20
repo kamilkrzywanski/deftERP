@@ -1,18 +1,18 @@
 package com.defterp.modules.inventory.controllers;
 
-import com.defterp.util.JsfUtil;
-import com.defterp.modules.inventory.entities.ProductUomCategory;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.modules.inventory.entities.ProductUomCategory;
 import com.defterp.modules.inventory.queryBuilders.ProductUomCategoryQueryBuilder;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.util.List;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -59,7 +59,7 @@ public class ProductUomCategoryController extends AbstractController {
             } else {
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorDelete3");
             }
-            
+
         } else {
             JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorDelete");
         }

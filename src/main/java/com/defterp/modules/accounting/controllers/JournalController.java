@@ -1,20 +1,20 @@
 package com.defterp.modules.accounting.controllers;
 
-import com.defterp.util.JsfUtil;
 import com.defterp.modules.accounting.entities.Journal;
 import com.defterp.modules.accounting.queryBuilders.JournalQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.util.JsfUtil;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -59,10 +59,10 @@ public class JournalController extends AbstractController {
                 return;
             }
         }
-        
+
         query = JournalQueryBuilder.getFindAllQuery();
         journals = super.findWithQuery(query);
-        
+
         if (journals != null && !journals.isEmpty()) {
             journal = journals.get(0);
         }
@@ -140,12 +140,12 @@ public class JournalController extends AbstractController {
     }
 
     public void createJournal() {
-        
+
         if (journal != null) {
             journal = super.createItem(journal);
             if (journals != null) {
                 journals.add(journal);
-            }else{
+            } else {
                 journals = super.findWithQuery(JournalQueryBuilder.getFindAllQuery());
             }
             currentForm = VIEW_URL;
@@ -223,7 +223,7 @@ public class JournalController extends AbstractController {
         query = JournalQueryBuilder.getFindByTypeQuery("Bank");
 
         if (paymentJournals != null) {
-            paymentJournals.addAll((List<Journal>)(Journal)super.findWithQuery(query));
+            paymentJournals.addAll((List<Journal>) (Journal) super.findWithQuery(query));
         }
 
         return paymentJournals;

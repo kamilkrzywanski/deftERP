@@ -1,20 +1,20 @@
 package com.defterp.modules.inventory.controllers;
 
-import com.defterp.util.JsfUtil;
-import com.defterp.modules.inventory.entities.Inventory;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.modules.inventory.entities.Inventory;
 import com.defterp.modules.inventory.queryBuilders.InventoryQueryBuilder;
+import com.defterp.util.JsfUtil;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.util.List;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 

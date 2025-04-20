@@ -4,13 +4,14 @@ import com.defterp.modules.accounting.entities.Account;
 import com.defterp.modules.accounting.queryBuilders.AccountQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.JournalItemQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
-import com.defterp.util.JsfUtil;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.util.JsfUtil;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 
 @Named("accountController")
 @ViewScoped
@@ -113,13 +114,13 @@ public class AccountController extends AbstractController {
     }
 
     public void deleteAccount() {
-        
+
         account = super.findItemById(account.getId(), account.getClass());
-        
+
         if (account != null) {
-            
+
             boolean deleted = super.deleteItem(account);
-            
+
             if (deleted) {
 
                 JsfUtil.addSuccessMessage("ItemDeleted");

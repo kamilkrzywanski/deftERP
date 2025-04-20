@@ -1,31 +1,26 @@
 package com.defterp.translation.producers;
 
-import com.defterp.translation.annotations.UserLocale;
 import com.defterp.translation.annotations.Countries;
+import com.defterp.translation.annotations.UserLocale;
+import jakarta.inject.Inject;
 import org.primefaces.shaded.json.JSONException;
 import org.primefaces.shaded.json.JSONObject;
 
-import static com.defterp.translation.annotations.Countries.Version.FIRST;
-import static com.defterp.translation.annotations.Countries.Version.SECOND;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
-import java.util.Map;
-import javax.inject.Inject;
+
+import static com.defterp.translation.annotations.Countries.Version.FIRST;
+import static com.defterp.translation.annotations.Countries.Version.SECOND;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
 
 public class CountriesTranslationProducer {
-
-    @Inject
-    @UserLocale
-    Locale locale;
 
     private final static String countries_EN = "{\n"
             + "    \"AF\": \"Afghanistan\",\n"
@@ -293,7 +288,6 @@ public class CountriesTranslationProducer {
             + "    \"ZW\": \"Zimbabwe\",\n"
             + "    \"AX\": \"\\u00c5land Islands\"\n"
             + "}";
-
     private static final String countries_FR = "{\n"
             + "    \"AF\": \"Afghanistan\",\n"
             + "    \"ZA\": \"Afrique du Sud\",\n"
@@ -544,8 +538,9 @@ public class CountriesTranslationProducer {
             + "    \"VI\": \"\\u00celes Vierges des \\u00c9tats-Unis\",\n"
             + "    \"AX\": \"\\u00celes \\u00c5land\"\n"
             + "}";
-
-
+    @Inject
+    @UserLocale
+    Locale locale;
 
     @Countries(version = FIRST)
     public HashMap<String, String> getCountriesFirstVersion() {

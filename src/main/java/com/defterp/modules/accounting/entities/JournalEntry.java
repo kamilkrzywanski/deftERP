@@ -1,50 +1,37 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.partners.entities.Partner;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "journal_entry")
-@NamedQueries({ 
-    @NamedQuery(name = "JournalEntry.countByPartner", query = "SELECT COUNT(j) FROM JournalEntry j WHERE j.partner.id = :partnerId"),
-    @NamedQuery(name = "JournalEntry.findByPartner", query = "SELECT j FROM JournalEntry j WHERE j.partner.id = :partnerId"),
-    @NamedQuery(name = "JournalEntry.findAll", query = "SELECT j FROM JournalEntry j"),
-    @NamedQuery(name = "JournalEntry.findById", query = "SELECT j FROM JournalEntry j WHERE j.id = :id"),
-    @NamedQuery(name = "JournalEntry.findByName", query = "SELECT j FROM JournalEntry j WHERE j.name = :name"),
-    @NamedQuery(name = "JournalEntry.findByRef", query = "SELECT j FROM JournalEntry j WHERE j.ref = :ref"),
-    @NamedQuery(name = "JournalEntry.findByDate", query = "SELECT j FROM JournalEntry j WHERE j.date = :date"),
-    @NamedQuery(name = "JournalEntry.findByActive", query = "SELECT j FROM JournalEntry j WHERE j.active = :active")})
+@NamedQueries({
+        @NamedQuery(name = "JournalEntry.countByPartner", query = "SELECT COUNT(j) FROM JournalEntry j WHERE j.partner.id = :partnerId"),
+        @NamedQuery(name = "JournalEntry.findByPartner", query = "SELECT j FROM JournalEntry j WHERE j.partner.id = :partnerId"),
+        @NamedQuery(name = "JournalEntry.findAll", query = "SELECT j FROM JournalEntry j"),
+        @NamedQuery(name = "JournalEntry.findById", query = "SELECT j FROM JournalEntry j WHERE j.id = :id"),
+        @NamedQuery(name = "JournalEntry.findByName", query = "SELECT j FROM JournalEntry j WHERE j.name = :name"),
+        @NamedQuery(name = "JournalEntry.findByRef", query = "SELECT j FROM JournalEntry j WHERE j.ref = :ref"),
+        @NamedQuery(name = "JournalEntry.findByDate", query = "SELECT j FROM JournalEntry j WHERE j.date = :date"),
+        @NamedQuery(name = "JournalEntry.findByActive", query = "SELECT j FROM JournalEntry j WHERE j.active = :active")})
 
 public class JournalEntry extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Size(max = 64, message = "{LongString}")
     @Column(name = "name")
     private String name;
@@ -95,7 +82,7 @@ public class JournalEntry extends BaseEntity {
         this.state = state;
         this.amount = amount;
     }
-    
+
     public JournalEntry(String ref, Date date, Boolean active, Journal journal, Partner partner, Payment payment, Invoice invoice, String state, double amount) {
         this.ref = ref;
         this.date = date;
@@ -132,7 +119,7 @@ public class JournalEntry extends BaseEntity {
     public void setDate(Date date) {
         this.date = date;
     }
-    
+
     public double getAmount() {
         return amount;
     }
@@ -162,7 +149,7 @@ public class JournalEntry extends BaseEntity {
     }
 
     public void setJournalItems(List<JournalItem> journalItems) {
-        this.journalItems= journalItems;
+        this.journalItems = journalItems;
     }
 
     public Journal getJournal() {
@@ -180,7 +167,7 @@ public class JournalEntry extends BaseEntity {
     public void setPartner(Partner partner) {
         this.partner = partner;
     }
-    
+
     public Payment getPayment() {
         return payment;
     }
@@ -196,7 +183,7 @@ public class JournalEntry extends BaseEntity {
     public void setInvoice(Invoice invoice) {
         this.invoice = invoice;
     }
-    
+
     public List<InvoicePayment> getInvoicePayments() {
         if (invoicePayments == null) {
             invoicePayments = new ArrayList<>();
@@ -212,5 +199,5 @@ public class JournalEntry extends BaseEntity {
     public String toString() {
         return "--- JournalEntry[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

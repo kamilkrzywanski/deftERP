@@ -1,19 +1,27 @@
 package com.defterp.modules.partners.controllers;
 
-import com.defterp.translation.annotations.Countries;
-import static com.defterp.translation.annotations.Countries.Version.SECOND;
-import com.defterp.util.JsfUtil;
 import com.defterp.modules.accounting.entities.Account;
-import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.accounting.queryBuilders.AccountQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.InvoiceQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.PaymentQueryBuilder;
+import com.defterp.modules.commonClasses.AbstractController;
+import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.inventory.queryBuilders.DeliveryOrderQueryBuilder;
+import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
 import com.defterp.modules.purchases.queryBuilders.PurchaseOrderQueryBuilder;
 import com.defterp.modules.sales.queryBuilders.SaleOrderQueryBuilder;
-import com.defterp.modules.commonClasses.AbstractController;
-import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.translation.annotations.Countries;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,26 +30,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.Part;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import static com.defterp.translation.annotations.Countries.Version.SECOND;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
 @Named(value = "customerController")
 @ViewScoped
+@Component
 public class CustomerController extends AbstractController {
 
+    boolean isGridView;
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
     private Partner partner;
@@ -50,7 +53,6 @@ public class CustomerController extends AbstractController {
     private String partnerId;
     private String partnerType;
     private String searchKey;
-    boolean isGridView;
     private String currentForm;
     private String currentList;
     private Part image;
@@ -70,6 +72,10 @@ public class CustomerController extends AbstractController {
         partnerType = "Customer";
     }
 
+    public Part getImage() {
+        return image;
+    }
+
     public void setImage(Part image) {
         if (image != null) {
             try {
@@ -81,10 +87,6 @@ public class CustomerController extends AbstractController {
         } else if (image == null && partner.getImage() != null && imageModified == true) {
             partner.setImage(null);
         }
-    }
-
-    public Part getImage() {
-        return image;
     }
 
     public void deleteCustomer() {
@@ -541,7 +543,7 @@ public class CustomerController extends AbstractController {
     }
 
     public String getFormDefaultImage() {
-        if(partner == null)
+        if (partner == null)
             return "img/partnerPlaceholder4.png";
 
         int modulos = partner.getId() % 5;

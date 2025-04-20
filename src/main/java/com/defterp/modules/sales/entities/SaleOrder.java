@@ -1,56 +1,43 @@
-
 package com.defterp.modules.sales.entities;
 
 
+import com.defterp.modules.accounting.entities.Invoice;
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.inventory.entities.DeliveryOrder;
 import com.defterp.modules.partners.entities.Partner;
-import com.defterp.modules.accounting.entities.Invoice;
 import com.defterp.validators.annotations.InDateRange;
-import java.util.List;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import java.util.List;
 
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "sale_order")
 @NamedQueries({
-    
-    @NamedQuery(name = "SaleOrder.findByPartner", query = "SELECT s FROM SaleOrder s WHERE s.partner.id = :partnerId "),
-    @NamedQuery(name = "SaleOrder.countByPartner", query = "SELECT COUNT(s) FROM SaleOrder s WHERE s.partner.id = :partnerId "),
-    @NamedQuery(name = "SaleOrder.findDrafts", query = "SELECT s FROM SaleOrder s WHERE s.state = :draft OR s.state = :cancelled "),
-    @NamedQuery(name = "SaleOrder.findConfirmed", query = "SELECT s FROM SaleOrder s WHERE s.state <> :draft AND s.state <> :cancelled "),
-    @NamedQuery(name = "SaleOrder.findAll", query = "SELECT s FROM SaleOrder s"),
-    @NamedQuery(name = "SaleOrder.findById", query = "SELECT s FROM SaleOrder s WHERE s.id = :id"),
-    @NamedQuery(name = "SaleOrder.findByDate", query = "SELECT s FROM SaleOrder s WHERE s.date = :date"),
-    @NamedQuery(name = "SaleOrder.findByAmountTax", query = "SELECT s FROM SaleOrder s WHERE s.amountTax = :amountTax"),
-    @NamedQuery(name = "SaleOrder.findByAmountTotal", query = "SELECT s FROM SaleOrder s WHERE s.amountTotal = :amountTotal"),
-    @NamedQuery(name = "SaleOrder.findByAmountUntaxed", query = "SELECT s FROM SaleOrder s WHERE s.amountUntaxed = :amountUntaxed"),
-    @NamedQuery(name = "SaleOrder.findByShipped", query = "SELECT s FROM SaleOrder s WHERE s.shipped = :shipped"),
-    @NamedQuery(name = "SaleOrder.findByDiscount", query = "SELECT s FROM SaleOrder s WHERE s.discount = :discount"),
-    @NamedQuery(name = "SaleOrder.findByActive", query = "SELECT s FROM SaleOrder s WHERE s.active = :active"),
-    @NamedQuery(name = "SaleOrder.findByName", query = "SELECT s FROM SaleOrder s WHERE s.name = :name")})
+
+        @NamedQuery(name = "SaleOrder.findByPartner", query = "SELECT s FROM SaleOrder s WHERE s.partner.id = :partnerId "),
+        @NamedQuery(name = "SaleOrder.countByPartner", query = "SELECT COUNT(s) FROM SaleOrder s WHERE s.partner.id = :partnerId "),
+        @NamedQuery(name = "SaleOrder.findDrafts", query = "SELECT s FROM SaleOrder s WHERE s.state = :draft OR s.state = :cancelled "),
+        @NamedQuery(name = "SaleOrder.findConfirmed", query = "SELECT s FROM SaleOrder s WHERE s.state <> :draft AND s.state <> :cancelled "),
+        @NamedQuery(name = "SaleOrder.findAll", query = "SELECT s FROM SaleOrder s"),
+        @NamedQuery(name = "SaleOrder.findById", query = "SELECT s FROM SaleOrder s WHERE s.id = :id"),
+        @NamedQuery(name = "SaleOrder.findByDate", query = "SELECT s FROM SaleOrder s WHERE s.date = :date"),
+        @NamedQuery(name = "SaleOrder.findByAmountTax", query = "SELECT s FROM SaleOrder s WHERE s.amountTax = :amountTax"),
+        @NamedQuery(name = "SaleOrder.findByAmountTotal", query = "SELECT s FROM SaleOrder s WHERE s.amountTotal = :amountTotal"),
+        @NamedQuery(name = "SaleOrder.findByAmountUntaxed", query = "SELECT s FROM SaleOrder s WHERE s.amountUntaxed = :amountUntaxed"),
+        @NamedQuery(name = "SaleOrder.findByShipped", query = "SELECT s FROM SaleOrder s WHERE s.shipped = :shipped"),
+        @NamedQuery(name = "SaleOrder.findByDiscount", query = "SELECT s FROM SaleOrder s WHERE s.discount = :discount"),
+        @NamedQuery(name = "SaleOrder.findByActive", query = "SELECT s FROM SaleOrder s WHERE s.active = :active"),
+        @NamedQuery(name = "SaleOrder.findByName", query = "SELECT s FROM SaleOrder s WHERE s.name = :name")})
 
 public class SaleOrder extends BaseEntity {
 
@@ -100,7 +87,7 @@ public class SaleOrder extends BaseEntity {
     private List<DeliveryOrder> deliveryOrders;
     @OneToMany(mappedBy = "saleOrder", cascade = CascadeType.REMOVE)
     private List<Invoice> invoices;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "saleOrder", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "saleOrder", orphanRemoval = true)
     private List<SaleOrderLine> saleOrderLines;
 
     public SaleOrder() {
@@ -183,7 +170,7 @@ public class SaleOrder extends BaseEntity {
     public void setNotes(String notes) {
         this.notes = notes;
     }
-    
+
     public String getInvoiceMethod() {
         return invoiceMethod;
     }
@@ -219,7 +206,7 @@ public class SaleOrder extends BaseEntity {
     public Partner getPartner() {
         return partner;
     }
-    
+
     public void setPartner(Partner partner) {
         this.partner = partner;
     }
@@ -232,7 +219,7 @@ public class SaleOrder extends BaseEntity {
         this.deliveryCreated = deliveryCreated;
     }
 
-    
+
     public List<DeliveryOrder> getDeliveryOrders() {
         return deliveryOrders;
     }
@@ -242,7 +229,7 @@ public class SaleOrder extends BaseEntity {
     }
 
 
-        public List<SaleOrderLine> getSaleOrderLines() {
+    public List<SaleOrderLine> getSaleOrderLines() {
         return saleOrderLines;
     }
 
@@ -250,7 +237,7 @@ public class SaleOrder extends BaseEntity {
         this.saleOrderLines = saleOrderLines;
     }
 
-   
+
     public List<Invoice> getInvoices() {
         return invoices;
     }
@@ -261,8 +248,8 @@ public class SaleOrder extends BaseEntity {
 
 
     @Override
-        public String toString() {
+    public String toString() {
         return "--- SaleOrder[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

@@ -1,49 +1,42 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "account")
 @NamedQueries({
-    @NamedQuery(name = "Account.findByType", query = "SELECT a FROM Account a WHERE a.type = :type"),         
-    @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
-    @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
-    @NamedQuery(name = "Account.findByName", query = "SELECT a FROM Account a WHERE a.title = :name"),
-    @NamedQuery(name = "Account.findByActive", query = "SELECT a FROM Account a WHERE a.active = :active")})
+        @NamedQuery(name = "Account.findByType", query = "SELECT a FROM Account a WHERE a.type = :type"),
+        @NamedQuery(name = "Account.findAll", query = "SELECT a FROM Account a"),
+        @NamedQuery(name = "Account.findById", query = "SELECT a FROM Account a WHERE a.id = :id"),
+        @NamedQuery(name = "Account.findByName", query = "SELECT a FROM Account a WHERE a.title = :name"),
+        @NamedQuery(name = "Account.findByActive", query = "SELECT a FROM Account a WHERE a.active = :active")})
 
 public class Account extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 256, message = "{LongString}")
     @Column(name = "name")
-    private String name; 
+    private String name;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100, message = "{LongString}")
     @Column(name = "title")
-    private String title;    
+    private String title;
     @NotNull
     @Basic(optional = false)
     @Size(max = 64, message = "{LongString}")
@@ -53,7 +46,7 @@ public class Account extends BaseEntity {
     @Basic(optional = false)
     @Size(max = 64, message = "{LongString}")
     @Column(name = "code")
-    private String code;    
+    private String code;
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
@@ -136,7 +129,7 @@ public class Account extends BaseEntity {
     public void setInvoiceTaxes(List<InvoiceTax> invoiceTaxes) {
         this.invoiceTaxes = invoiceTaxes;
     }
-    
+
     public List<Payment> getPayments() {
         return payments;
     }
@@ -153,10 +146,10 @@ public class Account extends BaseEntity {
         this.invoices = invoices;
     }
 
- 
+
     @Override
     public String toString() {
         return "--- Account[ id=" + super.getId() + " ] --- ";
     }
-    
+
 }

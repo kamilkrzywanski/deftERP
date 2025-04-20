@@ -1,41 +1,34 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.purchases.entities.PurchaseOrderLine;
 import com.defterp.modules.sales.entities.SaleOrderLine;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "tax")
 @NamedQueries({
-    @NamedQuery(name = "Tax.findByType", query = "SELECT t FROM Tax t WHERE t.typeTaxUse = :typeTaxUse"),
-    @NamedQuery(name = "Tax.findAll", query = "SELECT t FROM Tax t"),
-    @NamedQuery(name = "Tax.findById", query = "SELECT t FROM Tax t WHERE t.id = :id"),
-    @NamedQuery(name = "Tax.findByName", query = "SELECT t FROM Tax t WHERE t.name = :name"),
-    @NamedQuery(name = "Tax.findByAmount", query = "SELECT t FROM Tax t WHERE t.amount = :amount"),
-    @NamedQuery(name = "Tax.findByActive", query = "SELECT t FROM Tax t WHERE t.active = :active")})
+        @NamedQuery(name = "Tax.findByType", query = "SELECT t FROM Tax t WHERE t.typeTaxUse = :typeTaxUse"),
+        @NamedQuery(name = "Tax.findAll", query = "SELECT t FROM Tax t"),
+        @NamedQuery(name = "Tax.findById", query = "SELECT t FROM Tax t WHERE t.id = :id"),
+        @NamedQuery(name = "Tax.findByName", query = "SELECT t FROM Tax t WHERE t.name = :name"),
+        @NamedQuery(name = "Tax.findByAmount", query = "SELECT t FROM Tax t WHERE t.amount = :amount"),
+        @NamedQuery(name = "Tax.findByActive", query = "SELECT t FROM Tax t WHERE t.active = :active")})
 
 public class Tax extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Basic(optional = false)
@@ -50,7 +43,7 @@ public class Tax extends BaseEntity {
     private Double amount;
     @Basic(optional = false)
     @NotNull
-    @Max(value=100, message="{MaxTaxAmount}") 
+    @Max(value = 100, message = "{MaxTaxAmount}")
     @StrictlyPositiveNumber(message = "{PositiveTaxAmount}")
     @Column(name = "percent")
     private Double percent;
@@ -163,11 +156,11 @@ public class Tax extends BaseEntity {
     public void setJournalItems(List<JournalItem> journalItems) {
         this.journalItems = journalItems;
     }
-   
+
 
     @Override
     public String toString() {
         return "--- Tax[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

@@ -10,12 +10,12 @@ public class JournalItemQueryBuilder {
     public static QueryWrapper getFindCreditSumByAccountQuery(Integer accountId) {
 
         return new QueryWrapper(FIND_CREDIT_SUM_BY_ACCOUNT)
-                   .setParameter("accountId", accountId);
+                .setParameter("accountId", accountId);
     }
 
     public static QueryWrapper getFindDebitSumByAccountQuery(Integer accountId) {
 
         return new QueryWrapper(FIND_DEBIT_SUM_BY_ACCOUNT)
-                   .setParameter("accountId", accountId);
+                .setParameter("accountId", accountId);
     }
 }

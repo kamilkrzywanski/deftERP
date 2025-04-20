@@ -1,57 +1,45 @@
 package com.defterp.modules.purchases.entities;
 
+import com.defterp.modules.accounting.entities.Invoice;
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.inventory.entities.DeliveryOrder;
 import com.defterp.modules.partners.entities.Partner;
-import com.defterp.modules.accounting.entities.Invoice;
 import com.defterp.validators.annotations.InDateRange;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "purchase_order")
 @NamedQueries({
-    @NamedQuery(name = "PurchaseOrder.findByPartner", query = "SELECT p FROM PurchaseOrder p WHERE p.partner.id = :partnerId "),
-    @NamedQuery(name = "PurchaseOrder.countByPartner", query = "SELECT COUNT(p) FROM PurchaseOrder p WHERE p.partner.id = :partnerId "),
-    @NamedQuery(name = "PurchaseOrder.findDrafts", query = "SELECT p FROM PurchaseOrder p WHERE p.state = :draft OR p.state = :cancelled "),
-    @NamedQuery(name = "PurchaseOrder.findConfirmed", query = "SELECT p FROM PurchaseOrder p WHERE p.state <> :draft AND p.state <> :cancelled "),
-    @NamedQuery(name = "PurchaseOrder.findAll", query = "SELECT p FROM PurchaseOrder p"),
-    @NamedQuery(name = "PurchaseOrder.findById", query = "SELECT p FROM PurchaseOrder p WHERE p.id = :id"),
-    @NamedQuery(name = "PurchaseOrder.findByDate", query = "SELECT p FROM PurchaseOrder p WHERE p.date = :date"),
-    @NamedQuery(name = "PurchaseOrder.findByAmountTax", query = "SELECT p FROM PurchaseOrder p WHERE p.amountTax = :amountTax"),
-    @NamedQuery(name = "PurchaseOrder.findByAmountTotal", query = "SELECT p FROM PurchaseOrder p WHERE p.amountTotal = :amountTotal"),
-    @NamedQuery(name = "PurchaseOrder.findByAmountUntaxed", query = "SELECT p FROM PurchaseOrder p WHERE p.amountUntaxed = :amountUntaxed"),
-    @NamedQuery(name = "PurchaseOrder.findByShipped", query = "SELECT p FROM PurchaseOrder p WHERE p.shipped = :shipped"),
-    @NamedQuery(name = "PurchaseOrder.findByDiscount", query = "SELECT p FROM PurchaseOrder p WHERE p.discount = :discount"),
-    @NamedQuery(name = "PurchaseOrder.findByActive", query = "SELECT p FROM PurchaseOrder p WHERE p.active = :active"),
-    @NamedQuery(name = "PurchaseOrder.findByName", query = "SELECT p FROM PurchaseOrder p WHERE p.name = :name")})
+        @NamedQuery(name = "PurchaseOrder.findByPartner", query = "SELECT p FROM PurchaseOrder p WHERE p.partner.id = :partnerId "),
+        @NamedQuery(name = "PurchaseOrder.countByPartner", query = "SELECT COUNT(p) FROM PurchaseOrder p WHERE p.partner.id = :partnerId "),
+        @NamedQuery(name = "PurchaseOrder.findDrafts", query = "SELECT p FROM PurchaseOrder p WHERE p.state = :draft OR p.state = :cancelled "),
+        @NamedQuery(name = "PurchaseOrder.findConfirmed", query = "SELECT p FROM PurchaseOrder p WHERE p.state <> :draft AND p.state <> :cancelled "),
+        @NamedQuery(name = "PurchaseOrder.findAll", query = "SELECT p FROM PurchaseOrder p"),
+        @NamedQuery(name = "PurchaseOrder.findById", query = "SELECT p FROM PurchaseOrder p WHERE p.id = :id"),
+        @NamedQuery(name = "PurchaseOrder.findByDate", query = "SELECT p FROM PurchaseOrder p WHERE p.date = :date"),
+        @NamedQuery(name = "PurchaseOrder.findByAmountTax", query = "SELECT p FROM PurchaseOrder p WHERE p.amountTax = :amountTax"),
+        @NamedQuery(name = "PurchaseOrder.findByAmountTotal", query = "SELECT p FROM PurchaseOrder p WHERE p.amountTotal = :amountTotal"),
+        @NamedQuery(name = "PurchaseOrder.findByAmountUntaxed", query = "SELECT p FROM PurchaseOrder p WHERE p.amountUntaxed = :amountUntaxed"),
+        @NamedQuery(name = "PurchaseOrder.findByShipped", query = "SELECT p FROM PurchaseOrder p WHERE p.shipped = :shipped"),
+        @NamedQuery(name = "PurchaseOrder.findByDiscount", query = "SELECT p FROM PurchaseOrder p WHERE p.discount = :discount"),
+        @NamedQuery(name = "PurchaseOrder.findByActive", query = "SELECT p FROM PurchaseOrder p WHERE p.active = :active"),
+        @NamedQuery(name = "PurchaseOrder.findByName", query = "SELECT p FROM PurchaseOrder p WHERE p.name = :name")})
 
 public class PurchaseOrder extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
@@ -94,11 +82,11 @@ public class PurchaseOrder extends BaseEntity {
     @Size(max = 64, message = "{LongString}")
     @Column(name = "reference")
     private String reference;
-    
+
     @JoinColumn(name = "partner_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Partner partner;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseOrder", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "purchaseOrder", orphanRemoval = true)
     private List<PurchaseOrderLine> purchaseOrderLines;
     @OneToMany(mappedBy = "purchaseOrder")
     private List<DeliveryOrder> deliveryOrders;
@@ -226,7 +214,7 @@ public class PurchaseOrder extends BaseEntity {
         this.name = name;
     }
 
-    
+
     public List<DeliveryOrder> getDeliveryOrders() {
         return deliveryOrders;
     }
@@ -242,7 +230,7 @@ public class PurchaseOrder extends BaseEntity {
     public void setPartner(Partner partner) {
         this.partner = partner;
     }
-    
+
     public Boolean getDeliveryCreated() {
         return deliveryCreated;
     }
@@ -251,16 +239,16 @@ public class PurchaseOrder extends BaseEntity {
         this.deliveryCreated = deliveryCreated;
     }
 
-    
+
     public List<PurchaseOrderLine> getPurchaseOrderLines() {
         return purchaseOrderLines;
     }
 
     public void setPurchaseOrderLines(List<PurchaseOrderLine> purchaseOrderLines) {
-        this.purchaseOrderLines= purchaseOrderLines;
+        this.purchaseOrderLines = purchaseOrderLines;
     }
 
-    
+
     public List<Invoice> getInvoices() {
         return invoices;
     }
@@ -274,5 +262,5 @@ public class PurchaseOrder extends BaseEntity {
     public String toString() {
         return "---- PurchaseOrder[ id=" + super.getId() + " ] ----";
     }
-    
+
 }

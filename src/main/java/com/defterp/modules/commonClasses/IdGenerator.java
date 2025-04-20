@@ -3,14 +3,13 @@ package com.defterp.modules.commonClasses;
 import java.util.Calendar;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 public class IdGenerator {
-    
+
     private static final int CURRENT_YEAR = Calendar.getInstance().get(Calendar.YEAR);
 
     public static String generateSaleId(int id) {
@@ -97,8 +96,7 @@ public class IdGenerator {
             return "INV/" + CURRENT_YEAR + "/" + id;
         }
     }
-    
-    
+
 
     public static String generateBillId(Integer id) {
 
@@ -131,8 +129,9 @@ public class IdGenerator {
             return "CUST.IN/" + CURRENT_YEAR + "/" + id;
         }
     }
-    
-    public static String generateCustomerOutPayment(Integer id) {;
+
+    public static String generateCustomerOutPayment(Integer id) {
+        ;
 
         if (id < 10) {
             return "CUST.OUT/" + CURRENT_YEAR + "/000" + id;
@@ -163,7 +162,7 @@ public class IdGenerator {
             return "VEND.IN/" + CURRENT_YEAR + "/" + id;
         }
     }
-    
+
     public static String generateSupplierOutPayment(Integer id) {
 
         if (id < 10) {
@@ -195,7 +194,7 @@ public class IdGenerator {
             return "CASH/" + CURRENT_YEAR + "/" + id;
         }
     }
-    
+
     public static String generatePaymentBankEntryId(Integer id) {
 
         if (id < 10) {

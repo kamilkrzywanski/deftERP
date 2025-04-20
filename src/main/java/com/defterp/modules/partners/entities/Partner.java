@@ -1,73 +1,55 @@
-
 package com.defterp.modules.partners.entities;
 
 
+import com.defterp.modules.accounting.entities.*;
+import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.inventory.entities.DeliveryOrder;
 import com.defterp.modules.inventory.entities.DeliveryOrderLine;
-import com.defterp.modules.accounting.entities.Payment;
-import com.defterp.modules.accounting.entities.JournalEntry;
-import com.defterp.modules.accounting.entities.JournalItem;
-import com.defterp.modules.accounting.entities.Invoice;
-import com.defterp.modules.accounting.entities.Account;
-import com.defterp.modules.accounting.entities.InvoiceLine;
-import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.purchases.entities.PurchaseOrder;
 import com.defterp.modules.sales.entities.SaleOrder;
 import com.defterp.validators.annotations.InDateRange;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "partner")
 @NamedQueries({
-    @NamedQuery(name = "Partner.findAll", query = "SELECT p FROM Partner p"),
-    @NamedQuery(name = "Partner.findById", query = "SELECT p FROM Partner p WHERE p.id = :id"),
-    @NamedQuery(name = "Partner.findByName", query = "SELECT p FROM Partner p WHERE p.name = :name"),
-    @NamedQuery(name = "Partner.findByCity", query = "SELECT p FROM Partner p WHERE p.city = :city"),
-    @NamedQuery(name = "Partner.findByStreet", query = "SELECT p FROM Partner p WHERE p.street = :street"),
-    @NamedQuery(name = "Partner.findBySupplier", query = "SELECT p FROM Partner p WHERE p.supplier = 1"),
-    @NamedQuery(name = "Partner.findByActiveSupplier", query = "SELECT p FROM Partner p WHERE p.supplier = 1 AND p.active = 1"),
-    @NamedQuery(name = "Partner.findByCustomer", query = "SELECT p FROM Partner p WHERE p.customer = 1"),
-    @NamedQuery(name = "Partner.findByActiveCustomer", query = "SELECT p FROM Partner p WHERE p.customer = 1 AND p.active = 1"),
-    @NamedQuery(name = "Partner.findByEmail", query = "SELECT p FROM Partner p WHERE p.email = :email"),
-    @NamedQuery(name = "Partner.findByWebsite", query = "SELECT p FROM Partner p WHERE p.website = :website"),
-    @NamedQuery(name = "Partner.findByFax", query = "SELECT p FROM Partner p WHERE p.fax = :fax"),
-    @NamedQuery(name = "Partner.findByPhone", query = "SELECT p FROM Partner p WHERE p.phone = :phone"),
-    @NamedQuery(name = "Partner.findByCredit", query = "SELECT p FROM Partner p WHERE p.credit = :credit"),
-    @NamedQuery(name = "Partner.findByDebit", query = "SELECT p FROM Partner p WHERE p.debit = :debit"),
-    @NamedQuery(name = "Partner.findByMobile", query = "SELECT p FROM Partner p WHERE p.mobile = :mobile"),
-    @NamedQuery(name = "Partner.findByIsCompany", query = "SELECT p FROM Partner p WHERE p.isCompany = :isCompany"),
-    @NamedQuery(name = "Partner.findByPurchaseDeals", query = "SELECT p FROM Partner p WHERE p.purchaseDeals = :purchaseDeals"),
-    @NamedQuery(name = "Partner.findBySaleDeals", query = "SELECT p FROM Partner p WHERE p.saleDeals = :saleDeals"),
-    @NamedQuery(name = "Partner.findByActive", query = "SELECT p FROM Partner p WHERE p.active = :active")})
+        @NamedQuery(name = "Partner.findAll", query = "SELECT p FROM Partner p"),
+        @NamedQuery(name = "Partner.findById", query = "SELECT p FROM Partner p WHERE p.id = :id"),
+        @NamedQuery(name = "Partner.findByName", query = "SELECT p FROM Partner p WHERE p.name = :name"),
+        @NamedQuery(name = "Partner.findByCity", query = "SELECT p FROM Partner p WHERE p.city = :city"),
+        @NamedQuery(name = "Partner.findByStreet", query = "SELECT p FROM Partner p WHERE p.street = :street"),
+        @NamedQuery(name = "Partner.findBySupplier", query = "SELECT p FROM Partner p WHERE p.supplier = true"),
+        @NamedQuery(name = "Partner.findByActiveSupplier", query = "SELECT p FROM Partner p WHERE p.supplier = true AND p.active = true"),
+        @NamedQuery(name = "Partner.findByCustomer", query = "SELECT p FROM Partner p WHERE p.customer = true"),
+        @NamedQuery(name = "Partner.findByActiveCustomer", query = "SELECT p FROM Partner p WHERE p.customer = true AND p.active = true"),
+        @NamedQuery(name = "Partner.findByEmail", query = "SELECT p FROM Partner p WHERE p.email = :email"),
+        @NamedQuery(name = "Partner.findByWebsite", query = "SELECT p FROM Partner p WHERE p.website = :website"),
+        @NamedQuery(name = "Partner.findByFax", query = "SELECT p FROM Partner p WHERE p.fax = :fax"),
+        @NamedQuery(name = "Partner.findByPhone", query = "SELECT p FROM Partner p WHERE p.phone = :phone"),
+        @NamedQuery(name = "Partner.findByCredit", query = "SELECT p FROM Partner p WHERE p.credit = :credit"),
+        @NamedQuery(name = "Partner.findByDebit", query = "SELECT p FROM Partner p WHERE p.debit = :debit"),
+        @NamedQuery(name = "Partner.findByMobile", query = "SELECT p FROM Partner p WHERE p.mobile = :mobile"),
+        @NamedQuery(name = "Partner.findByIsCompany", query = "SELECT p FROM Partner p WHERE p.isCompany = :isCompany"),
+        @NamedQuery(name = "Partner.findByPurchaseDeals", query = "SELECT p FROM Partner p WHERE p.purchaseDeals = :purchaseDeals"),
+        @NamedQuery(name = "Partner.findBySaleDeals", query = "SELECT p FROM Partner p WHERE p.saleDeals = :saleDeals"),
+        @NamedQuery(name = "Partner.findByActive", query = "SELECT p FROM Partner p WHERE p.active = :active")})
 
 public class Partner extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
-    @Column(name = "name" , nullable = false)
+
+    @Column(name = "name", nullable = false)
     @NotNull
     @Size(min = 1, max = 128, message = "{LongString}")
     private String name;
@@ -102,7 +84,7 @@ public class Partner extends BaseEntity {
     @Size(max = 64, message = "{LongString}")
     @Column(name = "fax")
     private String fax;
-     @Size(max = 64, message = "{LongString}")
+    @Size(max = 64, message = "{LongString}")
     @Column(name = "phone")
     private String phone;
     @NotNull
@@ -132,7 +114,7 @@ public class Partner extends BaseEntity {
     private Account accountReceivable;
     @JoinColumn(name = "accountPayable_id", referencedColumnName = "id")
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    private Account accountPayable;   
+    private Account accountPayable;
     @OneToMany(mappedBy = "partner")
     private List<JournalItem> journalItems;
     @OneToMany(mappedBy = "partner")
@@ -151,8 +133,8 @@ public class Partner extends BaseEntity {
     private List<Payment> payments;
     @OneToMany(mappedBy = "partner")
     private List<Invoice> invoices;
-   
-    
+
+
     public Partner() {
     }
 
@@ -243,10 +225,10 @@ public class Partner extends BaseEntity {
     }
 
     public Double getCredit() {
-        if(credit == null){            
-            credit = 0d;          
-        }          
-            return credit;
+        if (credit == null) {
+            credit = 0d;
+        }
+        return credit;
     }
 
     public void setCredit(Double credit) {
@@ -254,9 +236,9 @@ public class Partner extends BaseEntity {
     }
 
     public Double getDebit() {
-        if(debit == null){            
-            debit = 0d;           
-        }  
+        if (debit == null) {
+            debit = 0d;
+        }
         return debit;
     }
 
@@ -421,5 +403,5 @@ public class Partner extends BaseEntity {
     public String toString() {
         return "--- Partner[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

@@ -1,32 +1,30 @@
 package com.defterp.modules.accounting.controllers;
 
 import com.defterp.modules.accounting.entities.Account;
-import com.defterp.modules.commonClasses.IdGenerator;
-import com.defterp.util.JsfUtil;
-import com.defterp.translation.annotations.Status;
 import com.defterp.modules.accounting.entities.JournalEntry;
 import com.defterp.modules.accounting.entities.JournalItem;
-import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.accounting.entities.Payment;
 import com.defterp.modules.accounting.queryBuilders.AccountQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.PaymentQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
+import com.defterp.modules.commonClasses.IdGenerator;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
+import com.defterp.translation.annotations.Status;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
 import org.apache.commons.lang3.SerializationUtils;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -139,7 +137,7 @@ public class SupPaymentController extends AbstractController {
                     }
 
 
-                }else{
+                } else {
 
                     JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorDelete3");
 
@@ -202,10 +200,10 @@ public class SupPaymentController extends AbstractController {
 
                 if (payment.getJournal().getName().equals("Cash")) {
                     query = AccountQueryBuilder.getFindByNameQuery("Cash");
-                    payment.setAccount((Account)super.findSingleWithQuery(query));
+                    payment.setAccount((Account) super.findSingleWithQuery(query));
                 } else {
                     query = AccountQueryBuilder.getFindByNameQuery("Bank");
-                    payment.setAccount((Account)super.findSingleWithQuery(query));
+                    payment.setAccount((Account) super.findSingleWithQuery(query));
                 }
 
                 payment = super.updateItem(payment);
@@ -283,7 +281,7 @@ public class SupPaymentController extends AbstractController {
         }
 
         query = AccountQueryBuilder.getFindByNameQuery(accountName);
-        payment.setAccount((Account)super.findSingleWithQuery(query));
+        payment.setAccount((Account) super.findSingleWithQuery(query));
 
         payment.setActive(Boolean.TRUE);
         payment.setState("Draft");
@@ -300,7 +298,7 @@ public class SupPaymentController extends AbstractController {
             payment.setName(IdGenerator.generateSupplierInPayment(payment.getId()));
         }
 
-        payment =  super.createItem(payment);
+        payment = super.createItem(payment);
 
         if ((payments != null) && (!payments.isEmpty())) {
             payments.add(payment);
@@ -358,7 +356,7 @@ public class SupPaymentController extends AbstractController {
                 0d,
                 0d,
                 Boolean.TRUE,
-                (Account)super.findSingleWithQuery(AccountQueryBuilder.getFindByNameQuery("Account Payable")),
+                (Account) super.findSingleWithQuery(AccountQueryBuilder.getFindByNameQuery("Account Payable")),
                 journalEntry,
                 journalEntry.getJournal(),
                 payment.getPartner(),

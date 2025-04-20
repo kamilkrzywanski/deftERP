@@ -1,46 +1,36 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "invoice_tax")
 @NamedQueries({
-    @NamedQuery(name = "InvoiceTax.findAll", query = "SELECT i FROM InvoiceTax i"),
-    @NamedQuery(name = "InvoiceTax.findById", query = "SELECT i FROM InvoiceTax i WHERE i.id = :id"),
-    @NamedQuery(name = "InvoiceTax.findByDate", query = "SELECT i FROM InvoiceTax i WHERE i.date = :date"),
-    @NamedQuery(name = "InvoiceTax.findByTaxAmount", query = "SELECT i FROM InvoiceTax i WHERE i.taxAmount = :taxAmount"),
-    @NamedQuery(name = "InvoiceTax.findByName", query = "SELECT i FROM InvoiceTax i WHERE i.name = :name"),
-    @NamedQuery(name = "InvoiceTax.findByBaseAmount", query = "SELECT i FROM InvoiceTax i WHERE i.baseAmount = :baseAmount"),
-    @NamedQuery(name = "InvoiceTax.findByActive", query = "SELECT i FROM InvoiceTax i WHERE i.active = :active")})
+        @NamedQuery(name = "InvoiceTax.findAll", query = "SELECT i FROM InvoiceTax i"),
+        @NamedQuery(name = "InvoiceTax.findById", query = "SELECT i FROM InvoiceTax i WHERE i.id = :id"),
+        @NamedQuery(name = "InvoiceTax.findByDate", query = "SELECT i FROM InvoiceTax i WHERE i.date = :date"),
+        @NamedQuery(name = "InvoiceTax.findByTaxAmount", query = "SELECT i FROM InvoiceTax i WHERE i.taxAmount = :taxAmount"),
+        @NamedQuery(name = "InvoiceTax.findByName", query = "SELECT i FROM InvoiceTax i WHERE i.name = :name"),
+        @NamedQuery(name = "InvoiceTax.findByBaseAmount", query = "SELECT i FROM InvoiceTax i WHERE i.baseAmount = :baseAmount"),
+        @NamedQuery(name = "InvoiceTax.findByActive", query = "SELECT i FROM InvoiceTax i WHERE i.active = :active")})
 
 public class InvoiceTax extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
 
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;   
+    private Date date;
     @Column(name = "tax_amount")
     private Double taxAmount;
     @Size(max = 64, message = "{LongString}")
@@ -129,10 +119,10 @@ public class InvoiceTax extends BaseEntity {
         this.tax = tax;
     }
 
-    
+
     @Override
     public String toString() {
         return "--- InvoiceTax[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

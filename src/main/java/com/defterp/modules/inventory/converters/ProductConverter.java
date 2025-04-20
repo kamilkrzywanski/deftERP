@@ -1,30 +1,41 @@
 package com.defterp.modules.inventory.converters;
 
-import com.defterp.modules.inventory.entities.Product;
 import com.defterp.dataAccess.GenericDAO;
+import com.defterp.modules.inventory.entities.Product;
 import com.defterp.util.JsfUtil;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
-@FacesConverter(value = "productConverter")
-public class ProductConverter implements Converter {
+@Named(value = "productConverter")
+@ApplicationScoped
+public class ProductConverter implements Converter<Product> {
 
     @Inject
     private GenericDAO dataAccess;
 
+    public static boolean isNumeric(String str) {
+        for (char c : str.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+    public Product getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
             return null;
         }
@@ -43,18 +54,9 @@ public class ProductConverter implements Converter {
         return sb.toString();
     }
 
-    public static boolean isNumeric(String str) {
-        for (char c : str.toCharArray()) {
-            if (!Character.isDigit(c)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     @Override
-    public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-        if (object == null || (object instanceof String && ((String) object).length() == 0)) {
+    public String getAsString(FacesContext facesContext, UIComponent component, Product object) {
+        if (object == null) {
             return null;
         }
         if (object instanceof Product) {

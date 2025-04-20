@@ -3,18 +3,18 @@ package com.defterp.modules.partners.converters;
 import com.defterp.dataAccess.GenericDAO;
 import com.defterp.modules.partners.entities.Partner;
 import com.defterp.util.JsfUtil;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Inject;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
@@ -46,7 +46,7 @@ public class PartnerConverter implements Converter {
 
     @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-        if (object == null || (object instanceof String && ((String) object).length() == 0)) {
+        if (object == null) {
             return null;
         }
         if (object instanceof Partner) {

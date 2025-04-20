@@ -1,30 +1,32 @@
 package com.defterp.modules.inventory.converters;
 
-import com.defterp.modules.inventory.entities.ProductUomCategory;
 import com.defterp.dataAccess.GenericDAO;
+import com.defterp.modules.inventory.entities.ProductUomCategory;
 import com.defterp.util.JsfUtil;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
-@FacesConverter(value = "productUomCategoryConverter")
-public class ProductUomCategoryConverter implements Converter {
+@Named("productUomCategoryConverter")
+@ApplicationScoped
+public class ProductUomCategoryConverter implements Converter<ProductUomCategory> {
 
     @Inject
     private GenericDAO dataAccess;
 
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+    public ProductUomCategory getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
             return null;
         }
@@ -44,8 +46,8 @@ public class ProductUomCategoryConverter implements Converter {
     }
 
     @Override
-    public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-        if (object == null || (object instanceof String && ((String) object).length() == 0)) {
+    public String getAsString(FacesContext facesContext, UIComponent component, ProductUomCategory object) {
+        if (object == null) {
             return null;
         }
         if (object instanceof ProductUomCategory) {

@@ -2,21 +2,19 @@ package com.defterp.dataAccess;
 
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.commonClasses.QueryWrapper;
-import org.springframework.stereotype.Component;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.PersistenceContextType;
+import jakarta.persistence.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.faces.bean.SessionScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.PersistenceContextType;
-import javax.persistence.Query;
 
 
-@SessionScoped
-@Component
+@Repository
 @Transactional
 public class GenericDAO implements Serializable {
 

@@ -1,34 +1,35 @@
 package com.defterp.security.controllers;
 
-import com.defterp.modules.users.entities.User;
-import com.defterp.util.JsfUtil;
 import com.defterp.dataAccess.GenericDAO;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.modules.users.entities.User;
 import com.defterp.modules.users.queryBuilders.UserQueryBuilder;
+import com.defterp.util.JsfUtil;
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.faces.context.FacesContext;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.stereotype.Component;
+
 import java.io.Serializable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.http.HttpServletRequest;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
 @Named(value = "userSessionController")
 @SessionScoped
+@Component
 public class UserSessionController implements Serializable {
 
+    private static final long serialVersionUID = 7765876811740798583L;
     @Inject
     private GenericDAO dataAccess;
-
-    private static final long serialVersionUID = 7765876811740798583L;
     private User user;
     private String username;
     private String password;

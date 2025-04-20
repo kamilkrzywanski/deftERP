@@ -1,55 +1,44 @@
-
 package com.defterp.modules.sales.entities;
 
 
+import com.defterp.modules.accounting.entities.Tax;
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.inventory.entities.Product;
-import com.defterp.modules.accounting.entities.Tax;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "sale_order_line")
-@NamedQueries({            
-    @NamedQuery(name = "SaleOrderLine.findByProduct", query = "SELECT s FROM SaleOrderLine s WHERE s.product.id = :productId"),  
-    @NamedQuery(name = "SaleOrderLine.countByProduct", query = "SELECT SUM(s.quantity) FROM SaleOrderLine s WHERE s.product.id = :productId "),
-    @NamedQuery(name = "SaleOrderLine.findAll", query = "SELECT s FROM SaleOrderLine s"),
-    @NamedQuery(name = "SaleOrderLine.findById", query = "SELECT s FROM SaleOrderLine s WHERE s.id = :id"),
-    @NamedQuery(name = "SaleOrderLine.findByDate", query = "SELECT s FROM SaleOrderLine s WHERE s.date = :date"),
-    @NamedQuery(name = "SaleOrderLine.findByQuantity", query = "SELECT s FROM SaleOrderLine s WHERE s.quantity = :quantity"),
-    @NamedQuery(name = "SaleOrderLine.findByPrice", query = "SELECT s FROM SaleOrderLine s WHERE s.price = :price"),
-    @NamedQuery(name = "SaleOrderLine.findBySubTotal", query = "SELECT s FROM SaleOrderLine s WHERE s.subTotal = :subTotal"),
-    @NamedQuery(name = "SaleOrderLine.findByDiscount", query = "SELECT s FROM SaleOrderLine s WHERE s.discount = :discount"),
-    @NamedQuery(name = "SaleOrderLine.findByName", query = "SELECT s FROM SaleOrderLine s WHERE s.name = :name"),
-    @NamedQuery(name = "SaleOrderLine.findByActive", query = "SELECT s FROM SaleOrderLine s WHERE s.active = :active"),
-    @NamedQuery(name = "SaleOrderLine.findByUom", query = "SELECT s FROM SaleOrderLine s WHERE s.uom = :uom")})
+@NamedQueries({
+        @NamedQuery(name = "SaleOrderLine.findByProduct", query = "SELECT s FROM SaleOrderLine s WHERE s.product.id = :productId"),
+        @NamedQuery(name = "SaleOrderLine.countByProduct", query = "SELECT SUM(s.quantity) FROM SaleOrderLine s WHERE s.product.id = :productId "),
+        @NamedQuery(name = "SaleOrderLine.findAll", query = "SELECT s FROM SaleOrderLine s"),
+        @NamedQuery(name = "SaleOrderLine.findById", query = "SELECT s FROM SaleOrderLine s WHERE s.id = :id"),
+        @NamedQuery(name = "SaleOrderLine.findByDate", query = "SELECT s FROM SaleOrderLine s WHERE s.date = :date"),
+        @NamedQuery(name = "SaleOrderLine.findByQuantity", query = "SELECT s FROM SaleOrderLine s WHERE s.quantity = :quantity"),
+        @NamedQuery(name = "SaleOrderLine.findByPrice", query = "SELECT s FROM SaleOrderLine s WHERE s.price = :price"),
+        @NamedQuery(name = "SaleOrderLine.findBySubTotal", query = "SELECT s FROM SaleOrderLine s WHERE s.subTotal = :subTotal"),
+        @NamedQuery(name = "SaleOrderLine.findByDiscount", query = "SELECT s FROM SaleOrderLine s WHERE s.discount = :discount"),
+        @NamedQuery(name = "SaleOrderLine.findByName", query = "SELECT s FROM SaleOrderLine s WHERE s.name = :name"),
+        @NamedQuery(name = "SaleOrderLine.findByActive", query = "SELECT s FROM SaleOrderLine s WHERE s.active = :active"),
+        @NamedQuery(name = "SaleOrderLine.findByUom", query = "SELECT s FROM SaleOrderLine s WHERE s.uom = :uom")})
 
 public class SaleOrderLine extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-   
+
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
@@ -70,8 +59,8 @@ public class SaleOrderLine extends BaseEntity {
     @Column(name = "sub_total")
     private double subTotal;
     @Basic(optional = false)
-    @Max(value=100,message="{MaxDiscount}") 
-    @Min(value=0,  message = "{PositiveDiscount}") 
+    @Max(value = 100, message = "{MaxDiscount}")
+    @Min(value = 0, message = "{PositiveDiscount}")
     @NotNull
     @Column(name = "discount")
     private double discount = 0d;
@@ -142,7 +131,7 @@ public class SaleOrderLine extends BaseEntity {
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
-    
+
     public Boolean getInvoiced() {
         return invoiced;
     }
@@ -228,5 +217,5 @@ public class SaleOrderLine extends BaseEntity {
     public String toString() {
         return "--- SaleOrderLine[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

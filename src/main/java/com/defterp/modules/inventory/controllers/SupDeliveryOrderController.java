@@ -1,43 +1,32 @@
 package com.defterp.modules.inventory.controllers;
 
-import com.defterp.util.JsfUtil;
+import com.defterp.modules.commonClasses.AbstractController;
+import com.defterp.modules.commonClasses.IdGenerator;
+import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.inventory.entities.DeliveryOrder;
 import com.defterp.modules.inventory.entities.DeliveryOrderLine;
 import com.defterp.modules.inventory.entities.Inventory;
-import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.inventory.entities.Product;
-import com.defterp.modules.purchases.entities.PurchaseOrder;
-import com.defterp.modules.commonClasses.AbstractController;
-import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.inventory.queryBuilders.DeliveryOrderQueryBuilder;
 import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
+import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
-import com.defterp.modules.commonClasses.IdGenerator;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.ResourceBundle;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
+import com.defterp.modules.purchases.entities.PurchaseOrder;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.*;
 import org.apache.commons.lang3.SerializationUtils;
 import org.primefaces.PrimeFaces;
 
+import java.io.IOException;
+import java.util.*;
+
 /**
- *
  * @author MOHAMMED BOUNAGA
  */
 
@@ -92,25 +81,6 @@ public class SupDeliveryOrderController extends AbstractController {
                 return "#6d8891";
             default:
                 return "#3477db";
-        }
-    }
-
-    private enum Status {
-
-        DRAFT("Draft"),
-        NEW("New"),
-        CANCELLED("Cancelled"),
-        AVAILABLE("Available"),
-        DONE("Done");
-
-        private final String status;
-
-        Status(String status) {
-            this.status = status;
-        }
-
-        public String value() {
-            return status;
         }
     }
 
@@ -515,7 +485,6 @@ public class SupDeliveryOrderController extends AbstractController {
         }
     }
 
-
     public void showBackOrder(Integer id) {
         if (deliveryExist(id)) {
             listType = null;
@@ -675,7 +644,6 @@ public class SupDeliveryOrderController extends AbstractController {
         }
     }
 
-
     public void printDelivery(ActionEvent actionEvent) throws IOException, JRException {
 
         for (DeliveryOrderLine orderLine : deliveryOrder.getDeliveryOrderLines()) {
@@ -745,7 +713,7 @@ public class SupDeliveryOrderController extends AbstractController {
 
         String deliveryOrderStatus = getDeliveryOrderStatus();
 
-        if (deliveryOrderStatus!= null) {
+        if (deliveryOrderStatus != null) {
 
             if (!deliveryOrderStatus.equals(Status.DRAFT.value())) {
                 JsfUtil.addWarningMessageDialog("InvalidAction", "ErrorProceedEdit");
@@ -1176,6 +1144,25 @@ public class SupDeliveryOrderController extends AbstractController {
 
     public void setListType(String listType) {
         this.listType = listType;
+    }
+
+    private enum Status {
+
+        DRAFT("Draft"),
+        NEW("New"),
+        CANCELLED("Cancelled"),
+        AVAILABLE("Available"),
+        DONE("Done");
+
+        private final String status;
+
+        Status(String status) {
+            this.status = status;
+        }
+
+        public String value() {
+            return status;
+        }
     }
 
 }

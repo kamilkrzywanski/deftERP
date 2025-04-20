@@ -1,4 +1,3 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
@@ -6,31 +5,18 @@ import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.purchases.entities.PurchaseOrder;
 import com.defterp.modules.sales.entities.SaleOrder;
 import com.defterp.validators.annotations.InDateRange;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
@@ -38,32 +24,32 @@ import javax.validation.constraints.Size;
 @Table(name = "invoice")
 @NamedQueries({
 
-    @NamedQuery(name = "Invoice.InvoicedSum", query = "SELECT SUM(i.amountUntaxed) FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type"),
-    @NamedQuery(name = "Invoice.TotalDueAmount", query = "SELECT SUM(i.residual) FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type"),
-    @NamedQuery(name = "Invoice.findByPartner", query = "SELECT i FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type "),
-    @NamedQuery(name = "Invoice.countByPartner", query = "SELECT COUNT(i) FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type "),
-    @NamedQuery(name = "Invoice.findInInvoices", query = "SELECT i FROM Invoice i WHERE i.type = 'Purchase Refund' OR i.type = 'Purchase'"),
-    @NamedQuery(name = "Invoice.findOutInvoices", query = "SELECT i FROM Invoice i WHERE i.type = 'Sale Refund' OR i.type = 'Sale'"),
-    @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i"),
-    @NamedQuery(name = "Invoice.findBySaleOrder", query = "SELECT i FROM Invoice i WHERE i.saleOrder.id = :id"),
-    @NamedQuery(name = "Invoice.findByPurchaseId", query = "SELECT i FROM Invoice i WHERE i.purchaseOrder.id = :id"),
-    @NamedQuery(name = "Invoice.findById", query = "SELECT i FROM Invoice i WHERE i.id = :id"),
-    @NamedQuery(name = "Invoice.findByDate", query = "SELECT i FROM Invoice i WHERE i.date = :date"),
-    @NamedQuery(name = "Invoice.findByAmountUntaxed", query = "SELECT i FROM Invoice i WHERE i.amountUntaxed = :amountUntaxed"),
-    @NamedQuery(name = "Invoice.findByAmountTotal", query = "SELECT i FROM Invoice i WHERE i.amountTotal = :amountTotal"),
-    @NamedQuery(name = "Invoice.findByAmountTax", query = "SELECT i FROM Invoice i WHERE i.amountTax = :amountTax"),
-    @NamedQuery(name = "Invoice.findByOrigin", query = "SELECT i FROM Invoice i WHERE i.origin = :origin"),
-    @NamedQuery(name = "Invoice.findByReference", query = "SELECT i FROM Invoice i WHERE i.reference = :reference"),
-    @NamedQuery(name = "Invoice.findByResidual", query = "SELECT i FROM Invoice i WHERE i.residual = :residual"),
-    @NamedQuery(name = "Invoice.findByNumber", query = "SELECT i FROM Invoice i WHERE i.number = :number"),
-    @NamedQuery(name = "Invoice.findBySupplierInvoiceNumber", query = "SELECT i FROM Invoice i WHERE i.supplierInvoiceNumber = :supplierInvoiceNumber"),
-    @NamedQuery(name = "Invoice.findByActive", query = "SELECT i FROM Invoice i WHERE i.active = :active"),
-    @NamedQuery(name = "Invoice.findByName", query = "SELECT i FROM Invoice i WHERE i.name = :name")})
+        @NamedQuery(name = "Invoice.InvoicedSum", query = "SELECT SUM(i.amountUntaxed) FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type"),
+        @NamedQuery(name = "Invoice.TotalDueAmount", query = "SELECT SUM(i.residual) FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type"),
+        @NamedQuery(name = "Invoice.findByPartner", query = "SELECT i FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type "),
+        @NamedQuery(name = "Invoice.countByPartner", query = "SELECT COUNT(i) FROM Invoice i WHERE i.partner.id = :partnerId AND i.type = :type "),
+        @NamedQuery(name = "Invoice.findInInvoices", query = "SELECT i FROM Invoice i WHERE i.type = 'Purchase Refund' OR i.type = 'Purchase'"),
+        @NamedQuery(name = "Invoice.findOutInvoices", query = "SELECT i FROM Invoice i WHERE i.type = 'Sale Refund' OR i.type = 'Sale'"),
+        @NamedQuery(name = "Invoice.findAll", query = "SELECT i FROM Invoice i"),
+        @NamedQuery(name = "Invoice.findBySaleOrder", query = "SELECT i FROM Invoice i WHERE i.saleOrder.id = :id"),
+        @NamedQuery(name = "Invoice.findByPurchaseId", query = "SELECT i FROM Invoice i WHERE i.purchaseOrder.id = :id"),
+        @NamedQuery(name = "Invoice.findById", query = "SELECT i FROM Invoice i WHERE i.id = :id"),
+        @NamedQuery(name = "Invoice.findByDate", query = "SELECT i FROM Invoice i WHERE i.date = :date"),
+        @NamedQuery(name = "Invoice.findByAmountUntaxed", query = "SELECT i FROM Invoice i WHERE i.amountUntaxed = :amountUntaxed"),
+        @NamedQuery(name = "Invoice.findByAmountTotal", query = "SELECT i FROM Invoice i WHERE i.amountTotal = :amountTotal"),
+        @NamedQuery(name = "Invoice.findByAmountTax", query = "SELECT i FROM Invoice i WHERE i.amountTax = :amountTax"),
+        @NamedQuery(name = "Invoice.findByOrigin", query = "SELECT i FROM Invoice i WHERE i.origin = :origin"),
+        @NamedQuery(name = "Invoice.findByReference", query = "SELECT i FROM Invoice i WHERE i.reference = :reference"),
+        @NamedQuery(name = "Invoice.findByResidual", query = "SELECT i FROM Invoice i WHERE i.residual = :residual"),
+        @NamedQuery(name = "Invoice.findByNumber", query = "SELECT i FROM Invoice i WHERE i.number = :number"),
+        @NamedQuery(name = "Invoice.findBySupplierInvoiceNumber", query = "SELECT i FROM Invoice i WHERE i.supplierInvoiceNumber = :supplierInvoiceNumber"),
+        @NamedQuery(name = "Invoice.findByActive", query = "SELECT i FROM Invoice i WHERE i.active = :active"),
+        @NamedQuery(name = "Invoice.findByName", query = "SELECT i FROM Invoice i WHERE i.name = :name")})
 
 public class Invoice extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "date")
@@ -77,7 +63,7 @@ public class Invoice extends BaseEntity {
     @Column(name = "amount_tax")
     private Double amountTax = 0d;
     @Size(max = 64, message = "{LongString}")
-    @Column(name = "type") 
+    @Column(name = "type")
     private String type;
     @Size(max = 64, message = "{LongString}")
     @Column(name = "origin")
@@ -109,9 +95,9 @@ public class Invoice extends BaseEntity {
     @Size(max = 64, message = "{LongString}")
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", orphanRemoval = true)
     private List<InvoiceLine> invoiceLines;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", orphanRemoval=true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "invoice", orphanRemoval = true)
     private List<InvoiceTax> invoiceTaxes;
     @OneToMany(mappedBy = "invoice")
     private List<Payment> payments;
@@ -120,7 +106,7 @@ public class Invoice extends BaseEntity {
     private Account account;
     @JoinColumn(name = "entry_id", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.REMOVE)
-    private JournalEntry journalEntry;   
+    private JournalEntry journalEntry;
     @JoinColumn(name = "journal_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Journal journal;
@@ -132,10 +118,10 @@ public class Invoice extends BaseEntity {
     private PurchaseOrder purchaseOrder;
     @ManyToOne
     @JoinColumn(name = "sale_id", referencedColumnName = "id")
-    private SaleOrder saleOrder;    
+    private SaleOrder saleOrder;
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.REMOVE)
     private List<InvoicePayment> invoicePayments;
-    
+
 
     public Invoice() {
     }
@@ -149,10 +135,10 @@ public class Invoice extends BaseEntity {
         this.active = active;
         this.partner = partner;
         this.saleOrder = saleOrder;
-        this.account = account; 
-        this.journal = journal;     
+        this.account = account;
+        this.journal = journal;
     }
-    
+
     public Invoice(Date date, String type, String origin, String state, Boolean active, Partner partner, PurchaseOrder purchaseOrder, Account account, Journal journal, String reference) {
         this.date = date;
         this.type = type;
@@ -161,8 +147,8 @@ public class Invoice extends BaseEntity {
         this.active = active;
         this.partner = partner;
         this.purchaseOrder = purchaseOrder;
-        this.account = account; 
-        this.journal = journal;     
+        this.account = account;
+        this.journal = journal;
         this.reference = reference;
     }
 
@@ -296,11 +282,11 @@ public class Invoice extends BaseEntity {
     }
 
     public List<Payment> getPayments() {
-        if(payments == null){
-           
+        if (payments == null) {
+
             return payments = new ArrayList<>();
-        }  
-            return payments;
+        }
+        return payments;
     }
 
     public void setPayments(List<Payment> payments) {
@@ -371,5 +357,5 @@ public class Invoice extends BaseEntity {
     public String toString() {
         return "--- Invoice[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

@@ -2,27 +2,27 @@ package com.defterp.modules.users.controllers;
 
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
-import com.defterp.util.JsfUtil;
 import com.defterp.modules.users.entities.User;
 import com.defterp.modules.users.queryBuilders.UserQueryBuilder;
+import com.defterp.util.JsfUtil;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.servlet.http.Part;
-import org.apache.commons.io.IOUtils;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -51,6 +51,10 @@ public class UserController extends AbstractController {
         userTypes.add("User");
     }
 
+    public Part getImage() {
+        return image;
+    }
+
     public void setImage(Part image) {
         if (image != null) {
             try {
@@ -62,10 +66,6 @@ public class UserController extends AbstractController {
         } else if (image == null && user.getImage() != null && imageModified == true) {
             user.setImage(null);
         }
-    }
-
-    public Part getImage() {
-        return image;
     }
 
     public void validateImage(FacesContext ctx, UIComponent comp, Object value) {
@@ -85,7 +85,7 @@ public class UserController extends AbstractController {
 
     public String getFormDefaultImage() {
 
-        if(user == null)
+        if (user == null)
             return "img/partnerPlaceholder4.png";
 
         int modulos = user.getId() % 5;

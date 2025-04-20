@@ -1,10 +1,7 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                xmlns:f="http://xmlns.jcp.org/jsf/core"
-                xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:o="http://omnifaces.org/ui">
+>
 
 
     <div class="row">
@@ -23,9 +20,15 @@
                 <i class="fa fa-bars"/>
             </a>
             <div class="vertical-spacer"/>
-            <p:commandButton class="waves-effect waves-light btn btn-primary" value="#{messages.Edit}" actionListener="#{userController.prepareEditUser}"  update=":mainForm:itemForm, :mainForm:itemList" />
-            <p:commandButton class="waves-effect waves-light btn btn-primary" value="#{messages.Create}" actionListener="#{userController.prepareCreateUser}" update=":mainForm:itemForm, :mainForm:itemList" />
-            <p:commandButton class="waves-effect waves-light btn btn-primary" value="#{messages.Delete}" actionListener="#{userController.deleteUser}" update=":mainForm:itemForm, :mainForm:itemList"/>
+            <p:commandButton class="waves-effect waves-light btn btn-primary" value="#{messages.Edit}"
+                             actionListener="#{userController.prepareEditUser}"
+                             update=":mainForm:itemForm, :mainForm:itemList"/>
+            <p:commandButton class="waves-effect waves-light btn btn-primary" value="#{messages.Create}"
+                             actionListener="#{userController.prepareCreateUser}"
+                             update=":mainForm:itemForm, :mainForm:itemList"/>
+            <p:commandButton class="waves-effect waves-light btn btn-primary" value="#{messages.Delete}"
+                             actionListener="#{userController.deleteUser}"
+                             update=":mainForm:itemForm, :mainForm:itemList"/>
         </div>
     </div>
 
@@ -34,13 +37,17 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-pagination">
-                        <p:commandLink class="left-arrow" actionListener="#{userController.previousUser}" process="@this" update=":mainForm:itemForm, :mainForm:itemList" oncomplete="setNextFormURL('id',formId)">
+                        <p:commandLink class="left-arrow" actionListener="#{userController.previousUser}"
+                                       process="@this" update=":mainForm:itemForm, :mainForm:itemList"
+                                       oncomplete="setNextFormURL('id',formId)">
                             <span class="fa fa-chevron-left" aria-hidden="true"/>
                         </p:commandLink>
                         <div class="form-number">
                             <span>#{userController.userIndex} / #{userController.users.size()}</span>
                         </div>
-                        <p:commandLink class="right-arrow" actionListener="#{userController.nextUser}" process="@this" update=":mainForm:itemForm, :mainForm:itemList" oncomplete="setNextFormURL('id',formId)">
+                        <p:commandLink class="right-arrow" actionListener="#{userController.nextUser}" process="@this"
+                                       update=":mainForm:itemForm, :mainForm:itemList"
+                                       oncomplete="setNextFormURL('id',formId)">
                             <span class="fa fa-chevron-right" aria-hidden="true"/>
                         </p:commandLink>
                     </div>
@@ -49,8 +56,10 @@
             <div class="row line-breaks-3">
                 <div class="col-md-1point5">
                     <span class="form_image">
-                        <p:graphicImage rendered="#{userController.user.image == null}"  value="#" name="#{userController.getFormDefaultImage()}"  />
-                        <p:graphicImage rendered="#{userController.user.image != null}"  value="#{userController.user.image}" dataURI="true" />
+                        <p:graphicImage rendered="#{userController.user.image == null}" value="#"
+                                        name="#{userController.getFormDefaultImage()}"/>
+                        <p:graphicImage rendered="#{userController.user.image != null}"
+                                        value="#{userController.user.image}" dataURI="true"/>
                     </span>
                 </div>
             </div>

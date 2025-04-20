@@ -4,137 +4,143 @@
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:f="http://xmlns.jcp.org/jsf/core"
                 xmlns:jsf="http://xmlns.jcp.org/jsf"
-                xmlns:pass="http://xmlns.jcp.org/jsf/passthrough"
-                xmlns:o="http://omnifaces.org/ui">
+>
 
 
     <div class="row">
         <div class="col-md-12 card z-depth-1 tool-bar">
             <div class="form-nav">
-                <span jsf:rendered="#{customerController.partnerType == 'Vendor'}" styleClass="form-nav-item">#{messages.Vendors}</span> 
-                <span jsf:rendered="#{customerController.partnerType == 'Customer'}" styleClass="form-nav-item">#{messages.Customers}</span> 
-                <span jsf:rendered="#{customerController.partnerType == 'Partner'}" styleClass="form-nav-item">#{messages.Partners}</span> 
+                <span jsf:rendered="#{customerController.partnerType == 'Vendor'}"
+                      styleClass="form-nav-item">#{messages.Vendors}</span>
+                <span jsf:rendered="#{customerController.partnerType == 'Customer'}"
+                      styleClass="form-nav-item">#{messages.Customers}</span>
+                <span jsf:rendered="#{customerController.partnerType == 'Partner'}"
+                      styleClass="form-nav-item">#{messages.Partners}</span>
                 <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i>
-                <span class="form-nav-item">#{messages.New}</span>   
+                <span class="form-nav-item">#{messages.New}</span>
             </div>
-        </div>  
-    </div> 
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-12 card z-depth-1 tool-bar">
             <a class="waves-effect waves-light btn btn-icon btn-primary list-slider" onclick="listSliderClicked();">
                 <i class="fa fa-bars"/>
             </a>
             <div class="vertical-spacer"/>
-            <h:commandButton 
-                id="saveBtn" 
-                action="#{customerController.createCustomer}"  
-                value="#{messages.Save}" 
-                styleClass="waves-effect waves-light btn btn-primary">
-                <f:ajax execute="@form" render=":mainForm:itemForm :mainForm:itemList"/> 
+            <h:commandButton
+                    id="saveBtn"
+                    action="#{customerController.createCustomer}"
+                    value="#{messages.Save}"
+                    styleClass="waves-effect waves-light btn btn-primary">
+                <f:ajax execute="@form" render=":mainForm:itemForm :mainForm:itemList"/>
             </h:commandButton>
-            <p:commandButton  
-                process="@this" 
-                styleClass="waves-effect waves-light btn btn-primary" 
-                value="#{messages.Discard}" 
-                actionListener="#{customerController.cancelCreate}" 
-                update=":mainForm:itemForm, :mainForm:itemList"/>
-        </div> 
+            <p:commandButton
+                    process="@this"
+                    styleClass="waves-effect waves-light btn btn-primary"
+                    value="#{messages.Discard}"
+                    actionListener="#{customerController.cancelCreate}"
+                    update=":mainForm:itemForm, :mainForm:itemList"/>
+        </div>
     </div>
 
     <div class="row">
         <div class="col-md-12 card z-depth-1 tool-bar item-dependencies">
 
-            <button class="btn btn-default customerButton" disabled="true"> 
+            <button class="btn btn-default customerButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.OutShipments}
                     </span>
-                </div>  
-            </button> 
-            <button class="btn btn-default vendorButton" disabled="true"> 
+                </div>
+            </button>
+            <button class="btn btn-default vendorButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.InShipments}
                     </span>
-                </div>  
-            </button>      
-            <button class="btn btn-default customerButton" disabled="true" > 
+                </div>
+            </button>
+            <button class="btn btn-default customerButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.CustomerPay}
                     </span>
-                </div>  
-            </button> 
-            <button class="btn btn-default vendorButton" disabled="true"> 
+                </div>
+            </button>
+            <button class="btn btn-default vendorButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.VendorPayments}
                     </span>
-                </div>  
-            </button> 
-            <button class="btn btn-default customerButton" disabled="true"> 
+                </div>
+            </button>
+            <button class="btn btn-default customerButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.CustomerInv}
                     </span>
-                </div>  
-            </button> 
-            <button class="btn btn-default vendorButton" disabled="true"> 
+                </div>
+            </button>
+            <button class="btn btn-default vendorButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.VendorBills}
                     </span>
-                </div>  
-            </button> 
-            <button class="btn btn-default customerButton" disabled="true"> 
+                </div>
+            </button>
+            <button class="btn btn-default customerButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.Sales}
                     </span>
-                </div>  
-            </button> 
-            <button class="btn btn-default vendorButton" disabled="true"> 
+                </div>
+            </button>
+            <button class="btn btn-default vendorButton" disabled="true">
                 <span class="fa fa-bars icon z-depth-1"/>
                 <div>
                     <span class="num">0</span>
                     <span class="name">
                         #{messages.Purchases}
                     </span>
-                </div>  
-            </button> 
+                </div>
+            </button>
         </div>
     </div>
 
-    <div class="row">  
+    <div class="row">
         <div class="col-md-10 col-md-offset-1 form-body card z-depth-2">
-            <div class="row" style="margin-bottom: 26px;"> 
+            <div class="row" style="margin-bottom: 26px;">
                 <div class="col-md-1point5">
-                    <p:graphicImage  value="#" name="img/partnerPlaceholder.png"  binding="#{altImage}" style="display: none;"/>
-                    <h:inputFile style="display:none;"  id="pictureUpload" value="#{customerController.image}" binding="#{upload}" validator="#{customerController.validateImage}" />
+                    <p:graphicImage value="#" name="img/partnerPlaceholder.png" binding="#{altImage}"
+                                    style="display: none;"/>
+                    <h:inputFile style="display:none;" id="pictureUpload" value="#{customerController.image}"
+                                 binding="#{upload}" validator="#{customerController.validateImage}"/>
                     <div class="form_image">
-                        <p:graphicImage  value="#" name="img/placeholder.png"  binding="#{image}" />
+                        <p:graphicImage value="#" name="img/placeholder.png" binding="#{image}"/>
                         <div class="form_image_buttons" style="position: absolute; width: 100%;">
                             <a class="fa fa-pencil form_image_edit" id="upload_link"/>
-                            <a class="fa fa-trash-o form_image_remove" id="remove_link"/> 
+                            <a class="fa fa-trash-o form_image_remove" id="remove_link"/>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-5" style="margin-top: 55px;"> 
-                    <p:inputText id="name" value="#{customerController.partner.name}" class="required form-name-input input-width-100" placeholder="#{messages.Name}" required="true" requiredMessage="#{messages.PartnerNameRequired}" maxlength="50"/>
+                <div class="col-md-5" style="margin-top: 55px;">
+                    <p:inputText id="name" value="#{customerController.partner.name}"
+                                 class="required form-name-input input-width-100" placeholder="#{messages.Name}"
+                                 required="true" requiredMessage="#{messages.PartnerNameRequired}" maxlength="50"/>
                 </div>
             </div>
             <div class="row">
@@ -142,25 +148,28 @@
                     <div class="row form-data-1 line-breaks-1">
                         <div class="col-md-4point5">
                             <span class="form-data-label font-2">#{messages.Address}</span>
-                        </div> 
+                        </div>
                         <div class="col-md-7point5">
-                            <p:inputText id="street" class="input-width-90" value="#{customerController.partner.street}" placeholder="#{messages.Street}"  maxlength="55"/>
+                            <p:inputText id="street" class="input-width-90" value="#{customerController.partner.street}"
+                                         placeholder="#{messages.Street}" maxlength="55"/>
                         </div>
                     </div>
                     <div class="row form-data-1 line-breaks-1">
                         <div class="col-md-4point5"/>
                         <div class="col-md-7point5">
-                            <p:inputText id="city" class="input-width-90" value="#{customerController.partner.city}" placeholder="#{messages.City}"  maxlength="35"/>
+                            <p:inputText id="city" class="input-width-90" value="#{customerController.partner.city}"
+                                         placeholder="#{messages.City}" maxlength="35"/>
                         </div>
                     </div>
                     <div class="row form-data-1 line-breaks-1">
                         <div class="col-md-4point5"/>
                         <div class="col-md-7point5">
-                            <p:selectOneMenu  class="input-width-90" filter="true" value="#{customerController.partner.country}" >
-                                <f:selectItem  itemLabel="&#160;" />
-                                <f:selectItems value="#{customerController.countries.entrySet()}" 
-                                               var="entry" 
-                                               itemValue="#{entry.key}" 
+                            <p:selectOneMenu class="input-width-90" filter="true"
+                                             value="#{customerController.partner.country}">
+                                <f:selectItem itemLabel="&#160;"/>
+                                <f:selectItems value="#{customerController.countries.entrySet()}"
+                                               var="entry"
+                                               itemValue="#{entry.key}"
                                                itemLabel="#{entry.value}"/>
                             </p:selectOneMenu>
                         </div>
@@ -170,50 +179,57 @@
                             <span class="form-data-label font-2">#{messages.Website}</span>
                         </div>
                         <div class="col-md-7point5">
-                            <p:inputText id="website" class="input-width-90" value="#{customerController.partner.website}" maxlength="50"/>
+                            <p:inputText id="website" class="input-width-90"
+                                         value="#{customerController.partner.website}" maxlength="50"/>
                         </div>
-                    </div>        
+                    </div>
                 </div>
                 <div class="col-md-offset-point5 col-md-5point5">
                     <div class="row form-data-1 line-breaks-1">
                         <div class="col-md-5">
                             <span class="form-data-label font-2">#{messages.Phone}</span>
-                        </div> 
+                        </div>
                         <div class="col-md-7">
-                            <p:inputText id="phone" class="input-width-90" value="#{customerController.partner.phone}"  maxlength="25"/>
+                            <p:inputText id="phone" class="input-width-90" value="#{customerController.partner.phone}"
+                                         maxlength="25"/>
                         </div>
                     </div>
                     <div class="row form-data-1 line-breaks-1">
                         <div class="col-md-5">
-                            <span class="form-data-value font-2">#{messages.Mobile}</span> 
+                            <span class="form-data-value font-2">#{messages.Mobile}</span>
                         </div>
                         <div class="col-md-7">
-                            <p:inputText id="mobile" class="input-width-90" value="#{customerController.partner.mobile}"  maxlength="25"/>
+                            <p:inputText id="mobile" class="input-width-90" value="#{customerController.partner.mobile}"
+                                         maxlength="25"/>
                         </div>
                     </div>
                     <div class="row form-data-1 line-breaks-1">
                         <div class="col-md-5">
-                            <span class="form-data-value font-2">#{messages.Fax}</span> 
+                            <span class="form-data-value font-2">#{messages.Fax}</span>
                         </div>
                         <div class="col-md-7">
-                            <p:inputText id="fax" class="input-width-90" value="#{customerController.partner.fax}"  maxlength="25"/>
+                            <p:inputText id="fax" class="input-width-90" value="#{customerController.partner.fax}"
+                                         maxlength="25"/>
                         </div>
                     </div>
                     <div class="row form-data-1 line-breaks-1">
                         <div class="col-md-5">
-                            <span class="form-data-value font-2">#{messages.Email}</span> 
+                            <span class="form-data-value font-2">#{messages.Email}</span>
                         </div>
                         <div class="col-md-7">
-                            <p:inputText id="email" class="input-width-90" value="#{customerController.partner.email}" maxlength="35"/>
+                            <p:inputText id="email" class="input-width-90" value="#{customerController.partner.email}"
+                                         maxlength="35"/>
                         </div>
-                    </div>        
+                    </div>
                 </div>
             </div>
             <div class="row">
                 <div class="col-md-12">
                     <ul class="nav nav-tabs" role="tablist">
-                        <li class="active"><a href="#form-tab-1" class="form-tab" role="tab" data-toggle="tab">#{messages.OtherInfo}</a></li>
-                        <li><a href="#form-tab-2" role="tab" class="form-tab" data-toggle="tab">#{messages.Accounting}</a></li>
+                        <li class="active"><a href="#form-tab-1" class="form-tab" role="tab"
+                                              data-toggle="tab">#{messages.OtherInfo}</a></li>
+                        <li><a href="#form-tab-2" role="tab" class="form-tab"
+                               data-toggle="tab">#{messages.Accounting}</a></li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active" id="form-tab-1">
@@ -224,7 +240,9 @@
                                             <span class="form-data-label font-2">#{messages.IsACustomer}</span>
                                         </div>
                                         <div class="col-md-7">
-                                            <p:selectBooleanCheckbox widgetVar="isCustomer" id="isCustomer" value="#{customerController.partner.customer}" onchange="updateCustomerButtonsDisplay();"/>
+                                            <p:selectBooleanCheckbox widgetVar="isCustomer" id="isCustomer"
+                                                                     value="#{customerController.partner.customer}"
+                                                                     onchange="updateCustomerButtonsDisplay();"/>
                                         </div>
                                     </div>
                                     <div class="row form-data-1 line-breaks-1">
@@ -232,25 +250,27 @@
                                             <span class="form-data-label font-2">#{messages.IsAVendor}</span>
                                         </div>
                                         <div class="col-md-7">
-                                            <p:selectBooleanCheckbox widgetVar="isSupplier" id="isSupplier" value="#{customerController.partner.supplier}"  onchange="updateSupplierButtonsDisplay();"/>
+                                            <p:selectBooleanCheckbox widgetVar="isSupplier" id="isSupplier"
+                                                                     value="#{customerController.partner.supplier}"
+                                                                     onchange="updateSupplierButtonsDisplay();"/>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col-md-6">
                                     <div class="row form-data-1 line-breaks-1">
                                         <div class="col-md-5">
                                             <span class="form-data-label font-2">#{messages.Date}</span>
                                         </div>
                                         <div class="col-md-7">
-                                            <p:calendar 
-                                                id="Date" 
-                                                class="required input-width-90" 
-                                                pattern="MM-dd-yyyy" 
-                                                value="#{customerController.partner.createDate}" 
-                                                required="true" 
-                                                requiredMessage="#{messages.DateRequired}"
-                                                converterMessage="#{messages.InvalidDate}" 
-                                                locale="#{messages.CalendarLanguage}"/>
+                                            <p:calendar
+                                                    id="Date"
+                                                    class="required input-width-90"
+                                                    pattern="MM-dd-yyyy"
+                                                    value="#{customerController.partner.createDate}"
+                                                    required="true"
+                                                    requiredMessage="#{messages.DateRequired}"
+                                                    converterMessage="#{messages.InvalidDate}"
+                                                    locale="#{messages.CalendarLanguage}"/>
                                         </div>
                                     </div>
                                     <div class="row form-data-1 line-breaks-1">
@@ -258,12 +278,13 @@
                                             <span class="form-data-label font-2">#{messages.Active}</span>
                                         </div>
                                         <div class="col-md-7">
-                                            <p:selectBooleanCheckbox id="active" value="#{customerController.partner.active}"/>
+                                            <p:selectBooleanCheckbox id="active"
+                                                                     value="#{customerController.partner.active}"/>
                                         </div>
                                     </div>
-                                </div>  
-                            </div>      
-                        </div> 
+                                </div>
+                            </div>
+                        </div>
                         <div class="tab-pane" id="form-tab-2">
                             <div class="row">
                                 <div class="col-md-6">
@@ -272,13 +293,17 @@
                                             <span class="form-data-label font-2">#{messages.AccountReceivable}</span>
                                         </div>
                                         <div class="col-md-7">
-                                            <p:selectOneMenu id="accountReceivable" class="required input-width-90" value="#{customerController.partner.accountReceivable}" required="true" requiredMessage="#{messages.accountReceivableRequired}" converter="accountConverter" >   
-                                                <f:selectItem  itemLabel="&#160;" />
+                                            <p:selectOneMenu id="accountReceivable" class="required input-width-90"
+                                                             value="#{customerController.partner.accountReceivable}"
+                                                             required="true"
+                                                             requiredMessage="#{messages.accountReceivableRequired}"
+                                                             converter="accountConverter">
+                                                <f:selectItem itemLabel="&#160;"/>
                                                 <f:selectItems value="#{customerController.receivableAccounts}"
                                                                var="account"
                                                                itemValue="#{account}"
                                                                itemLabel="#{account.name.toString()}"/>
-                                            </p:selectOneMenu> 
+                                            </p:selectOneMenu>
                                         </div>
                                     </div>
                                     <div class="row form-data-1 line-breaks-1">
@@ -289,15 +314,19 @@
                                             <h:outputText value="#{messages.Currency} #{0.0}"/>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
                                 <div class="col-md-6">
                                     <div class="row form-data-1 line-breaks-1">
-                                        <div class ="col-md-5">
+                                        <div class="col-md-5">
                                             <span class="form-data-label font-2">#{messages.AccountPayable}</span>
                                         </div>
                                         <div class="col-md-7">
-                                            <p:selectOneMenu id="accountPayable"  class="required input-width-90" value="#{customerController.partner.accountPayable}" required="true" requiredMessage="#{messages.accountPayableRequired}" converter="accountConverter" >   
-                                                <f:selectItem  itemLabel="&#160;" />
+                                            <p:selectOneMenu id="accountPayable" class="required input-width-90"
+                                                             value="#{customerController.partner.accountPayable}"
+                                                             required="true"
+                                                             requiredMessage="#{messages.accountPayableRequired}"
+                                                             converter="accountConverter">
+                                                <f:selectItem itemLabel="&#160;"/>
                                                 <f:selectItems value="#{customerController.payableAccounts}"
                                                                var="account"
                                                                itemValue="#{account}"
@@ -313,16 +342,14 @@
                                             <h:outputText value="#{messages.Currency} #{0.0}"/>
                                         </div>
                                     </div>
-                                </div>  
-                            </div>         
+                                </div>
+                            </div>
                         </div>
-                    </div> 
-                </div> 
-            </div>         
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-
-
 
 
     <script>
@@ -348,13 +375,10 @@
         });
 
         function readPicture(input, output) {
-            if (input.files)
-            {
-                if (input.files[0])
-                {
+            if (input.files) {
+                if (input.files[0]) {
                     var reader = new FileReader();
-                    reader.onload = function (e)
-                    {
+                    reader.onload = function (e) {
                         output.attr('src', e.target.result);
                     };
                     reader.readAsDataURL(input.files[0]);
@@ -363,9 +387,9 @@
         }
 
         $("[id='#{upload.clientId}']").change(
-                function () {
-                    readPicture(this, $("[id='#{image.clientId}']"));
-                }
+            function () {
+                readPicture(this, $("[id='#{image.clientId}']"));
+            }
         );
 
         setActiveTab();

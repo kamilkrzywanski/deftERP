@@ -1,51 +1,40 @@
-
 package com.defterp.modules.purchases.entities;
 
 
-import com.defterp.modules.inventory.entities.Product;
 import com.defterp.modules.accounting.entities.Tax;
 import com.defterp.modules.commonClasses.BaseEntity;
+import com.defterp.modules.inventory.entities.Product;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "purchase_order_line")
 @NamedQueries({
-    @NamedQuery(name = "PurchaseOrderLine.findByProduct", query = "SELECT p FROM PurchaseOrderLine p WHERE p.product.id = :productId"),  
-    @NamedQuery(name = "PurchaseOrderLine.countByProduct", query = "SELECT SUM(p.quantity) FROM PurchaseOrderLine p WHERE p.product.id = :productId "),
-    @NamedQuery(name = "PurchaseOrderLine.findAll", query = "SELECT p FROM PurchaseOrderLine p"),
-    @NamedQuery(name = "PurchaseOrderLine.findById", query = "SELECT p FROM PurchaseOrderLine p WHERE p.id = :id"),
-    @NamedQuery(name = "PurchaseOrderLine.findByDate", query = "SELECT p FROM PurchaseOrderLine p WHERE p.date = :date"),
-    @NamedQuery(name = "PurchaseOrderLine.findByPrice", query = "SELECT p FROM PurchaseOrderLine p WHERE p.price = :price"),
-    @NamedQuery(name = "PurchaseOrderLine.findByQuantity", query = "SELECT p FROM PurchaseOrderLine p WHERE p.quantity = :quantity"),
-    @NamedQuery(name = "PurchaseOrderLine.findBySubTotal", query = "SELECT p FROM PurchaseOrderLine p WHERE p.subTotal = :subTotal"),
-    @NamedQuery(name = "PurchaseOrderLine.findByActive", query = "SELECT p FROM PurchaseOrderLine p WHERE p.active = :active"),
-     @NamedQuery(name = "PurchaseOrderLine.findByUom", query = "SELECT p FROM PurchaseOrderLine p WHERE p.uom = :uom")})
+        @NamedQuery(name = "PurchaseOrderLine.findByProduct", query = "SELECT p FROM PurchaseOrderLine p WHERE p.product.id = :productId"),
+        @NamedQuery(name = "PurchaseOrderLine.countByProduct", query = "SELECT SUM(p.quantity) FROM PurchaseOrderLine p WHERE p.product.id = :productId "),
+        @NamedQuery(name = "PurchaseOrderLine.findAll", query = "SELECT p FROM PurchaseOrderLine p"),
+        @NamedQuery(name = "PurchaseOrderLine.findById", query = "SELECT p FROM PurchaseOrderLine p WHERE p.id = :id"),
+        @NamedQuery(name = "PurchaseOrderLine.findByDate", query = "SELECT p FROM PurchaseOrderLine p WHERE p.date = :date"),
+        @NamedQuery(name = "PurchaseOrderLine.findByPrice", query = "SELECT p FROM PurchaseOrderLine p WHERE p.price = :price"),
+        @NamedQuery(name = "PurchaseOrderLine.findByQuantity", query = "SELECT p FROM PurchaseOrderLine p WHERE p.quantity = :quantity"),
+        @NamedQuery(name = "PurchaseOrderLine.findBySubTotal", query = "SELECT p FROM PurchaseOrderLine p WHERE p.subTotal = :subTotal"),
+        @NamedQuery(name = "PurchaseOrderLine.findByActive", query = "SELECT p FROM PurchaseOrderLine p WHERE p.active = :active"),
+        @NamedQuery(name = "PurchaseOrderLine.findByUom", query = "SELECT p FROM PurchaseOrderLine p WHERE p.uom = :uom")})
 
-public class PurchaseOrderLine extends BaseEntity{
-    
+public class PurchaseOrderLine extends BaseEntity {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
@@ -183,7 +172,7 @@ public class PurchaseOrderLine extends BaseEntity{
     public void setUom(String uom) {
         this.uom = uom;
     }
-    
+
     public String getProductName() {
         return productName;
     }
@@ -221,5 +210,5 @@ public class PurchaseOrderLine extends BaseEntity{
     public String toString() {
         return "--- PurchaseOrderLine[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

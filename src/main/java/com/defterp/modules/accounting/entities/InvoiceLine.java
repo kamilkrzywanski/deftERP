@@ -1,53 +1,42 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
-import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.inventory.entities.Product;
+import com.defterp.modules.partners.entities.Partner;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 
 @Entity
 @Table(name = "invoice_line")
-@NamedQueries({    
-    @NamedQuery(name = "InvoiceLine.findByInvoice", query = "SELECT i FROM InvoiceLine i WHERE i.invoice.id = :id"),
-    @NamedQuery(name = "InvoiceLine.findAll", query = "SELECT i FROM InvoiceLine i"),
-    @NamedQuery(name = "InvoiceLine.findById", query = "SELECT i FROM InvoiceLine i WHERE i.id = :id"),
-    @NamedQuery(name = "InvoiceLine.findByDate", query = "SELECT i FROM InvoiceLine i WHERE i.date = :date"),
-    @NamedQuery(name = "InvoiceLine.findByPrice", query = "SELECT i FROM InvoiceLine i WHERE i.price = :price"),
-    @NamedQuery(name = "InvoiceLine.findByPriceSubtotal", query = "SELECT i FROM InvoiceLine i WHERE i.priceSubtotal = :priceSubtotal"),
-    @NamedQuery(name = "InvoiceLine.findByDiscount", query = "SELECT i FROM InvoiceLine i WHERE i.discount = :discount"),
-    @NamedQuery(name = "InvoiceLine.findByQuantity", query = "SELECT i FROM InvoiceLine i WHERE i.quantity = :quantity"),
-    @NamedQuery(name = "InvoiceLine.findByActive", query = "SELECT i FROM InvoiceLine i WHERE i.active = :active"),
-    @NamedQuery(name = "InvoiceLine.findByUom", query = "SELECT i FROM InvoiceLine i WHERE i.uom = :uom")
+@NamedQueries({
+        @NamedQuery(name = "InvoiceLine.findByInvoice", query = "SELECT i FROM InvoiceLine i WHERE i.invoice.id = :id"),
+        @NamedQuery(name = "InvoiceLine.findAll", query = "SELECT i FROM InvoiceLine i"),
+        @NamedQuery(name = "InvoiceLine.findById", query = "SELECT i FROM InvoiceLine i WHERE i.id = :id"),
+        @NamedQuery(name = "InvoiceLine.findByDate", query = "SELECT i FROM InvoiceLine i WHERE i.date = :date"),
+        @NamedQuery(name = "InvoiceLine.findByPrice", query = "SELECT i FROM InvoiceLine i WHERE i.price = :price"),
+        @NamedQuery(name = "InvoiceLine.findByPriceSubtotal", query = "SELECT i FROM InvoiceLine i WHERE i.priceSubtotal = :priceSubtotal"),
+        @NamedQuery(name = "InvoiceLine.findByDiscount", query = "SELECT i FROM InvoiceLine i WHERE i.discount = :discount"),
+        @NamedQuery(name = "InvoiceLine.findByQuantity", query = "SELECT i FROM InvoiceLine i WHERE i.quantity = :quantity"),
+        @NamedQuery(name = "InvoiceLine.findByActive", query = "SELECT i FROM InvoiceLine i WHERE i.active = :active"),
+        @NamedQuery(name = "InvoiceLine.findByUom", query = "SELECT i FROM InvoiceLine i WHERE i.uom = :uom")
 })
 public class InvoiceLine extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Column(name = "date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date date;
@@ -66,8 +55,8 @@ public class InvoiceLine extends BaseEntity {
     @Column(name = "price_subtotal")
     private double priceSubtotal;
     @Basic(optional = false)
-    @Max(value=100, message="{MaxDiscount}") 
-    @Min(value=0,  message = "{PositiveDiscount}") 
+    @Max(value = 100, message = "{MaxDiscount}")
+    @Min(value = 0, message = "{PositiveDiscount}")
     @NotNull
     @Column(name = "discount")
     private Double discount = 0d;
@@ -222,7 +211,7 @@ public class InvoiceLine extends BaseEntity {
     public void setUom(String uom) {
         this.uom = uom;
     }
-    
+
     public String getProductName() {
         return productName;
     }
@@ -244,5 +233,5 @@ public class InvoiceLine extends BaseEntity {
     public String toString() {
         return "--- InvoiceLine[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

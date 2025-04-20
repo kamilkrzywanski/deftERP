@@ -1,24 +1,26 @@
 package com.defterp.modules.accounting.converters;
 
-import com.defterp.modules.accounting.entities.Journal;
 import com.defterp.dataAccess.GenericDAO;
+import com.defterp.modules.accounting.entities.Journal;
 import com.defterp.util.JsfUtil;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
-@FacesConverter(value = "journalConverter")
+@Named(value = "journalConverter")
+@ApplicationScoped
 public class JournalConverter implements Converter {
 
     @Inject
@@ -47,7 +49,7 @@ public class JournalConverter implements Converter {
     @Override
     public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
         if (object == null
-                || (object instanceof String && ((String) object).length() == 0)) {
+        ) {
             return null;
         }
         if (object instanceof Journal) {

@@ -1,50 +1,38 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.partners.entities.Partner;
 import com.defterp.validators.annotations.InDateRange;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "payment")
 @NamedQueries({
-    @NamedQuery(name = "Payment.findByPartner", query = "SELECT p FROM Payment p WHERE p.partner.id = :partnerId AND p.partnerType = :partnerType "),
-    @NamedQuery(name = "Payment.countByPartner", query = "SELECT COUNT(p) FROM Payment p WHERE p.partner.id = :partnerId AND p.partnerType = :partnerType"),
-    @NamedQuery(name = "Payment.findOutstandingByPartner", query = "SELECT p FROM Payment p WHERE p.partner.id = :partnerId AND p.type = :type AND p.state = :status AND p.partnerType = :partnerType AND p.overpayment > 0"),
-    @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
-    @NamedQuery(name = "Payment.findByPartnerType", query = "SELECT p FROM Payment p WHERE p.partnerType = :partnerType"),
-    @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
-    @NamedQuery(name = "Payment.findByDate", query = "SELECT p FROM Payment p WHERE p.date = :date"),
-    @NamedQuery(name = "Payment.findByAmount", query = "SELECT p FROM Payment p WHERE p.amount = :amount"),
-    @NamedQuery(name = "Payment.findByActive", query = "SELECT p FROM Payment p WHERE p.active = :active")})
+        @NamedQuery(name = "Payment.findByPartner", query = "SELECT p FROM Payment p WHERE p.partner.id = :partnerId AND p.partnerType = :partnerType "),
+        @NamedQuery(name = "Payment.countByPartner", query = "SELECT COUNT(p) FROM Payment p WHERE p.partner.id = :partnerId AND p.partnerType = :partnerType"),
+        @NamedQuery(name = "Payment.findOutstandingByPartner", query = "SELECT p FROM Payment p WHERE p.partner.id = :partnerId AND p.type = :type AND p.state = :status AND p.partnerType = :partnerType AND p.overpayment > 0"),
+        @NamedQuery(name = "Payment.findAll", query = "SELECT p FROM Payment p"),
+        @NamedQuery(name = "Payment.findByPartnerType", query = "SELECT p FROM Payment p WHERE p.partnerType = :partnerType"),
+        @NamedQuery(name = "Payment.findById", query = "SELECT p FROM Payment p WHERE p.id = :id"),
+        @NamedQuery(name = "Payment.findByDate", query = "SELECT p FROM Payment p WHERE p.date = :date"),
+        @NamedQuery(name = "Payment.findByAmount", query = "SELECT p FROM Payment p WHERE p.amount = :amount"),
+        @NamedQuery(name = "Payment.findByActive", query = "SELECT p FROM Payment p WHERE p.active = :active")})
 
 public class Payment extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Column(name = "date")
     @Basic(optional = false)
     @NotNull
@@ -96,7 +84,7 @@ public class Payment extends BaseEntity {
     @JoinColumn(name = "partner_id", referencedColumnName = "id")
     @ManyToOne
     private Partner partner;
-    
+
 
     public Payment() {
 
@@ -116,7 +104,7 @@ public class Payment extends BaseEntity {
         this.overpayment = overpayment;
         this.partnerType = partnerType;
     }
-    
+
 
     public Payment(double amount, Date date, Partner partner, Journal journal, String type, Boolean active, Account account, JournalEntry journalEntry, Invoice invoice, String state, String reference, double overpayment, String partnerType) {
         this.type = type;

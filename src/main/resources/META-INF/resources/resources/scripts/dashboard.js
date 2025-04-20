@@ -24,9 +24,14 @@ function fillCustomerPaymentArray() {
     for (var i = customerPayment_JSON[0].length - 1; i >= 0; i--) {
         total = customerPayment_JSON[0][i] + customerPayment_JSON[1][i];
         total = removeFraction(total);
-        customerPayment_JSON[0][i] =  removeFraction(customerPayment_JSON[0][i]);
-        customerPayment_JSON[1][i] =  removeFraction(customerPayment_JSON[1][i]);
-        var obj = {Bank: customerPayment_JSON[0][i], Cash: customerPayment_JSON[1][i], Month: customerPayment_JSON[2][i], Total: total};
+        customerPayment_JSON[0][i] = removeFraction(customerPayment_JSON[0][i]);
+        customerPayment_JSON[1][i] = removeFraction(customerPayment_JSON[1][i]);
+        var obj = {
+            Bank: customerPayment_JSON[0][i],
+            Cash: customerPayment_JSON[1][i],
+            Month: customerPayment_JSON[2][i],
+            Total: total
+        };
         customerPaymentArray.push(obj);
     }
 }
@@ -48,9 +53,14 @@ function fillVendorPaymentArray() {
     for (var i = vendorPayment_JSON[0].length - 1; i >= 0; i--) {
         total = vendorPayment_JSON[0][i] + vendorPayment_JSON[1][i];
         total = removeFraction(total);
-        vendorPayment_JSON[0][i] =  removeFraction(vendorPayment_JSON[0][i]);
-        vendorPayment_JSON[1][i] =  removeFraction(vendorPayment_JSON[1][i]);
-        var obj = {Bank: vendorPayment_JSON[0][i], Cash: vendorPayment_JSON[1][i], Month: vendorPayment_JSON[2][i], Total: total};
+        vendorPayment_JSON[0][i] = removeFraction(vendorPayment_JSON[0][i]);
+        vendorPayment_JSON[1][i] = removeFraction(vendorPayment_JSON[1][i]);
+        var obj = {
+            Bank: vendorPayment_JSON[0][i],
+            Cash: vendorPayment_JSON[1][i],
+            Month: vendorPayment_JSON[2][i],
+            Total: total
+        };
         vendorPaymentArray.push(obj);
     }
 }
@@ -88,7 +98,12 @@ function updatePurchasesAmount(xhr, status, args) {
 function fillSalesCogsProfitArray() {
     salesCogsProfitArray = new Array();
     for (var i = salesCogsProfit_JSON[0].length - 1; i >= 0; i--) {
-        var obj = {Sales: removeFraction(salesCogsProfit_JSON[0][i], 1), COGS: removeFraction(salesCogsProfit_JSON[1][i]), Profit: removeFraction(salesCogsProfit_JSON[2][i]), Month: salesCogsProfit_JSON[3][i]};
+        var obj = {
+            Sales: removeFraction(salesCogsProfit_JSON[0][i], 1),
+            COGS: removeFraction(salesCogsProfit_JSON[1][i]),
+            Profit: removeFraction(salesCogsProfit_JSON[2][i]),
+            Month: salesCogsProfit_JSON[3][i]
+        };
         salesCogsProfitArray.push(obj);
     }
 }
@@ -196,7 +211,10 @@ function fillTopReceivablesByCustomerArray() {
     topReceivablesByCustomerArray = new Array();
 
     for (var i = topReceivablesByCustomer_JSON.length - 1; i >= 0; i--) {
-        var obj = {label: topReceivablesByCustomer_JSON[i][0], value: removeFraction(topReceivablesByCustomer_JSON[i][1])};
+        var obj = {
+            label: topReceivablesByCustomer_JSON[i][0],
+            value: removeFraction(topReceivablesByCustomer_JSON[i][1])
+        };
         topReceivablesByCustomerArray.push(obj);
     }
 }
@@ -212,7 +230,6 @@ function fillTopPayablesByVendorArray() {
 }
 
 
-
 function compareTable() {
 
     if ($("select#DashboardForm\\:compareTableMenu_input").val() === 'Day') {
@@ -221,7 +238,7 @@ function compareTable() {
     } else if ($("select#DashboardForm\\:compareTableMenu_input").val() === 'Week') {
         $("#compareTable tr.compareTable_header").find('th:nth-child(2)').text(thisWeek);
         $("#compareTable tr.compareTable_header").find('th:nth-child(3)').text(lastWeek);
-    }else if ($("select#DashboardForm\\:compareTableMenu_input").val() === 'Quarter') {
+    } else if ($("select#DashboardForm\\:compareTableMenu_input").val() === 'Quarter') {
         $("#compareTable tr.compareTable_header").find('th:nth-child(2)').text(thisQuarter);
         $("#compareTable tr.compareTable_header").find('th:nth-child(3)').text(lastQuarter);
     } else {
@@ -234,7 +251,6 @@ function compareTable() {
     fillRow(compareTable_JSON[2], 'cogs', 'amount');
     fillRow(compareTable_JSON[3], 'profit', 'amount');
 }
-
 
 
 function fillRow(array, rowClass, type) {
@@ -264,20 +280,20 @@ function fillRow(array, rowClass, type) {
         curr = '';
     } else {
         difference = removeFraction(array[0] - array[1]);
-        curr = currency+' ';
+        curr = currency + ' ';
     }
 
     if (difference < 0) {
         icon = 'fa fa-arrow-down';
         upDown = 'down';
-        difference = '- '+curr+ Math.abs(difference);
+        difference = '- ' + curr + Math.abs(difference);
     } else if (difference > 0) {
         upDown = 'up';
         icon = 'fa fa-arrow-up';
-        difference = '+ '+curr+ difference;
+        difference = '+ ' + curr + difference;
     } else {
         upDown = 'zero';
-        difference = '+ '+curr+ difference;
+        difference = '+ ' + curr + difference;
         icon = 'fa fa-arrow-up';
     }
 
@@ -325,7 +341,7 @@ function topSalesByProductTable() {
         row = '<tr>\n\
                   <td class="top-num" >' + (i + 1) + '</td>\n\
                   <td class="highlight">' + topSalesByProduct_JSON[i][0] + '</td>\n\
-                  <td>'+currency+' '+ removeFraction(topSalesByProduct_JSON[i][1]) + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(topSalesByProduct_JSON[i][1]) + '</td>\n\
                   <td>' + topSalesByProduct_JSON[i][2] + '</td>\n\
                   < /tr>';
         $('#topSalesByProductTable tbody').append(row);
@@ -374,7 +390,7 @@ function topPurchasesByProductTable() {
         row = '<tr>\n\
                   <td class="top-num">' + (i + 1) + '</td>\n\
                   <td class="highlight">' + topPurchasesByProduct_JSON[i][0] + '</td>\n\
-                  <td>'+currency+' '+removeFraction(topPurchasesByProduct_JSON[i][1]) + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(topPurchasesByProduct_JSON[i][1]) + '</td>\n\
                   <td>' + topPurchasesByProduct_JSON[i][2] + '</td>\n\
                   </tr>';
         $('#topPurchasesByProductTable tbody').append(row);
@@ -424,7 +440,7 @@ function topSalesByCustomerTable() {
         row = '<tr>\n\
                   <td class="top-num">' + (i + 1) + '</td>\n\
                   <td class="highlight">' + topSalesByCustomer_JSON[i][0] + '</td>\n\
-                  <td>'+currency+' '+removeFraction(topSalesByCustomer_JSON[i][1]) + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(topSalesByCustomer_JSON[i][1]) + '</td>\n\
                   <td>' + topSalesByCustomer_JSON[i][2] + '</td>\n\
                   < /tr>';
         $('#topSalesByCustomerTable tbody').append(row);
@@ -473,7 +489,7 @@ function topPurchasesByVendorTable() {
         row = '<tr>\n\
                   <td class="top-num">' + (i + 1) + '</td>\n\
                   <td class="highlight">' + topPurchasesByVendor_JSON[i][0] + '</td>\n\
-                  <td>'+currency+' '+removeFraction(topPurchasesByVendor_JSON[i][1]) + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(topPurchasesByVendor_JSON[i][1]) + '</td>\n\
                   <td>' + topPurchasesByVendor_JSON[i][2] + '</td>\n\
                   < /tr>';
         $('#topPurchasesByVendorTable tbody').append(row);
@@ -520,7 +536,7 @@ function topReceivablesByCustomerTable() {
         row = '<tr>\n\
                   <td class="top-num">' + (i + 1) + '</td>\n\
                   <td class="highlight">' + topReceivablesByCustomer_JSON[i][0] + '</td>\n\
-                  <td>'+currency+' '+removeFraction(topReceivablesByCustomer_JSON[i][1]) + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(topReceivablesByCustomer_JSON[i][1]) + '</td>\n\
                   < /tr>';
         $('#topReceivablesByCustomerTable tbody').append(row);
     }
@@ -566,7 +582,7 @@ function topPayablesByVendorTable() {
         row = '<tr>\n\
                   <td class="top-num">' + (i + 1) + '</td>\n\
                   <td class="highlight">' + topPayablesByVendor_JSON[i][0] + '</td>\n\
-                  <td>'+currency+' '+removeFraction(topPayablesByVendor_JSON[i][1]) + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(topPayablesByVendor_JSON[i][1]) + '</td>\n\
                   < /tr>';
         $('#topPayablesByVendorTable tbody').append(row);
     }
@@ -587,55 +603,52 @@ function reminders() {
 
     var row;
     $('#reminders tbody').empty();
-  
-        row = '<tr>\n\\n\
+
+    row = '<tr>\n\\n\
                   <td class="highlight">' + reminders_JSON[0][0] + '</td>\n\
-                  <td>'+salesToConfirm+' ('+currency+' '+removeFraction(reminders_JSON[0][1]) + ')</td>\n\
+                  <td>' + salesToConfirm + ' (' + currency + ' ' + removeFraction(reminders_JSON[0][1]) + ')</td>\n\
                   < /tr>';
-        $('#reminders tbody').append(row);
+    $('#reminders tbody').append(row);
 
 
- 
-        row = '<tr>\n\\n\
+    row = '<tr>\n\\n\
                   <td class="highlight">' + reminders_JSON[1][0] + '</td>\n\
-                  <td>'+purchasesToConfirm+' ('+currency+' '+removeFraction(reminders_JSON[1][1]) + ')</td>\n\
+                  <td>' + purchasesToConfirm + ' (' + currency + ' ' + removeFraction(reminders_JSON[1][1]) + ')</td>\n\
                   < /tr>';
-        $('#reminders tbody').append(row);
+    $('#reminders tbody').append(row);
 
 
-
-        row = '<tr>\n\\n\
+    row = '<tr>\n\\n\
                   <td class="highlight">' + reminders_JSON[2][0] + '</td>\n\
-                  <td>'+invoicesToConfirm+' ('+currency+' '+removeFraction(reminders_JSON[2][1]) + ')</td>\n\
+                  <td>' + invoicesToConfirm + ' (' + currency + ' ' + removeFraction(reminders_JSON[2][1]) + ')</td>\n\
                   < /tr>';
-        $('#reminders tbody').append(row);
+    $('#reminders tbody').append(row);
 
 
- 
-        row = '<tr>\n\\n\
+    row = '<tr>\n\\n\
                   <td class="highlight">' + reminders_JSON[3][0] + '</td>\n\
-                  <td>'+billsToConfirm+' ('+currency+' '+removeFraction(reminders_JSON[3][1]) + ')</td>\n\
+                  <td>' + billsToConfirm + ' (' + currency + ' ' + removeFraction(reminders_JSON[3][1]) + ')</td>\n\
                   < /tr>';
-        $('#reminders tbody').append(row);
-  
+    $('#reminders tbody').append(row);
+
 }
 
 
 function payableReceivable() {
     var row;
-    
+
 //    $('#receivables-amount').text(formatNumber(payableReceivable_JSON[0], 1));
 //    $('#payables-amount').text(formatNumber(payableReceivable_JSON[1], 1));
-    
+
     $('#payableReceivable tbody').empty();
     row = '<tr>\n\\n\
-                  <td class="highlight">'+receivables+'</td>\n\
-                  <td>'+currency+' '+ removeFraction(payableReceivable_JSON[0]) + '</td>\n\
+                  <td class="highlight">' + receivables + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(payableReceivable_JSON[0]) + '</td>\n\
                   < /tr>';
     $('#payableReceivable tbody').append(row);
     row = '<tr>\n\\n\
-                  <td class="highlight">'+payables+'</td>\n\
-                  <td>'+currency+' '+removeFraction(payableReceivable_JSON[1]) + '</td>\n\
+                  <td class="highlight">' + payables + '</td>\n\
+                  <td>' + currency + ' ' + removeFraction(payableReceivable_JSON[1]) + '</td>\n\
                   < /tr>';
     $('#payableReceivable tbody').append(row);
 }
@@ -649,9 +662,9 @@ function salesCogsProfitBar() {
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
             $("#salesCogsProfitBar .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + data.Month + '</div>\n\
-                                            <div style="color:#E67A77">' + sales + ': '+currency+' '+ data.Sales+'</div>\n\
-                                            <div style="color:#D9DD81">' + COGS + ': '+currency+' '+ data.COGS +'</div>\n\
-                                            <div style="color:#79D1CF">' + profit + ': '+currency+' '+ data.Profit +'</div>');
+                                            <div style="color:#E67A77">' + sales + ': ' + currency + ' ' + data.Sales + '</div>\n\
+                                            <div style="color:#D9DD81">' + COGS + ': ' + currency + ' ' + data.COGS + '</div>\n\
+                                            <div style="color:#79D1CF">' + profit + ': ' + currency + ' ' + data.Profit + '</div>');
         },
         xkey: 'Month',
         ykeys: ['Sales', 'COGS', 'Profit'],
@@ -671,9 +684,9 @@ function salesCogsProfitLine() {
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
             $("#salesCogsProfitLine .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + data.Month + '</div>\n\
-                                            <div style="color:#E67A77">' + sales + ': '+currency+' '+ data.Sales+'</div>\n\
-                                            <div style="color:#D9DD81">' + COGS + ': '+currency+' '+ data.COGS +'</div>\n\
-                                            <div style="color:#79D1CF">' + profit + ': '+currency+' '+ data.Profit +'</div>');
+                                            <div style="color:#E67A77">' + sales + ': ' + currency + ' ' + data.Sales + '</div>\n\
+                                            <div style="color:#D9DD81">' + COGS + ': ' + currency + ' ' + data.COGS + '</div>\n\
+                                            <div style="color:#79D1CF">' + profit + ': ' + currency + ' ' + data.Profit + '</div>');
         },
         xkey: 'Month',
         ykeys: ['Sales', 'COGS', 'Profit'],
@@ -693,7 +706,7 @@ function purchasesAmountLine() {
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
             $("#purchasesAmountLine .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + data.Month + '</div>\n\
-                                            <div style="color:#E67A77">' + purchases + ': '+currency+' '+ data.Purchases +'</div>');
+                                            <div style="color:#E67A77">' + purchases + ': ' + currency + ' ' + data.Purchases + '</div>');
         },
         xkey: 'Month',
         ykeys: ['Purchases'],
@@ -714,7 +727,7 @@ function purchasesAmountBar() {
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
             $("#purchasesAmountBar .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + data.Month + '</div>\n\
-                                            <div style="color:#E67A77">' + purchases + ': '+currency+' '+ data.Purchases +'</div>');
+                                            <div style="color:#E67A77">' + purchases + ': ' + currency + ' ' + data.Purchases + '</div>');
         },
         xkey: 'Month',
         ykeys: ['Purchases'],
@@ -746,8 +759,6 @@ function newCustomersBar() {
 }
 
 
-
-
 function newCustomersLine() {
 
     newCustomersLineChart = Morris.Line({
@@ -775,9 +786,9 @@ function customerPaymentLine() {
         labels: [bank, cash],
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
-            $("#customerPaymentLine .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">'+currency+' '+ data.Total +'</div>\n\
-                                            <div style="color:#79D1CF">'+cash+': '+currency+' '+ data.Cash +'</div>\n\
-                                            <div style="color:#E67A77">'+bank+': '+currency+' '+ data.Bank +'</div>');
+            $("#customerPaymentLine .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + currency + ' ' + data.Total + '</div>\n\
+                                            <div style="color:#79D1CF">' + cash + ': ' + currency + ' ' + data.Cash + '</div>\n\
+                                            <div style="color:#E67A77">' + bank + ': ' + currency + ' ' + data.Bank + '</div>');
         },
         parseTime: false,
         xLabelMargin: 5,
@@ -801,13 +812,12 @@ function customerPaymentBar() {
         barColors: ['#E67A77', '#D9DD81', '#79D1CF'],
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
-            $("#customerPaymentBar .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">'+currency+' '+ data.Total +'</div>\n\
-                                            <div style="color:#79D1CF">'+cash+': '+currency+' '+ data.Cash +'</div>\n\
-                                            <div style="color:#E67A77">'+bank+': '+currency+' '+ data.Bank +'</div>');
+            $("#customerPaymentBar .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + currency + ' ' + data.Total + '</div>\n\
+                                            <div style="color:#79D1CF">' + cash + ': ' + currency + ' ' + data.Cash + '</div>\n\
+                                            <div style="color:#E67A77">' + bank + ': ' + currency + ' ' + data.Bank + '</div>');
         }
     });
 }
-
 
 
 function vendorPaymentLine() {
@@ -824,9 +834,9 @@ function vendorPaymentLine() {
         lineColors: ['#E67A77', '#D9DD81', '#79D1CF'],
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
-            $("#vendorPaymentLine .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">'+currency+' '+ data.Total +'</div>\n\
-                                            <div style="color:#79D1CF">'+cash+': '+currency+' '+ data.Cash +'</div>\n\
-                                            <div style="color:#E67A77">'+bank+': '+currency+' '+ data.Bank +'</div>');
+            $("#vendorPaymentLine .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + currency + ' ' + data.Total + '</div>\n\
+                                            <div style="color:#79D1CF">' + cash + ': ' + currency + ' ' + data.Cash + '</div>\n\
+                                            <div style="color:#E67A77">' + bank + ': ' + currency + ' ' + data.Bank + '</div>');
         }
     });
 }
@@ -846,21 +856,12 @@ function vendorPaymentBar() {
         barColors: ['#E67A77', '#D9DD81', '#79D1CF'],
         hoverCallback: function (index, options, content) {
             var data = options.data[index];
-            $("#vendorPaymentBar .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">'+currency+' '+ data.Total +'</div>\n\
-                                            <div style="color:#79D1CF">'+cash+': '+currency+' '+ data.Cash +'</div>\n\
-                                            <div style="color:#E67A77">'+bank+': '+currency+' '+ data.Bank +'</div>');
+            $("#vendorPaymentBar .morris-hover").html('<div style="font-weight:bold;margin-bottom:5px;">' + currency + ' ' + data.Total + '</div>\n\
+                                            <div style="color:#79D1CF">' + cash + ': ' + currency + ' ' + data.Cash + '</div>\n\
+                                            <div style="color:#E67A77">' + bank + ': ' + currency + ' ' + data.Bank + '</div>');
         }
     });
 }
-
-
-
-
-
-
-
-
-
 
 
 //function invoiceCountChart() {

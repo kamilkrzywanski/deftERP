@@ -1,57 +1,46 @@
 package com.defterp.modules.sales.controllers;
 
-import com.defterp.modules.accounting.entities.Account;
-import com.defterp.translation.annotations.Countries;
-import static com.defterp.translation.annotations.Countries.Version.SECOND;
-import com.defterp.util.JsfUtil;
-import com.defterp.translation.annotations.Status;
-import com.defterp.modules.inventory.entities.DeliveryOrder;
-import com.defterp.modules.inventory.entities.DeliveryOrderLine;
-import com.defterp.modules.accounting.entities.Invoice;
-import com.defterp.modules.accounting.entities.InvoiceLine;
-import com.defterp.modules.accounting.entities.InvoiceTax;
-import com.defterp.modules.accounting.entities.Journal;
+import com.defterp.modules.accounting.entities.*;
 import com.defterp.modules.accounting.queryBuilders.AccountQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.JournalQueryBuilder;
-import com.defterp.modules.partners.entities.Partner;
+import com.defterp.modules.commonClasses.AbstractController;
+import com.defterp.modules.commonClasses.IdGenerator;
+import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.modules.inventory.entities.DeliveryOrder;
+import com.defterp.modules.inventory.entities.DeliveryOrderLine;
 import com.defterp.modules.inventory.entities.Product;
+import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
+import com.defterp.modules.partners.entities.Partner;
+import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
 import com.defterp.modules.sales.entities.SaleOrder;
 import com.defterp.modules.sales.entities.SaleOrderLine;
-import com.defterp.modules.commonClasses.AbstractController;
-import com.defterp.modules.commonClasses.QueryWrapper;
-import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
-import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
 import com.defterp.modules.sales.queryBuilders.SaleOrderLineQueryBuilder;
 import com.defterp.modules.sales.queryBuilders.SaleOrderQueryBuilder;
-import com.defterp.modules.commonClasses.IdGenerator;
+import com.defterp.translation.annotations.Countries;
+import com.defterp.translation.annotations.Status;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.context.ExternalContext;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.ActionEvent;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.*;
+import org.apache.commons.lang3.SerializationUtils;
+import org.primefaces.PrimeFaces;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-import java.util.ResourceBundle;
-import javax.inject.Named;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.faces.event.ActionEvent;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import org.apache.commons.lang3.SerializationUtils;
-import org.primefaces.PrimeFaces;
+import java.util.*;
+
+import static com.defterp.translation.annotations.Countries.Version.SECOND;
 
 @Named(value = "saleOrderController")
 @ViewScoped
+@Component
 public class SaleOrderController extends AbstractController {
 
     @Status

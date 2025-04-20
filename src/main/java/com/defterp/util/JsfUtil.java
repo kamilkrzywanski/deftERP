@@ -1,24 +1,20 @@
 package com.defterp.util;
 
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIInput;
+import jakarta.faces.component.UISelectItem;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.validator.ValidatorException;
 import org.primefaces.PrimeFaces;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ResourceBundle;
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.component.UISelectItem;
-import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -145,7 +141,7 @@ public class JsfUtil {
         return digits <= 9;
     }
 
-//    public static Double round(Double value) {
+    //    public static Double round(Double value) {
 //        if (value != null) {
 //            System.out.println("value"+value);
 //            BigDecimal bd = new BigDecimal(value);
@@ -159,10 +155,10 @@ public class JsfUtil {
     public static Double round(Double value) {
 
         if (value != null) {
-            System.out.println("value: "+value);
-            System.out.println("value to String: "+value.toString());
+            System.out.println("value: " + value);
+            System.out.println("value to String: " + value.toString());
             String[] splitter = value.toString().split("\\.");
-            System.out.println("decimals: "+splitter[1].length());
+            System.out.println("decimals: " + splitter[1].length());
             if (splitter[1].length() <= 2) {
                 return value;
             } else {
@@ -174,7 +170,7 @@ public class JsfUtil {
         }
     }
 
-//    public static Double round(Double value, Integer decimals) {
+    //    public static Double round(Double value, Integer decimals) {
 //        if (value != null) {
 //            if (decimals == 3) {
 //                value = (long) (value * 1e3) / 1e3;
@@ -201,13 +197,13 @@ public class JsfUtil {
     public static Double round(Double value, Integer decimals) {
         if (value != null) {
 
-            System.out.println("value: "+value);
-            System.out.println("value to String: "+value.toString());
+            System.out.println("value: " + value);
+            System.out.println("value to String: " + value.toString());
             String[] splitter = value.toString().split("\\.");
-            System.out.println("decimals: "+splitter[1].length());
+            System.out.println("decimals: " + splitter[1].length());
 
             if (splitter[1].length() <= decimals) {
-                    return value;
+                return value;
             }
             if (decimals == 3) {
                 return (long) (value * 1e3) / 1e3;

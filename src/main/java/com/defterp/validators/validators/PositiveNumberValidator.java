@@ -1,14 +1,12 @@
-
 package com.defterp.validators.validators;
 
 import com.defterp.validators.annotations.PositiveNumber;
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
@@ -24,22 +22,22 @@ public class PositiveNumberValidator implements ConstraintValidator<PositiveNumb
         if (number instanceof Integer) {
             Integer num = (Integer) number;
             return (num >= 0);
-            
+
         } else if (number instanceof Double) {
             Double num = (Double) number;
             return (num >= 0d);
-            
+
         } else if (number instanceof Long) {
             Long num = (Long) number;
             return (num >= 0L);
-            
+
         } else if (number instanceof Float) {
-         Float num = (Float) number;
+            Float num = (Float) number;
             return (num >= 0F);
-            
-        }else{
+
+        } else {
             return false;
         }
     }
-    
+
 }

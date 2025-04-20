@@ -1,20 +1,20 @@
 package com.defterp.modules.accounting.controllers;
 
-import com.defterp.util.JsfUtil;
 import com.defterp.modules.accounting.entities.Tax;
 import com.defterp.modules.accounting.queryBuilders.TaxQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.util.JsfUtil;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.util.ArrayList;
 import java.util.List;
-import javax.annotation.PostConstruct;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 @Named(value = "taxController")

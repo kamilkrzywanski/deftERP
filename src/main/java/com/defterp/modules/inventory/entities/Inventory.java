@@ -1,37 +1,28 @@
-
 package com.defterp.modules.inventory.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "inventory")
 @NamedQueries({
-    @NamedQuery(name = "Inventory.findAll", query = "SELECT i FROM Inventory i"),
-    @NamedQuery(name = "Inventory.findById", query = "SELECT i FROM Inventory i WHERE i.id = :id"),
-    @NamedQuery(name = "Inventory.findByMaxQty", query = "SELECT i FROM Inventory i WHERE i.maxQty = :maxQty"),
-    @NamedQuery(name = "Inventory.findByMinQty", query = "SELECT i FROM Inventory i WHERE i.minQty = :minQty"),
-    @NamedQuery(name = "Inventory.findByActive", query = "SELECT i FROM Inventory i WHERE i.active = :active")})
+        @NamedQuery(name = "Inventory.findAll", query = "SELECT i FROM Inventory i"),
+        @NamedQuery(name = "Inventory.findById", query = "SELECT i FROM Inventory i WHERE i.id = :id"),
+        @NamedQuery(name = "Inventory.findByMaxQty", query = "SELECT i FROM Inventory i WHERE i.maxQty = :maxQty"),
+        @NamedQuery(name = "Inventory.findByMinQty", query = "SELECT i FROM Inventory i WHERE i.minQty = :minQty"),
+        @NamedQuery(name = "Inventory.findByActive", query = "SELECT i FROM Inventory i WHERE i.active = :active")})
 
-public class Inventory extends BaseEntity{
-    
+public class Inventory extends BaseEntity {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Column(name = "max_qty")
     private Double maxQty;
     @Column(name = "min_qty")
@@ -111,7 +102,7 @@ public class Inventory extends BaseEntity{
     }
 
     public Double getQuantityAvailable() {
-        return (quantityOnHand + incomingQuantity - reservedQuantity );
+        return (quantityOnHand + incomingQuantity - reservedQuantity);
     }
 
     public Double getIncomingQuantity() {
@@ -150,5 +141,5 @@ public class Inventory extends BaseEntity{
     public String toString() {
         return "--- Inventory[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

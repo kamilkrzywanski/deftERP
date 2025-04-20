@@ -1,4 +1,3 @@
-
 function listSliderClicked() {
     if ($("#mainForm\\:itemList").css('display') === 'none') {
         showItemsList();
@@ -85,8 +84,6 @@ function setActiveTab() {
 }
 
 
-
-
 //function isCustomerProvided() {
 //
 //    if ($("select[name$='partnerId_input'] option:selected").val() === '') {
@@ -139,18 +136,16 @@ function showAdd() {
 }
 
 
-
 function showRow() {
 
     $("#add a").css("display", "none");
     $("#addrow").css("display", "block");
 
 
-
 // alert(PF('partnerId').getSelectedValue() === '');
 
 //function validationFailed(){
-//    
+//
 //    $("#add").css("display", "inline");
 //        $("#addrow").css("display", "none");
 //            PF('growl').renderMessage({"summary": message,
@@ -164,9 +159,9 @@ function showRow() {
 //
 //        $("#add").css("display", "none");
 //        $("#addrow").css("display", "block");
-//        
-//    window.setTimeout(validationFailed, 700);    
-//  
+//
+//    window.setTimeout(validationFailed, 700);
+//
 //    }
 //
 //    else {
@@ -356,7 +351,6 @@ function getGridLenght(tableId) {
 }
 
 
-
 function addEmptyRow(tableId) {
     var numOfColumns = getTableWidth(tableId);
     var numOfRows = getTableLenght(tableId);
@@ -467,7 +461,6 @@ function removeFraction(num) {
 }
 
 
-
 function intToFloat(num) {
     if (num !== undefined && num !== null) {
         num = num.toFixed(2);
@@ -479,32 +472,32 @@ function intToFloat(num) {
 addCommas = function (input) {
     // If the regex doesn't match, `replace` returns the string unmodified
     return (input.toString()).replace(
-            // Each parentheses group (or 'capture') in this regex becomes an argument 
-            // to the function; in this case, every argument after 'match'
-            /^([-+]?)(0?)(\d+)(.?)(\d+)$/g, function (match, sign, zeros, before, decimal, after) {
+        // Each parentheses group (or 'capture') in this regex becomes an argument
+        // to the function; in this case, every argument after 'match'
+        /^([-+]?)(0?)(\d+)(.?)(\d+)$/g, function (match, sign, zeros, before, decimal, after) {
 
-                // Less obtrusive than adding 'reverse' method on all strings
-                var reverseString = function (string) {
-                    return string.split('').reverse().join('');
-                };
+            // Less obtrusive than adding 'reverse' method on all strings
+            var reverseString = function (string) {
+                return string.split('').reverse().join('');
+            };
 
-                // Insert commas every three characters from the right
-                var insertCommas = function (string) {
+            // Insert commas every three characters from the right
+            var insertCommas = function (string) {
 
-                    // Reverse, because it's easier to do things from the left
-                    var reversed = reverseString(string);
+                // Reverse, because it's easier to do things from the left
+                var reversed = reverseString(string);
 
-                    // Add commas every three characters
-                    var reversedWithCommas = reversed.match(/.{1,3}/g).join(',');
+                // Add commas every three characters
+                var reversedWithCommas = reversed.match(/.{1,3}/g).join(',');
 
-                    // Reverse again (back to normal)
-                    return reverseString(reversedWithCommas);
-                };
+                // Reverse again (back to normal)
+                return reverseString(reversedWithCommas);
+            };
 
-                // If there was no decimal, the last capture grabs the final digit, so
-                // we have to put it back together with the 'before' substring
-                return sign + (decimal ? insertCommas(before) + decimal + after : insertCommas(before + after));
-            }
+            // If there was no decimal, the last capture grabs the final digit, so
+            // we have to put it back together with the 'before' substring
+            return sign + (decimal ? insertCommas(before) + decimal + after : insertCommas(before + after));
+        }
     );
 };
 
@@ -558,7 +551,7 @@ function sortTable(tableId) {
 //function viewSaleOrderURL(id) {
 //
 //    var url = window.location.href;
-//    
+//
 //    if (url.indexOf("id=") === -1) {
 //        var href = location.href;
 //        var hasQuery = href.indexOf("?") + 1;
@@ -600,7 +593,6 @@ PrimeFaces.locales ['fr'] = {
 };
 
 
-
 var activeTab = 'form-tab-1';
 
 function setActiveab() {
@@ -631,8 +623,6 @@ $(document).on("click", ".form-tab", function (e) {
 });
 
 
-
-
 //    $(".float-number").each(function () {
 //         alert('fffff');
 //        var value = $(this).text();
@@ -650,13 +640,11 @@ $(document).on("click", ".form-tab", function (e) {
 //    });
 
 
-
-
 // if($("#SaleOrderForm\\:orderDate_input").val() === ''){
 //            if(!($("#SaleOrderForm\\:orderDate_input").hasClass('ui-state-error'))){
-//                PF('orderDate').setDate(new Date()); 
+//                PF('orderDate').setDate(new Date());
 //            }
-//        } 
+//        }
 
 
 

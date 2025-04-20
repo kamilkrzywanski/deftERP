@@ -61,33 +61,33 @@ public class InvoiceQueryBuilder {
     }
 
     public static QueryWrapper getInvoiceSumByVendorQuery(Integer vendorId) {
-        
+
         return new QueryWrapper(INVOICED_SUM_BY_PARTNER)
                 .setParameter("partnerId", vendorId)
                 .setParameter("type", "Purchase");
     }
 
     public static QueryWrapper getTotalDueAmountByCustomerQuery(Integer customerId) {
-        
+
         return new QueryWrapper(TOTAL_DUE_AMOUNT_BY_PARTNER)
                 .setParameter("partnerId", customerId)
                 .setParameter("type", "Sale");
     }
 
     public static QueryWrapper getTotalDueAmountByVendorQuery(Integer vendorId) {
-        
+
         return new QueryWrapper(TOTAL_DUE_AMOUNT_BY_PARTNER)
                 .setParameter("partnerId", vendorId)
                 .setParameter("type", "Purchase");
     }
 
     public static QueryWrapper getFindAllInvoicesQuery() {
-       
+
         return new QueryWrapper(FIND_ALL_INVOICES);
     }
 
     public static QueryWrapper getFindAllBillsQuery() {
-        
+
         return new QueryWrapper(FIND_ALL_BILLS);
     }
 }

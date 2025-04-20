@@ -1,18 +1,18 @@
 package com.defterp.modules.inventory.controllers;
 
-import com.defterp.util.JsfUtil;
-import com.defterp.modules.inventory.entities.ProductUom;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.modules.inventory.entities.ProductUom;
 import com.defterp.modules.inventory.queryBuilders.ProductUomQueryBuilder;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.util.List;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -108,7 +108,7 @@ public class ProductUomController extends AbstractController {
 
                     query = ProductUomQueryBuilder.getFindAllQuery();
                     productUoms = super.findWithQuery(query);
-                    
+
                     if ((productUoms != null) && (!productUoms.isEmpty())) {
                         productUom = productUoms.get(0);
                     }
@@ -137,7 +137,7 @@ public class ProductUomController extends AbstractController {
             Integer id = Integer.valueOf(productUomId);
             productUom = super.findItemById(id, ProductUom.class);
             if (productUom != null) {
-                
+
                 query = ProductUomQueryBuilder.getFindAllQuery();
                 productUoms = super.findWithQuery(query);
                 return;
@@ -146,7 +146,7 @@ public class ProductUomController extends AbstractController {
 
         query = ProductUomQueryBuilder.getFindAllQuery();
         productUoms = super.findWithQuery(query);
-        
+
         if (productUoms != null && !productUoms.isEmpty()) {
             productUom = productUoms.get(0);
         }
@@ -235,16 +235,16 @@ public class ProductUomController extends AbstractController {
         return productUoms;
     }
 
+    public void setProductUoms(List<ProductUom> productUoms) {
+        this.productUoms = productUoms;
+    }
+
     public List<ProductUom> getActiveUoms() {
         if (productUoms == null) {
             query = ProductUomQueryBuilder.getFindActiveProductUomsQuery();
             productUoms = super.findWithQuery(query);
         }
         return productUoms;
-    }
-
-    public void setProductUoms(List<ProductUom> productUoms) {
-        this.productUoms = productUoms;
     }
 
     public List<ProductUom> getFilteredProductUoms() {

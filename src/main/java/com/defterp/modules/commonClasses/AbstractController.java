@@ -1,24 +1,19 @@
-
 package com.defterp.modules.commonClasses;
 
 import com.defterp.dataAccess.GenericDAO;
 import com.defterp.util.JsfUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
 
 
 public abstract class AbstractController implements Serializable {
 
     private static final long serialVersionUID = 1;
-
-    @Inject
-    private GenericDAO dataAccess;
-
     protected String currentForm;
     protected String currentList;
     protected String BASE_URL;
@@ -27,8 +22,9 @@ public abstract class AbstractController implements Serializable {
     protected String VIEW_URL;
     protected String EDIT_URL;
     protected String CREATE_URL;
-
     protected Integer MAX_DROPDOWN_ITEMS;
+    @Autowired
+    private GenericDAO dataAccess;
 
     public AbstractController(String moduleURL) {
         BASE_URL = moduleURL;

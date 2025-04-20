@@ -41,19 +41,19 @@
         <error-code>404</error-code>
         <location>/404error.xhtml</location>
     </error-page>
-  <!--  <error-page>
-        <error-code>500</error-code>
-        <location>/500error.xhtml</location>
-    </error-page>  -->
-   <!-- <filter>
-        <filter-name>LoginFilter</filter-name>
-        <filter-class>com.casa.erp.security.LoginFilter</filter-class>
-    </filter> -->
-<!--    <filter-mapping>-->
-<!--        <filter-name>noCacheFilter</filter-name>-->
-<!--        <servlet-name>Faces Servlet</servlet-name>-->
-<!--        <url-pattern/>-->
-<!--    </filter-mapping>-->
+    <!--  <error-page>
+          <error-code>500</error-code>
+          <location>/500error.xhtml</location>
+      </error-page>  -->
+    <!-- <filter>
+         <filter-name>LoginFilter</filter-name>
+         <filter-class>com.casa.erp.security.LoginFilter</filter-class>
+     </filter> -->
+    <!--    <filter-mapping>-->
+    <!--        <filter-name>noCacheFilter</filter-name>-->
+    <!--        <servlet-name>Faces Servlet</servlet-name>-->
+    <!--        <url-pattern/>-->
+    <!--    </filter-mapping>-->
     <!-- <filter-mapping>
         <filter-name>loginFilter</filter-name>
         <url-pattern>/sc/*</url-pattern>

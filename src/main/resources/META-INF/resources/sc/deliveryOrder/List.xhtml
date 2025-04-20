@@ -1,4 +1,3 @@
-
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:h="http://java.sun.com/jsf/html"
@@ -8,40 +7,47 @@
 
 
     <div class="row">
-        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{empty deliveryOrderController.listType}">          
+        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{empty deliveryOrderController.listType}">
             <div class="form-nav">
-                <span class="form-nav-item"> #{messages.DeliveryOrders}</span>  
+                <span class="form-nav-item"> #{messages.DeliveryOrders}</span>
             </div>
-        </div>      
-        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{deliveryOrderController.listType == 'partialDelivery'}">          
+        </div>
+        <div class="col-md-12 card z-depth-1 tool-bar"
+             jsf:rendered="#{deliveryOrderController.listType == 'partialDelivery'}">
             <div class="form-nav">
-                <p:commandLink update=":mainForm:itemForm, :mainForm:itemList" process="@this" value="#{deliveryOrderController.deliveryOrders[0].backOrder.name}" class="form-nav-item form-link" actionListener="#{deliveryOrderController.showBackOrder(deliveryOrderController.deliveryOrders[0].backOrder.id)}"/>    
-                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i> 
-                <span class="form-nav-item"> #{messages.PartialDeliveries}</span> 
+                <p:commandLink update=":mainForm:itemForm, :mainForm:itemList" process="@this"
+                               value="#{deliveryOrderController.deliveryOrders[0].backOrder.name}"
+                               class="form-nav-item form-link"
+                               actionListener="#{deliveryOrderController.showBackOrder(deliveryOrderController.deliveryOrders[0].backOrder.id)}"/>
+                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i>
+                <span class="form-nav-item"> #{messages.PartialDeliveries}</span>
             </div>
-        </div> 
-        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{deliveryOrderController.listType == 'partner'}">          
+        </div>
+        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{deliveryOrderController.listType == 'partner'}">
             <div class="form-nav">
-                <p:link  class="form-nav-item form-link" value="#{deliveryOrderController.deliveryOrders[0].partner.name}"  outcome="/sc/customer/index">
+                <p:link class="form-nav-item form-link"
+                        value="#{deliveryOrderController.deliveryOrders[0].partner.name}" outcome="/sc/customer/index">
                     <f:param name="id" value="#{deliveryOrderController.partnerId}"/>
                 </p:link>
-                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i> 
-                <span class="form-nav-item"> #{messages.DeliveryOrders}</span> 
+                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i>
+                <span class="form-nav-item"> #{messages.DeliveryOrders}</span>
             </div>
-        </div> 
-        <div class="col-md-12 card z-depth-1 tool-bar" jsf:rendered="#{deliveryOrderController.listType == 'saleOrder'}">          
+        </div>
+        <div class="col-md-12 card z-depth-1 tool-bar"
+             jsf:rendered="#{deliveryOrderController.listType == 'saleOrder'}">
             <div class="form-nav">
-                <p:link  class="form-nav-item form-link" value="#{deliveryOrderController.deliveryOrders[0].origin}"  outcome="/sc/saleOrder/index">
+                <p:link class="form-nav-item form-link" value="#{deliveryOrderController.deliveryOrders[0].origin}"
+                        outcome="/sc/saleOrder/index">
                     <f:param name="id" value="#{deliveryOrderController.saleId}"/>
                 </p:link>
-                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i> 
-                <span class="form-nav-item"> #{messages.DeliveryOrders}</span> 
+                <i class="fa fa-chevron-circle-right form-nav-icon" aria-hidden="true"></i>
+                <span class="form-nav-item"> #{messages.DeliveryOrders}</span>
             </div>
-        </div> 
+        </div>
     </div>
 
 
-    <div class="row"> 
+    <div class="row">
         <p:dataTable id="deliveryOrders"
                      binding="#{deliveryOrders}"
                      class="fit-content-table"
@@ -60,20 +66,25 @@
 
             <f:facet name="header" class="card z-depth-1">
                 <p:outputPanel>
-                    <p:commandButton process="@this" class="waves-effect waves-light btn btn-primary" value="#{messages.Create}" actionListener="#{deliveryOrderController.prepareCreate}" update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();" />           
+                    <p:commandButton process="@this" class="waves-effect waves-light btn btn-primary"
+                                     value="#{messages.Create}"
+                                     actionListener="#{deliveryOrderController.prepareCreate}"
+                                     update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();"/>
                     <div class="searchLoader">
-                        <p:graphicImage  name="/img/search-loader.gif"/>
+                        <p:graphicImage name="/img/search-loader.gif"/>
                     </div>
                     <input type="text" jsf:id="globalFilter" jsf:onkeyup="PF('deliveryOrders').filter()" class="search"
                            onkeypress="if (event.keyCode == 13) {
                                        return false
-                                   }" placeholder="#{messages.Search}"/>               
+                                   }" placeholder="#{messages.Search}"/>
                 </p:outputPanel>
             </f:facet>
             <p:ajax event="page" oncomplete="updateTableTotals();"/>
             <p:ajax event="sort" oncomplete="updateTableTotals();"/>
-            <p:ajax event="filter" global="false" onstart="showSearchLoader();" oncomplete="updateTableTotals(); hideSearchLoader();"/>
-            <p:ajax event="rowSelect"  listener="#{deliveryOrderController.prepareView}" update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();"/>
+            <p:ajax event="filter" global="false" onstart="showSearchLoader();"
+                    oncomplete="updateTableTotals(); hideSearchLoader();"/>
+            <p:ajax event="rowSelect" listener="#{deliveryOrderController.prepareView}"
+                    update=":mainForm:itemForm, :mainForm:itemList" onstart="hideItemsList();"/>
 
             <p:column>
                 <f:facet name="header">
@@ -94,7 +105,7 @@
                     <h:outputText value="#{messages.CreationDate}"/>
                 </f:facet>
                 <h:outputText value="#{item.date}">
-                    <f:convertDateTime pattern="MM-dd-yyyy" />
+                    <f:convertDateTime pattern="MM-dd-yyyy"/>
                 </h:outputText>
             </p:column>
 
@@ -119,16 +130,17 @@
                 <h:outputText value="#{item.backOrder.name}"/>
             </p:column>
 
-           <p:column sortBy="#{item.state}" filterBy="#{item.state}">
+            <p:column sortBy="#{item.state}" filterBy="#{item.state}">
                 <f:facet name="header">
                     <h:outputText value="#{messages.Status}"/>
                 </f:facet>
-                <h:outputText value="#{deliveryOrderController.getStatus(item.state)}" styleClass="row-status" style="background-color: #{deliveryOrderController.getStatusColor(item.state)}"/>
+                <h:outputText value="#{deliveryOrderController.getStatus(item.state)}" styleClass="row-status"
+                              style="background-color: #{deliveryOrderController.getStatusColor(item.state)}"/>
             </p:column>
 
-        </p:dataTable>       
-    </div>  
-     <script>
+        </p:dataTable>
+    </div>
+    <script>
 
         function updateTable() {
             addEmptyRows(tableId);
@@ -138,7 +150,7 @@
         var tableId = '#{deliveryOrders.clientId}';
         addEmptyRows(tableId);
         hidePaginator(tableId);
-       
+
 
     </script>
 </ui:composition>

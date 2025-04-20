@@ -1,23 +1,17 @@
 package com.defterp.security.filters;
 
+import com.defterp.security.controllers.UserSessionController;
+import jakarta.inject.Inject;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import com.defterp.security.controllers.UserSessionController;
-import javax.inject.Inject;
-import javax.servlet.annotation.WebFilter;
-
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
@@ -40,8 +34,8 @@ public class IsLogedInFilter implements Filter {
         System.out.println("Session doesnt Exist: " + (((HttpServletRequest) request).getSession(false) == null));
 
         System.out.println("timeout attribute: " + ((HttpServletRequest) request).getAttribute("timeout"));
-        
-        String url = ((HttpServletRequest)request).getRequestURL().toString();
+
+        String url = ((HttpServletRequest) request).getRequestURL().toString();
 
         String facesRequest = ((HttpServletRequest) request).getHeader("Faces-Request");
         if (facesRequest == null) {
@@ -55,10 +49,10 @@ public class IsLogedInFilter implements Filter {
             System.out.println("Redirect");
             String contextPath = ((HttpServletRequest) request).getContextPath();
             ((HttpServletRequest) request).getRequestDispatcher(loginPage).forward(request, response);
-        }else if(userSessionController != null && userSessionController.isLoggedIn() && !facesRequest.equals("partial/ajax") && url.contains(loginPage) ){
+        } else if (userSessionController != null && userSessionController.isLoggedIn() && !facesRequest.equals("partial/ajax") && url.contains(loginPage)) {
             System.out.println("Redirect");
             String contextPath = ((HttpServletRequest) request).getContextPath();
-            ((HttpServletResponse) response).sendRedirect(contextPath + homePage);       
+            ((HttpServletResponse) response).sendRedirect(contextPath + homePage);
         }
 
         chain.doFilter(request, response);

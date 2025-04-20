@@ -1,19 +1,26 @@
 package com.defterp.modules.partners.controllers;
 
-import com.defterp.translation.annotations.Countries;
-import static com.defterp.translation.annotations.Countries.Version.SECOND;
-import com.defterp.util.JsfUtil;
 import com.defterp.modules.accounting.entities.Account;
-import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.accounting.queryBuilders.AccountQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.InvoiceQueryBuilder;
 import com.defterp.modules.accounting.queryBuilders.PaymentQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.inventory.queryBuilders.DeliveryOrderQueryBuilder;
+import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
 import com.defterp.modules.purchases.queryBuilders.PurchaseOrderQueryBuilder;
 import com.defterp.modules.sales.queryBuilders.SaleOrderQueryBuilder;
+import com.defterp.translation.annotations.Countries;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,19 +29,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.Part;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
+
+import static com.defterp.translation.annotations.Countries.Version.SECOND;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -42,6 +42,7 @@ import org.apache.commons.lang3.StringUtils;
 @ViewScoped
 public class VendorController extends AbstractController {
 
+    boolean isGridView;
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
     private Partner partner;
@@ -50,7 +51,6 @@ public class VendorController extends AbstractController {
     private String partnerId;
     private String partnerType;
     private String searchKey;
-    boolean isGridView;
     private String currentForm;
     private String currentList;
     private Part image;
@@ -69,21 +69,21 @@ public class VendorController extends AbstractController {
         partnerType = "Vendor";
     }
 
+    public Part getImage() {
+        return image;
+    }
+
     public void setImage(Part image) {
         if (image != null) {
             try {
                 InputStream input = image.getInputStream();
                 partner.setImage(IOUtils.toByteArray(input));
             } catch (IOException ex) {
-                Logger.getLogger(CustomerController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(VendorController.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (image == null && partner.getImage() != null && imageModified == true) {
             partner.setImage(null);
         }
-    }
-
-    public Part getImage() {
-        return image;
     }
 
     public void deleteVendor() {
@@ -281,7 +281,7 @@ public class VendorController extends AbstractController {
         return 0d;
     }
 
-//    public Double getTotalInvoicedSales() {
+    //    public Double getTotalInvoicedSales() {
 //        if (partner != null) {
 //            return partnerFacade.getInvoicedSum(partner.getId(), "Sale");
 //        }
@@ -521,7 +521,7 @@ public class VendorController extends AbstractController {
 
     public String getFormDefaultImage() {
 
-        if(partner == null)
+        if (partner == null)
             return "img/partnerPlaceholder4.png";
 
         int modulos = partner.getId() % 5;

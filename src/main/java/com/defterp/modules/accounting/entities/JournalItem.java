@@ -1,54 +1,44 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
-import com.defterp.modules.partners.entities.Partner;
 import com.defterp.modules.inventory.entities.Product;
 import com.defterp.modules.inventory.entities.ProductUom;
+import com.defterp.modules.partners.entities.Partner;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "journal_item")
 @NamedQueries({
-    @NamedQuery(name = "JournalItem.CreditSum", query = "SELECT SUM(j.credit) FROM JournalItem j WHERE j.account.id = :accountId"),
-    @NamedQuery(name = "JournalItem.DebitSum", query = "SELECT SUM(j.debit) FROM JournalItem j WHERE j.account.id = :accountId"),
-    @NamedQuery(name = "JournalItem.findByJournalPeriod", query = "SELECT j FROM JournalItem j WHERE j.journal.id = :journalId AND j.date BETWEEN :monthStart AND :monthEnd"),
-    @NamedQuery(name = "JournalItem.findByJournal", query = "SELECT j FROM JournalItem j WHERE j.journal.id = :journalId AND j.date BETWEEN :yearStart AND :yearEnd"),
-    @NamedQuery(name = "JournalItem.findByPeriod", query = "SELECT j FROM JournalItem j WHERE j.date BETWEEN :monthStart AND :monthEnd"),
-    @NamedQuery(name = "JournalItem.findAll", query = "SELECT j FROM JournalItem j"),
-    @NamedQuery(name = "JournalItem.findById", query = "SELECT j FROM JournalItem j WHERE j.id = :id"),
-    @NamedQuery(name = "JournalItem.findByDebit", query = "SELECT j FROM JournalItem j WHERE j.debit = :debit"),
-    @NamedQuery(name = "JournalItem.findByCredit", query = "SELECT j FROM JournalItem j WHERE j.credit = :credit"),
-    @NamedQuery(name = "JournalItem.findByDate", query = "SELECT j FROM JournalItem j WHERE j.date = :date"),
-    @NamedQuery(name = "JournalItem.findByName", query = "SELECT j FROM JournalItem j WHERE j.name = :name"),
-    @NamedQuery(name = "JournalItem.findByRef", query = "SELECT j FROM JournalItem j WHERE j.ref = :ref"),
-    @NamedQuery(name = "JournalItem.findByTaxAmount", query = "SELECT j FROM JournalItem j WHERE j.taxAmount = :taxAmount"),
-    @NamedQuery(name = "JournalItem.findByQuantity", query = "SELECT j FROM JournalItem j WHERE j.quantity = :quantity"),
-    @NamedQuery(name = "JournalItem.findByActive", query = "SELECT j FROM JournalItem j WHERE j.active = :active")})
+        @NamedQuery(name = "JournalItem.CreditSum", query = "SELECT SUM(j.credit) FROM JournalItem j WHERE j.account.id = :accountId"),
+        @NamedQuery(name = "JournalItem.DebitSum", query = "SELECT SUM(j.debit) FROM JournalItem j WHERE j.account.id = :accountId"),
+        @NamedQuery(name = "JournalItem.findByJournalPeriod", query = "SELECT j FROM JournalItem j WHERE j.journal.id = :journalId AND j.date BETWEEN :monthStart AND :monthEnd"),
+        @NamedQuery(name = "JournalItem.findByJournal", query = "SELECT j FROM JournalItem j WHERE j.journal.id = :journalId AND j.date BETWEEN :yearStart AND :yearEnd"),
+        @NamedQuery(name = "JournalItem.findByPeriod", query = "SELECT j FROM JournalItem j WHERE j.date BETWEEN :monthStart AND :monthEnd"),
+        @NamedQuery(name = "JournalItem.findAll", query = "SELECT j FROM JournalItem j"),
+        @NamedQuery(name = "JournalItem.findById", query = "SELECT j FROM JournalItem j WHERE j.id = :id"),
+        @NamedQuery(name = "JournalItem.findByDebit", query = "SELECT j FROM JournalItem j WHERE j.debit = :debit"),
+        @NamedQuery(name = "JournalItem.findByCredit", query = "SELECT j FROM JournalItem j WHERE j.credit = :credit"),
+        @NamedQuery(name = "JournalItem.findByDate", query = "SELECT j FROM JournalItem j WHERE j.date = :date"),
+        @NamedQuery(name = "JournalItem.findByName", query = "SELECT j FROM JournalItem j WHERE j.name = :name"),
+        @NamedQuery(name = "JournalItem.findByRef", query = "SELECT j FROM JournalItem j WHERE j.ref = :ref"),
+        @NamedQuery(name = "JournalItem.findByTaxAmount", query = "SELECT j FROM JournalItem j WHERE j.taxAmount = :taxAmount"),
+        @NamedQuery(name = "JournalItem.findByQuantity", query = "SELECT j FROM JournalItem j WHERE j.quantity = :quantity"),
+        @NamedQuery(name = "JournalItem.findByActive", query = "SELECT j FROM JournalItem j WHERE j.active = :active")})
 
-public class JournalItem extends BaseEntity{
-    
+public class JournalItem extends BaseEntity {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "debit")
@@ -103,13 +93,13 @@ public class JournalItem extends BaseEntity{
     @JoinColumn(name = "tax_id", referencedColumnName = "id")
     @ManyToOne
     private Tax tax;
-    
+
 
     public JournalItem() {
     }
 
     public JournalItem(Double debit, Double credit, Date date, String name, String ref, Double taxAmount, Double quantity, Boolean active, Account account, JournalEntry journalEntry, Journal journal, Partner partner, Product product, ProductUom uom, Double costOfGoodsSold, Tax tax) {
-        
+
         this.debit = debit;
         this.credit = credit;
         this.date = date;
@@ -123,7 +113,7 @@ public class JournalItem extends BaseEntity{
         this.journalEntry = journalEntry;
         this.journal = journal;
         this.partner = partner;
-        this.product= product;
+        this.product = product;
         this.uom = uom;
         this.costOfGoodsSold = costOfGoodsSold;
     }
@@ -269,5 +259,5 @@ public class JournalItem extends BaseEntity{
     public String toString() {
         return "--- JournalItem[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

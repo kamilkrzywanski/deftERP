@@ -1,55 +1,49 @@
 package com.defterp.modules.accounting.controllers;
 
-import com.defterp.modules.accounting.enums.InvoiceStatus;
-import com.defterp.modules.accounting.queryBuilders.*;
 import com.defterp.modules.accounting.entities.*;
+import com.defterp.modules.accounting.enums.InvoiceStatus;
+import com.defterp.modules.accounting.queryBuilders.AccountQueryBuilder;
+import com.defterp.modules.accounting.queryBuilders.InvoiceQueryBuilder;
+import com.defterp.modules.accounting.queryBuilders.JournalQueryBuilder;
+import com.defterp.modules.accounting.queryBuilders.PaymentQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
-import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
+import com.defterp.modules.commonClasses.IdGenerator;
+import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.inventory.entities.Product;
-import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
+import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
 import com.defterp.modules.partners.entities.Partner;
+import com.defterp.modules.partners.queryBuilders.PartnerQueryBuilder;
 import com.defterp.modules.sales.entities.SaleOrder;
 import com.defterp.modules.sales.entities.SaleOrderLine;
 import com.defterp.translation.annotations.Countries;
-import static com.defterp.translation.annotations.Countries.Version.SECOND;
-import com.defterp.modules.commonClasses.IdGenerator;
-import com.defterp.util.JsfUtil;
-import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.translation.annotations.Status;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
-import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JREmptyDataSource;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-
+import com.defterp.util.JsfUtil;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.*;
 import org.apache.commons.lang3.SerializationUtils;
 import org.primefaces.PrimeFaces;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.*;
+
+import static com.defterp.translation.annotations.Countries.Version.SECOND;
 
 @Named("invoiceController")
 @ViewScoped
 public class InvoiceController extends AbstractController {
 
+    protected Invoice invoice;
+    protected List<Invoice> invoices;
+    protected List<Invoice> filteredInvoices;
     @Status
     private HashMap<String, String> statuses;
     @Countries(version = SECOND)
     private HashMap<String, String> countries;
-    protected Invoice invoice;
-    protected List<Invoice> invoices;
-    protected List<Invoice> filteredInvoices;
     private List<InvoiceLine> invoiceLines;
     private InvoiceLine invoiceLine;
     private Payment payment;
@@ -1013,9 +1007,9 @@ public class InvoiceController extends AbstractController {
 
                 invoiceLines.stream().filter((orderLine)
                         -> (!topNActiveSoldProducts.contains(orderLine.getProduct()))).forEachOrdered((orderLine)
-                        -> {
-                    topNActiveSoldProducts.add(orderLine.getProduct());
-                }
+                                -> {
+                            topNActiveSoldProducts.add(orderLine.getProduct());
+                        }
                 );
 
                 currentForm = EDIT_URL;
@@ -1295,7 +1289,7 @@ public class InvoiceController extends AbstractController {
         findCustomerOutstandingPayments();
     }
 
-     public int getInvoiceIndex() {
+    public int getInvoiceIndex() {
         if ((invoices != null) && (invoice != null)) {
             return invoices.indexOf(invoice) + 1;
         }

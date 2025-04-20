@@ -1,21 +1,20 @@
 package com.defterp.modules.accounting.controllers;
 
-import com.defterp.util.JsfUtil;
-import com.defterp.translation.annotations.Status;
 import com.defterp.modules.accounting.entities.JournalEntry;
 import com.defterp.modules.accounting.queryBuilders.JournalEntryQueryBuilder;
 import com.defterp.modules.commonClasses.AbstractController;
 import com.defterp.modules.commonClasses.QueryWrapper;
+import com.defterp.translation.annotations.Status;
+import com.defterp.util.JsfUtil;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+
 import java.util.HashMap;
 import java.util.List;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 @Named(value = "journalEntryController")

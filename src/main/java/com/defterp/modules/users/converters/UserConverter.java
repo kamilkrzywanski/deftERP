@@ -3,29 +3,29 @@ package com.defterp.modules.users.converters;
 import com.defterp.dataAccess.GenericDAO;
 import com.defterp.modules.users.entities.User;
 import com.defterp.util.JsfUtil;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.faces.convert.FacesConverter;
+import jakarta.inject.Inject;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @FacesConverter(value = "userConverter")
-public class UserConverter implements Converter {
+public class UserConverter implements Converter<User> {
 
     @Inject
     private GenericDAO dataAccess;
 
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+    public User getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
             return null;
         }
@@ -45,8 +45,8 @@ public class UserConverter implements Converter {
     }
 
     @Override
-    public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-        if (object == null || (object instanceof String && ((String) object).length() == 0)) {
+    public String getAsString(FacesContext facesContext, UIComponent component, User object) {
+        if (object == null) {
             return null;
         }
         if (object instanceof User) {

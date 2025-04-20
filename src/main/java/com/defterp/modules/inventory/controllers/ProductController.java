@@ -1,34 +1,34 @@
 package com.defterp.modules.inventory.controllers;
 
-import com.defterp.util.JsfUtil;
+import com.defterp.modules.commonClasses.AbstractController;
+import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.inventory.entities.Product;
 import com.defterp.modules.inventory.entities.ProductCategory;
 import com.defterp.modules.inventory.entities.ProductUom;
-import com.defterp.modules.commonClasses.AbstractController;
-import com.defterp.modules.commonClasses.QueryWrapper;
 import com.defterp.modules.inventory.queryBuilders.ProductQueryBuilder;
 import com.defterp.modules.purchases.queryBuilders.PurchaseOrderLineQueryBuilder;
 import com.defterp.modules.sales.queryBuilders.SaleOrderLineQueryBuilder;
+import com.defterp.util.JsfUtil;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.component.UIInput;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Named;
+import jakarta.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
-import javax.faces.context.FacesContext;
-import javax.inject.Named;
-import javax.faces.view.ViewScoped;
-import javax.servlet.http.Part;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 
@@ -95,6 +95,10 @@ public class ProductController extends AbstractController {
         }
     }
 
+    public Part getImage() {
+        return image;
+    }
+
     public void setImage(Part image) {
 
         if (image != null) {
@@ -107,10 +111,6 @@ public class ProductController extends AbstractController {
         } else if (image == null && product.getImage() != null && imageModified == true) {
             product.setImage(null);
         }
-    }
-
-    public Part getImage() {
-        return image;
     }
 
     public void prepareCreateProduct() {
@@ -557,16 +557,16 @@ public class ProductController extends AbstractController {
         return searchKey;
     }
 
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
+    }
+
     public Double getNewQuantityOnHand() {
         return newQuantityOnHand;
     }
 
     public void setNewQuantityOnHand(Double newQuantityOnHand) {
         this.newQuantityOnHand = newQuantityOnHand;
-    }
-
-    public void setSearchKey(String searchKey) {
-        this.searchKey = searchKey;
     }
 
     public boolean getImageModified() {

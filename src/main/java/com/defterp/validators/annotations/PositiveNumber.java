@@ -1,23 +1,17 @@
-
 package com.defterp.validators.annotations;
 
 import com.defterp.validators.validators.PositiveNumberValidator;
-import javax.validation.Constraint;
-import javax.validation.Payload;
-import javax.validation.ReportAsSingleViolation;
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import jakarta.validation.Constraint;
+import jakarta.validation.Payload;
+import jakarta.validation.ReportAsSingleViolation;
+
+import java.lang.annotation.*;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
-
 
 
 @Constraint(validatedBy = PositiveNumberValidator.class)
@@ -25,15 +19,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
-public @interface PositiveNumber
-{
+public @interface PositiveNumber {
 
 
-   String message() default "";
+    String message() default "";
 
-   Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-   Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 
 }

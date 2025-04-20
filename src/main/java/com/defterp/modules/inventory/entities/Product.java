@@ -1,55 +1,42 @@
-
 package com.defterp.modules.inventory.entities;
 
+import com.defterp.modules.accounting.entities.InvoiceLine;
+import com.defterp.modules.accounting.entities.JournalItem;
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.purchases.entities.PurchaseOrderLine;
 import com.defterp.modules.sales.entities.SaleOrderLine;
-import com.defterp.modules.accounting.entities.JournalItem;
-import com.defterp.modules.accounting.entities.InvoiceLine;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "product")
 @NamedQueries({
-    @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
-    @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
-    @NamedQuery(name = "Product.findByDefaultCode", query = "SELECT p FROM Product p WHERE p.defaultCode = :defaultCode"),
-    @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
-    @NamedQuery(name = "Product.findBySalePrice", query = "SELECT p FROM Product p WHERE p.salePrice = :salePrice"),
-    @NamedQuery(name = "Product.findByPurchasePrice", query = "SELECT p FROM Product p WHERE p.purchasePrice = :purchasePrice"),
-    @NamedQuery(name = "Product.findByWeight", query = "SELECT p FROM Product p WHERE p.weight = :weight"),
-    @NamedQuery(name = "Product.findByVolume", query = "SELECT p FROM Product p WHERE p.volume = :volume"),
-    @NamedQuery(name = "Product.findBySaleOk", query = "SELECT p FROM Product p WHERE p.saleOk = 1"),
-    @NamedQuery(name = "Product.findByPurchaseOk", query = "SELECT p FROM Product p WHERE p.purchaseOk = 1"),
-    @NamedQuery(name = "Product.findByActive", query = "SELECT p FROM Product p WHERE p.active = :active")})
+        @NamedQuery(name = "Product.findAll", query = "SELECT p FROM Product p"),
+        @NamedQuery(name = "Product.findById", query = "SELECT p FROM Product p WHERE p.id = :id"),
+        @NamedQuery(name = "Product.findByDefaultCode", query = "SELECT p FROM Product p WHERE p.defaultCode = :defaultCode"),
+        @NamedQuery(name = "Product.findByName", query = "SELECT p FROM Product p WHERE p.name = :name"),
+        @NamedQuery(name = "Product.findBySalePrice", query = "SELECT p FROM Product p WHERE p.salePrice = :salePrice"),
+        @NamedQuery(name = "Product.findByPurchasePrice", query = "SELECT p FROM Product p WHERE p.purchasePrice = :purchasePrice"),
+        @NamedQuery(name = "Product.findByWeight", query = "SELECT p FROM Product p WHERE p.weight = :weight"),
+        @NamedQuery(name = "Product.findByVolume", query = "SELECT p FROM Product p WHERE p.volume = :volume"),
+        @NamedQuery(name = "Product.findBySaleOk", query = "SELECT p FROM Product p WHERE p.saleOk = true"),
+        @NamedQuery(name = "Product.findByPurchaseOk", query = "SELECT p FROM Product p WHERE p.purchaseOk = true"),
+        @NamedQuery(name = "Product.findByActive", query = "SELECT p FROM Product p WHERE p.active = :active")})
 
 public class Product extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(fetch = FetchType.LAZY)
     @Lob
     @Column(name = "image")

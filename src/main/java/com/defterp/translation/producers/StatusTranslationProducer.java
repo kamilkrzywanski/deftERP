@@ -2,16 +2,15 @@ package com.defterp.translation.producers;
 
 import com.defterp.translation.annotations.Status;
 import com.defterp.util.JsfUtil;
+
 import java.util.HashMap;
 import java.util.ResourceBundle;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
-
 
 
 public class StatusTranslationProducer {
@@ -22,7 +21,7 @@ public class StatusTranslationProducer {
         HashMap<String, String> status = new HashMap<>();
         ResourceBundle bundle = JsfUtil.getBundle();
 
-        try{
+        try {
             status.put("Draft", bundle.getString("Draft"));
             status.put("Open", bundle.getString("Open"));
             status.put("Paid", bundle.getString("Paid"));
@@ -39,10 +38,10 @@ public class StatusTranslationProducer {
             status.put("Fully Invoiced", bundle.getString("FullyInvoiced"));
             status.put("To Invoice", bundle.getString("ToInvoice"));
 
-        }catch(Exception e){
+        } catch (Exception e) {
             System.out.println("Bundle String not found");
         }
 
-            return status;
+        return status;
     }
 }

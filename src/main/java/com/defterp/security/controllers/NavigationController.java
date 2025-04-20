@@ -1,14 +1,13 @@
-
 package com.defterp.security.controllers;
 
+import jakarta.enterprise.context.SessionScoped;
+import jakarta.inject.Named;
+
 import java.io.Serializable;
-import javax.faces.bean.SessionScoped;
-import javax.inject.Named;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 

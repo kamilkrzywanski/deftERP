@@ -1,43 +1,32 @@
-
 package com.defterp.modules.inventory.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
 import com.defterp.modules.partners.entities.Partner;
 import com.defterp.validators.annotations.StrictlyPositiveNumber;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "delivery_order_line")
 @NamedQueries({
-    @NamedQuery(name = "DeliveryOrderLine.findAll", query = "SELECT d FROM DeliveryOrderLine d"),
-    @NamedQuery(name = "DeliveryOrderLine.findById", query = "SELECT d FROM DeliveryOrderLine d WHERE d.id = :id"),
-    @NamedQuery(name = "DeliveryOrderLine.findByPrice", query = "SELECT d FROM DeliveryOrderLine d WHERE d.price = :price"),
-    @NamedQuery(name = "DeliveryOrderLine.findByQuantity", query = "SELECT d FROM DeliveryOrderLine d WHERE d.quantity = :quantity"),
-    @NamedQuery(name = "DeliveryOrderLine.findByActive", query = "SELECT d FROM DeliveryOrderLine d WHERE d.active = :active"),
-    @NamedQuery(name = "DeliveryOrderLine.findByUom", query = "SELECT d FROM DeliveryOrderLine d WHERE d.uom = :uom")})
+        @NamedQuery(name = "DeliveryOrderLine.findAll", query = "SELECT d FROM DeliveryOrderLine d"),
+        @NamedQuery(name = "DeliveryOrderLine.findById", query = "SELECT d FROM DeliveryOrderLine d WHERE d.id = :id"),
+        @NamedQuery(name = "DeliveryOrderLine.findByPrice", query = "SELECT d FROM DeliveryOrderLine d WHERE d.price = :price"),
+        @NamedQuery(name = "DeliveryOrderLine.findByQuantity", query = "SELECT d FROM DeliveryOrderLine d WHERE d.quantity = :quantity"),
+        @NamedQuery(name = "DeliveryOrderLine.findByActive", query = "SELECT d FROM DeliveryOrderLine d WHERE d.active = :active"),
+        @NamedQuery(name = "DeliveryOrderLine.findByUom", query = "SELECT d FROM DeliveryOrderLine d WHERE d.uom = :uom")})
 
-public class DeliveryOrderLine extends BaseEntity{
-    
+public class DeliveryOrderLine extends BaseEntity {
+
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @NotNull
     @Column(name = "price")
@@ -75,10 +64,10 @@ public class DeliveryOrderLine extends BaseEntity{
     @ManyToOne(optional = false)
     private DeliveryOrder deliveryOrder;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
-    @ManyToOne(optional = false,  fetch = FetchType.EAGER )
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Product product;
-        
-    
+
+
     public DeliveryOrderLine() {
     }
 
@@ -86,10 +75,10 @@ public class DeliveryOrderLine extends BaseEntity{
         this.product = product;
         this.quantity = quantity;
         this.uom = uom;
-        this.state = state;  
-        this.type = type; 
-        this.price = price;  
-        this.active = active; 
+        this.state = state;
+        this.type = type;
+        this.price = price;
+        this.active = active;
         this.partner = partner;
         this.deliveryOrder = deliveryOrder;
         this.reserved = reserved;
@@ -103,7 +92,7 @@ public class DeliveryOrderLine extends BaseEntity{
     public void setPrice(double price) {
         this.price = price;
     }
-    
+
     public String getState() {
         return state;
     }
@@ -183,11 +172,11 @@ public class DeliveryOrderLine extends BaseEntity{
     public void setReserved(Double reserved) {
         this.reserved = reserved;
     }
-    
+
 
     @Override
     public String toString() {
         return "--- DeliveryOrderLine[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

@@ -1,39 +1,32 @@
-
 package com.defterp.modules.accounting.entities;
 
 import com.defterp.modules.commonClasses.BaseEntity;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
 @Entity
 @Table(name = "journal")
 @NamedQueries({
-    @NamedQuery(name = "Journal.findAll", query = "SELECT j FROM Journal j"),
-    @NamedQuery(name = "Journal.findById", query = "SELECT j FROM Journal j WHERE j.id = :id"),
-    @NamedQuery(name = "Journal.findByName", query = "SELECT j FROM Journal j WHERE j.name = :name"),
-    @NamedQuery(name = "Journal.findByCode", query = "SELECT j FROM Journal j WHERE j.code = :code"),
-    @NamedQuery(name = "Journal.findByType", query = "SELECT j FROM Journal j WHERE j.type = :type"),
-    @NamedQuery(name = "Journal.findByActive", query = "SELECT j FROM Journal j WHERE j.active = :active")})
+        @NamedQuery(name = "Journal.findAll", query = "SELECT j FROM Journal j"),
+        @NamedQuery(name = "Journal.findById", query = "SELECT j FROM Journal j WHERE j.id = :id"),
+        @NamedQuery(name = "Journal.findByName", query = "SELECT j FROM Journal j WHERE j.name = :name"),
+        @NamedQuery(name = "Journal.findByCode", query = "SELECT j FROM Journal j WHERE j.code = :code"),
+        @NamedQuery(name = "Journal.findByType", query = "SELECT j FROM Journal j WHERE j.type = :type"),
+        @NamedQuery(name = "Journal.findByActive", query = "SELECT j FROM Journal j WHERE j.active = :active")})
 
 public class Journal extends BaseEntity {
-    
+
     private static final long serialVersionUID = 1L;
-    
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64, message = "{LongString}")
@@ -56,7 +49,7 @@ public class Journal extends BaseEntity {
     @OneToMany(mappedBy = "journal")
     private List<JournalItem> journalItems;
     @OneToMany(mappedBy = "journal")
-    private List<JournalEntry> journalEntries;   
+    private List<JournalEntry> journalEntries;
     @OneToMany(mappedBy = "journal")
     private List<Payment> payments;
     @OneToMany(mappedBy = "journal")
@@ -88,8 +81,8 @@ public class Journal extends BaseEntity {
     public void setActive(Boolean active) {
         this.active = active;
     }
-    
-     public String getType() {
+
+    public String getType() {
         return type;
     }
 
@@ -102,7 +95,7 @@ public class Journal extends BaseEntity {
     }
 
     public void setJournalItems(List<JournalItem> journalItems) {
-        this.journalItems= journalItems;
+        this.journalItems = journalItems;
     }
 
     public List<JournalEntry> getJournalEntries() {
@@ -134,5 +127,5 @@ public class Journal extends BaseEntity {
     public String toString() {
         return "--- Journal[ id=" + super.getId() + " ] ---";
     }
-    
+
 }

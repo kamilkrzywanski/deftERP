@@ -1,31 +1,30 @@
 package com.defterp.modules.accounting.converters;
 
-import com.defterp.modules.accounting.entities.Account;
 import com.defterp.dataAccess.GenericDAO;
+import com.defterp.modules.accounting.entities.Account;
 import com.defterp.util.JsfUtil;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.FacesConverter;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.faces.component.UIComponent;
+import jakarta.faces.context.FacesContext;
+import jakarta.faces.convert.Converter;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
 
 /**
- * 
  * @author MOHAMMED BOUNAGA
- * 
+ * <p>
  * github.com/medbounaga
  */
 
-@FacesConverter(value = "accountConverter")
-public class AccountConverter implements Converter {
+@Named(value = "accountConverter")
+@ApplicationScoped
+public class AccountConverter implements Converter<Account> {
 
     @Inject
     private GenericDAO dataAccess;
 
     @Override
-    public Object getAsObject(FacesContext facesContext, UIComponent component, String value) {
+    public Account getAsObject(FacesContext facesContext, UIComponent component, String value) {
         if (value == null || value.length() == 0 || JsfUtil.isDummySelectItem(component, value)) {
             return null;
         }
@@ -45,17 +44,12 @@ public class AccountConverter implements Converter {
     }
 
     @Override
-    public String getAsString(FacesContext facesContext, UIComponent component, Object object) {
-        if (object == null || (object instanceof String && ((String) object).length() == 0)) {
+    public String getAsString(FacesContext facesContext, UIComponent component, Account object) {
+        if (object == null) {
             return null;
         }
-        if (object instanceof Account) {
-            Account o = (Account) object;
-            return getStringKey(o.getId());
-        } else {
-            Logger.getLogger(this.getClass().getName()).log(Level.SEVERE, "object {0} is of type {1}; expected type: {2}", new Object[]{object, object.getClass().getName(), Account.class.getName()});
-            return null;
-        }
+        Account o = (Account) object;
+        return getStringKey(o.getId());
     }
 
 }

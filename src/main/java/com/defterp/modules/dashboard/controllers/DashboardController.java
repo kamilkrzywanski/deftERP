@@ -5,34 +5,38 @@ import com.defterp.dataAccess.GenericDAO;
 import com.defterp.modules.dashboard.queryBuilders.DashboardQueryBuilder;
 import com.defterp.translation.annotations.UserLocale;
 import com.google.gson.Gson;
+import jakarta.annotation.PostConstruct;
+import jakarta.faces.view.ViewScoped;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import org.primefaces.PrimeFaces;
+
 import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeConstants;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.primefaces.PrimeFaces;
 
 /**
- *
  * @author MOHAMMED BOUNAGA
- *
+ * <p>
  * github.com/medbounaga
  */
 @Named(value = "dashBoard")
 @ViewScoped
 public class DashboardController implements Serializable {
 
+    private final int NUMBER_OF_WEEKS = 8;
+    private final int NUMBER_OF_MONTHS = 6;
+    private final int NUMBER_OF_DAYS = 10;
+    private final int NUMBER_OF_QUARTERS = 4;
+    private final int NUMBER_OF_TOP_ITEMS = 5;
     @Inject
     private GenericDAO dataAccess;
+    @Inject
     @UserLocale
     private Locale locale;
     private String query;
@@ -53,14 +57,7 @@ public class DashboardController implements Serializable {
     private String payableReceivable;
     private String customerPayment;
     private String vendorPayment;
-
     private int interval;
-    private final int NUMBER_OF_WEEKS = 8;
-    private final int NUMBER_OF_MONTHS = 6;
-    private final int NUMBER_OF_DAYS = 10;
-    private final int NUMBER_OF_QUARTERS = 4;
-
-    private final int NUMBER_OF_TOP_ITEMS = 5;
 
     @PostConstruct
     public void init() {
@@ -258,7 +255,7 @@ public class DashboardController implements Serializable {
 
     }
 
-//    public void saleAmount() {
+    //    public void saleAmount() {
 //
 //        PrimeFaces reqCtx = PrimeFaces.current();
 //        resultList = new ArrayList<>();
@@ -607,49 +604,43 @@ public class DashboardController implements Serializable {
     }
 
     private Object[] resolveMonthName(int interval) {
-
         Object[] months = new Object[interval];
-        DateTime date = new DateTime();
+        LocalDate date = LocalDate.now();
 
         for (int i = 0; i < interval; i++) {
             if (i > 0) {
                 date = date.minusMonths(1);
             }
-            months[i] = date.monthOfYear().getAsShortText(locale);
+            months[i] = date.getMonth().getDisplayName(java.time.format.TextStyle.SHORT, locale);
         }
         return months;
     }
 
     private Object[] resolveWeekNumber(int interval) {
-
         Object[] weeks = new Object[interval];
-        DateTime date = new DateTime();
-        DateTimeFormatter formater = DateTimeFormat.forPattern("dd-MM");
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM");
 
         for (int i = 0; i < interval; i++) {
-
             if (i > 0) {
                 date = date.minusWeeks(1);
             }
-            weeks[i] = formater.print(date.withDayOfWeek(DateTimeConstants.SUNDAY));
+            weeks[i] = formatter.format(date.with(java.time.DayOfWeek.SUNDAY));
         }
         return weeks;
     }
 
     private Object[] resolveDays(int interval) {
-
         Object[] days = new Object[interval];
-        DateTime date = new DateTime();
-        DateTimeFormatter formater = DateTimeFormat.forPattern("dd-MM");
-        String dayName;
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM");
 
         for (int i = 0; i < interval; i++) {
             if (i > 0) {
                 date = date.minusDays(1);
             }
-            System.out.println("DayName: " + date.dayOfWeek().getAsShortText(locale));
-            dayName = date.dayOfWeek().getAsShortText(locale);
-            days[i] = dayName + " - " + formater.print(date);
+            String dayName = date.getDayOfWeek().getDisplayName(java.time.format.TextStyle.SHORT, locale);
+            days[i] = dayName + " - " + formatter.format(date);
         }
         return days;
     }
